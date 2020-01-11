@@ -1,0 +1,84 @@
+<!-- Events list -->
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-table"></i>
+        A rögzített események
+    </div>
+    <div class="card-body">
+        <div>
+            <button class="btn btn-primary mb-2" type="button" data-toggle="collapse" data-target="#tableEventFilter"
+                aria-expanded="false" aria-controls="tableEventFilter">
+                Szűrő
+            </button>
+            <div class="container p-1 collapse" id="tableEventFilter">
+                <form>
+                    <div class="form-group row justify-content-center">
+                        <div class="input-group col-10">
+                            <input class="form-control" placeholder="Dátumtól" name="d1" #c1="ngModel"
+                                [(ngModel)]="model1" ngbDatepicker #d1="ngbDatepicker">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
+                                    <i class="far fa-calendar-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row justify-content-center">
+                        <div class="input-group col-10">
+                            <input class="form-control" placeholder="Dátumig" name="d2" #c2="ngModel"
+                                [(ngModel)]="model2" ngbDatepicker #d2="ngbDatepicker">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button">
+                                    <i class="far fa-calendar-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary col-12">Szűrés</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Időtartam (óra)</th>
+                        <th>Időtartam (perc)</th>
+                        <th>Esemény</th>
+                        <th>Rögzítve</th>
+                        <th>Időpont</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Időtartam (óra)</th>
+                        <th>Időtartam (perc)</th>
+                        <th>Esemény</th>
+                        <th>Rögzítve</th>
+                        <th>Időpont</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr 
+                        *ngFor="let event of eventList"
+                        [ngClass]="[
+                            (event.eventType === eventTypesObject['EVENT1']) ? 'event-type-1' : '',
+                            (event.eventType === eventTypesObject['EVENT2']) ? 'event-type-2' : '',
+                            (event.eventType === eventTypesObject['EVENT3']) ? 'event-type-3' : '',
+                            (event.eventType === eventTypesObject['EVENT4']) ? 'event-type-4' : '',
+                            (event.eventType === eventTypesObject['EVENT5']) ? 'event-type-5' : ''
+                        ]"
+                    >
+                        <td>{{ event.timeHour }}</td>
+                        <td>{{ event.timeMinutes }}</td>
+                        <td>{{ event.eventType }}</td>
+                        <td>{{ event.createDate }}</td>
+                        <td>{{ event.createTime }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
