@@ -1,9 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ExtendedEventModel } from 'src/app/api/models/event.model';
-import { EventService } from 'src/app/home/event.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import * as moment from 'moment';
 import { Subscription } from 'rxjs';
+import { ExtendedEventModel } from 'src/app/api/models/event.model';
+import { DateFormat } from 'src/app/home/enums/date-format.enum';
+import { EventService } from 'src/app/home/event.service';
+
 import { EventTypes } from '../../../enums/event-types.enum';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { EventFilterModel } from '../../models/event-filter.model';
 
 @Component({
   selector: 'app-event-list',
@@ -17,10 +21,11 @@ export class EventListComponent implements OnInit, OnDestroy {
   filterForm: FormGroup;
 
   eventList: ExtendedEventModel[];
-  filterableEventList: ExtendedEventModel[];
+  filterableEventList: ExtendedEventModel[] = [];
   eventTypesObject: any;
   eventTypes: EventTypes;
   eventTypeOptions: any[];
+  filterEventsByValue: EventFilterModel;
 
   constructor(
     private eventService: EventService,
@@ -30,6 +35,7 @@ export class EventListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.eventTypeOptions = Object.assign(EventTypes);
     this.eventTypesObject = Object.assign(EventTypes);
+    this.filterEventsByValue = {};
     this.initFilterForm();
     this.initEventList();
   }
@@ -46,7 +52,7 @@ export class EventListComponent implements OnInit, OnDestroy {
     this.eventListSub = this.eventService._eventList.subscribe((eventList: ExtendedEventModel[]) => {
       if (eventList) {
         this.eventList = eventList;
-        this.filterableEventList = this.eventList;
+        this.filterableEventList = [...this.eventList];
       }
     });
   }
@@ -57,13 +63,26 @@ export class EventListComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * 
-   * @param filterData Filter pipe kell
-   */
-  submitFilterForm(filterData: any) {
-    if (filterData) {
-      this.filterableEventList.filter(x => x.eventType === filterData.eventType);
+  resetFilter() {
+    this.filterForm.reset();
+    this.filterEventsByValue = {};
+  }
+
+  submitFilterForm(filterData: EventFilterModel) {
+    const realFilterDatas = {} as EventFilterModel;
+
+    if (filterData.eventType) {
+      realFilterDatas.eventType = this.eventTypeOptions[filterData.eventType];
     }
+
+    if (filterData.dateFrom) {
+      realFilterDatas.dateFrom = moment(filterData.dateFrom).format(DateFormat.HUN_DATE_FORMAT);
+    }
+
+    if (filterData.dateTo) {
+      realFilterDatas.dateTo = moment(filterData.dateTo).format(DateFormat.HUN_DATE_FORMAT);
+    }
+    console.log(realFilterDatas);
+    this.filterEventsByValue = realFilterDatas;
   }
 }

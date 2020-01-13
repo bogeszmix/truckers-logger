@@ -10,42 +10,47 @@
                 aria-expanded="false" aria-controls="tableEventFilter">
                 Szűrő
             </button>
-            <div class="container p-1 collapse" id="tableEventFilter">
-                <form [formGroup]="filterForm" (ngSubmit)="submitFilterForm(filterForm.value)">
-                    <div class="form-group row justify-content-center">
-                        <div class="col-10">
-                            <select class="form-control" formControlName="eventType" required>
-                                <option value="null" selected disabled>Kérjük válasszon</option>
-                                <option *ngFor="let eventType of eventTypeOptions | keyvalue" value="{{eventType.key}}">{{eventType.value}}</option>
-                            </select>
-                        </div>               
-                    </div>
-                    <div class="form-group row justify-content-center">
-                        <div class="input-group col-10">
-                            <input class="form-control" placeholder="Dátumtól" name="d1"
-                                ngbDatepicker #d1="ngbDatepicker" formControlName="dateFrom">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
-                                    <i class="far fa-calendar-alt"></i>
-                                </button>
+            <div class="container p-0 collapse" id="tableEventFilter">
+                <div class="row justify-content-center">
+                    <form class="col-sm-12 col-md-6 text-center" [formGroup]="filterForm">
+                        <div class="form-group ">
+                            <div>
+                                <select class="form-control" formControlName="eventType" required>
+                                    <option value="null" selected disabled>Kérjük válasszon</option>
+                                    <option *ngFor="let eventType of eventTypeOptions | keyvalue" value="{{eventType.key}}">{{eventType.value}}</option>
+                                </select>
+                            </div>               
+                        </div>
+                        <div class="form-group ">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="Dátumtól" name="d1"
+                                    ngbDatepicker #d1="ngbDatepicker" formControlName="dateFrom">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
+                                        <i class="far fa-calendar-alt"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group row justify-content-center">
-                        <div class="input-group col-10">
-                            <input class="form-control" placeholder="Dátumig" name="d2"
-                                ngbDatepicker #d2="ngbDatepicker" formControlName="dateTo">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button">
-                                    <i class="far fa-calendar-alt"></i>
-                                </button>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="Dátumig" name="d2"
+                                    ngbDatepicker #d2="ngbDatepicker" formControlName="dateTo">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button">
+                                        <i class="far fa-calendar-alt"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group row justify-content-center">
-                        <button type="submit" class="btn btn-primary col-10">Szűrés</button>   
-                    </div>
-                </form>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary col-12" (click)="resetFilter()">Szűrés törlése</button>   
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary col-12" (click)="submitFilterForm(filterForm.value)">Szűrés</button>   
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
         <div class="table-responsive">
@@ -60,22 +65,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr 
-                        *ngFor="let event of filterableEventList"
-                        [ngClass]="[
-                            (event.eventType === eventTypesObject['EVENT1']) ? 'event-type-1' : '',
-                            (event.eventType === eventTypesObject['EVENT2']) ? 'event-type-2' : '',
-                            (event.eventType === eventTypesObject['EVENT3']) ? 'event-type-3' : '',
-                            (event.eventType === eventTypesObject['EVENT4']) ? 'event-type-4' : '',
-                            (event.eventType === eventTypesObject['EVENT5']) ? 'event-type-5' : ''
-                        ]"
-                    >
-                        <td scope="row" data-label="Időtartam (óra)">{{ event.timeHour }}</td>
-                        <td data-label="Időtartam (perc)">{{ event.timeMinutes }}</td>
-                        <td data-label="Esemény">{{ event.eventType }}</td>
-                        <td data-label="Rögzítve">{{ event.createDate }}</td>
-                        <td data-label="Időpont">{{ event.createTime }}</td>
-                    </tr>
+                    <ng-container *ngIf="filterableEventList.length > 0">
+                        <tr 
+                            *ngFor="let event of filterableEventList | eventFilter: filterEventsByValue;"
+                            [ngClass]="[
+                                (event.eventType === eventTypesObject['EVENT1']) ? 'event-type-1' : '',
+                                (event.eventType === eventTypesObject['EVENT2']) ? 'event-type-2' : '',
+                                (event.eventType === eventTypesObject['EVENT3']) ? 'event-type-3' : '',
+                                (event.eventType === eventTypesObject['EVENT4']) ? 'event-type-4' : '',
+                                (event.eventType === eventTypesObject['EVENT5']) ? 'event-type-5' : ''
+                            ]"
+                        >
+                            <td scope="row" data-label="Időtartam (óra)">{{ event.timeHour }}</td>
+                            <td data-label="Időtartam (perc)">{{ event.timeMinutes }}</td>
+                            <td data-label="Esemény">{{ event.eventType }}</td>
+                            <td data-label="Rögzítve">{{ event.createDate }}</td>
+                            <td data-label="Időpont">{{ event.createTime }}</td>
+                        </tr>
+                    </ng-container>
                 </tbody>
             </table>
         </div>

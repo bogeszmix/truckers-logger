@@ -1,10 +1,10 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { EventModel, ExtendedEventModel } from 'src/app/api/models/event.model';
-import { EventService } from 'src/app/home/event.service';
 import { DateFormat } from 'src/app/home/enums/date-format.enum';
 import { EventTypes } from 'src/app/home/enums/event-types.enum';
+import { EventService } from 'src/app/home/event.service';
 
 @Component({
   selector: 'app-create-event',
@@ -37,6 +37,7 @@ export class CreateEventComponent implements OnInit {
 
   submitNewEvent(newEvent: EventModel) {
     if (newEvent) {
+      console.log(newEvent);
       const extendedEvent: ExtendedEventModel = {
         id: 6,
         timeHour: newEvent.timeHour,
