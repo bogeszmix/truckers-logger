@@ -8,6 +8,7 @@ import { EventService } from 'src/app/home/event.service';
 
 import { EventTypes } from '../../../enums/event-types.enum';
 import { EventFilterModel } from '../../models/event-filter.model';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-event-list',
@@ -76,13 +77,14 @@ export class EventListComponent implements OnInit, OnDestroy {
     }
 
     if (filterData.dateFrom) {
-      realFilterDatas.dateFrom = moment(filterData.dateFrom).format(DateFormat.HUN_DATE_FORMAT);
+      const dateFrom = NgbDate.from({year: filterData.dateFrom.year, month: filterData.dateFrom.month - 1, day: filterData.dateFrom.day});
+      realFilterDatas.dateFrom = moment(dateFrom).format(DateFormat.HUN_DATE_FORMAT);
     }
 
     if (filterData.dateTo) {
-      realFilterDatas.dateTo = moment(filterData.dateTo).format(DateFormat.HUN_DATE_FORMAT);
+      const dateTo = NgbDate.from({year: filterData.dateTo.year, month: filterData.dateTo.month - 1, day: filterData.dateTo.day});
+      realFilterDatas.dateTo = moment(dateTo).format(DateFormat.HUN_DATE_FORMAT);
     }
-    console.log(realFilterDatas);
     this.filterEventsByValue = realFilterDatas;
   }
 }

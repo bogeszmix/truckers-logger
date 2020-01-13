@@ -1,5 +1,5 @@
 export interface EventFilterModel {
     eventType?: string;
-    dateFrom?: string;
-    dateTo?: string;
+    dateFrom?: any;
+    dateTo?: any;
 }
