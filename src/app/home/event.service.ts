@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import * as moment from 'moment';
 import { ExtendedEventModel } from 'src/app/api/models/event.model';
-import { DateFormat } from './enums/date-format.enum';
-import { EventTypes as Event } from './enums/event-types.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -15,41 +13,41 @@ export class EventService {
       id: 1,
       timeHour: 15,
       timeMinutes: 25,
-      eventType: Event.EVENT1,
-      createDate: moment().format(DateFormat.HUN_DATE_FORMAT),
-      createTime: moment().format(DateFormat.TIME_FORMAT_HOUR_MIN)
+      eventType: {key: 'EVENT1', value: 'Vezetés'},
+      createDate: moment().format(moment.HTML5_FMT.DATE),
+      createTime: moment().format(moment.HTML5_FMT.TIME)
     },
     {
       id: 2,
       timeHour: 23,
       timeMinutes: 0,
-      eventType: Event.EVENT2,
-      createDate: moment().format(DateFormat.HUN_DATE_FORMAT),
-      createTime: moment().format(DateFormat.TIME_FORMAT_HOUR_MIN)
+      eventType: {key: 'EVENT2', value: 'Készenlét'},
+      createDate: moment().format(moment.HTML5_FMT.DATE),
+      createTime: moment().format(moment.HTML5_FMT.TIME)
     },
     {
       id: 3,
       timeHour: 10,
       timeMinutes: 56,
-      eventType: Event.EVENT1,
-      createDate: moment().format(DateFormat.HUN_DATE_FORMAT),
-      createTime: moment().format(DateFormat.TIME_FORMAT_HOUR_MIN)
+      eventType: {key: 'EVENT1', value: 'Vezetés'},
+      createDate: moment().format(moment.HTML5_FMT.DATE),
+      createTime: moment().format(moment.HTML5_FMT.TIME)
     },
     {
       id: 4,
       timeHour: 6,
       timeMinutes: 9,
-      eventType: Event.EVENT4,
-      createDate: moment().format(DateFormat.HUN_DATE_FORMAT),
-      createTime: moment().format(DateFormat.TIME_FORMAT_HOUR_MIN)
+      eventType: {key: 'EVENT4', value: 'Fizetett szabadság'},
+      createDate: moment().format(moment.HTML5_FMT.DATE),
+      createTime: moment().format(moment.HTML5_FMT.TIME)
     },
     {
       id: 5,
       timeHour: 11,
       timeMinutes: 33,
-      eventType: Event.EVENT3,
-      createDate: moment().format(DateFormat.HUN_DATE_FORMAT),
-      createTime: moment().format(DateFormat.TIME_FORMAT_HOUR_MIN)
+      eventType: {key: 'EVENT3', value: 'Egyéb munka'},
+      createDate: moment().format(moment.HTML5_FMT.DATE),
+      createTime: moment().format(moment.HTML5_FMT.TIME)
     }
   ];
 
@@ -65,9 +63,8 @@ export class EventService {
 
   addNewEvent(newEvent: ExtendedEventModel) {
     if (newEvent) {
-      const tempEventListArray = [...this.mockEventListArray];
-      tempEventListArray.push(newEvent);
-      this.eventList.next(tempEventListArray);
+      this.mockEventListArray.push(newEvent);
+      this.eventList.next(this.mockEventListArray);
     }
   }
 }

@@ -4,7 +4,7 @@ export interface EventModel {
     id: number;
     timeHour: number;
     timeMinutes: number;
-    eventType: string;
+    eventType: {key: string, value: string};
 }
 
 export interface ExtendedEventModel extends EventModel {
