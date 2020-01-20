@@ -10,11 +10,10 @@ import {
 } from './components/quick-filtered-statistics/quick-filtered-statistics.component';
 import { EventRoutingModule } from './event-routing.module';
 import { EventComponent } from './event.component';
-import { EventFilterPipe } from './pipe/event-filter.pipe';
 
 
 @NgModule({
-  declarations: [EventComponent, CreateEventComponent, QuickFilteredStatisticsComponent, EventListComponent, EventFilterPipe],
+  declarations: [EventComponent, CreateEventComponent, QuickFilteredStatisticsComponent, EventListComponent],
   imports: [
     CommonModule,
     FormsModule,

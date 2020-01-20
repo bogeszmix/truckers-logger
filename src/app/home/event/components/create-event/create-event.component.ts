@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { EventModel, ExtendedEventModel } from 'src/app/api/models/event.model';
-import { DateFormat } from 'src/app/home/enums/date-format.enum';
 import { EventTypes } from 'src/app/home/enums/event-types.enum';
 import { EventService } from 'src/app/home/event.service';
 
@@ -16,6 +15,7 @@ export class CreateEventComponent implements OnInit {
   createEventForm: FormGroup;
   eventTypes: EventTypes;
   eventTypeOptions: any[];
+  currentDate: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -23,6 +23,7 @@ export class CreateEventComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.currentDate = moment().format(moment.HTML5_FMT.DATE);
     this.eventTypeOptions = Object.assign(EventTypes);
     this.initForm();
   }
@@ -35,16 +36,16 @@ export class CreateEventComponent implements OnInit {
     });
   }
 
-  submitNewEvent(newEvent: EventModel) {
+  submitNewEvent(newEvent: any) {
     if (newEvent) {
       console.log(newEvent);
       const extendedEvent: ExtendedEventModel = {
         id: 6,
         timeHour: newEvent.timeHour,
         timeMinutes: newEvent.timeMinutes,
-        eventType: this.eventTypeOptions[newEvent.eventType],
-        createDate: moment().format(DateFormat.HUN_DATE_FORMAT),
-        createTime: moment().format(DateFormat.TIME_FORMAT_HOUR_MIN)
+        eventType: {key: newEvent.eventType, value: this.eventTypeOptions[newEvent.eventType]},
+        createDate: this.currentDate,
+        createTime: moment().format(moment.HTML5_FMT.TIME)
       };
       this.eventService.addNewEvent(extendedEvent);
       this.createEventForm.reset();

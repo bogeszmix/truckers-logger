@@ -1,5 +1,6 @@
+import { DateNgBootstrapModel } from './date-ngbootstrap.model';
 export interface EventFilterModel {
     eventType?: string;
-    dateFrom?: any;
-    dateTo?: any;
+    dateFrom?: DateNgBootstrapModel;
+    dateTo?: DateNgBootstrapModel;
 }

@@ -12,7 +12,14 @@
             <div class="row justify-content-center">
                 <form [formGroup]="createEventForm" (ngSubmit)="submitNewEvent(createEventForm.value)" class="col-sm-12 col-md-6">
                     <div class="form-group">
-                        A mai nap dátuma: 2020-01-01
+                        A mai nap dátuma: {{ currentDate }}
+                    </div>
+                    <div class="form-group">
+                        <label for="eventType">Esemény típus</label>
+                        <select class="form-control" id="eventType" formControlName="eventType" required>
+                            <option value="null" selected disabled>Kérjük válasszon</option>
+                            <option *ngFor="let eventType of eventTypeOptions | keyvalue" value="{{eventType.key}}">{{eventType.value}}</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="timeHour">Időtartam (óra)</label>
@@ -21,13 +28,6 @@
                     <div class="form-group">
                         <label for="timeMinutes">Időtartam (perc)</label>
                         <input type="number" class="form-control" id="timeMinutes" placeholder="Időtartam (perc)" formControlName="timeMinutes" min="0" max="59" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="eventType">Esemény típus</label>
-                        <select class="form-control" id="eventType" formControlName="eventType" required>
-                            <option value="null" selected disabled>Kérjük válasszon</option>
-                            <option *ngFor="let eventType of eventTypeOptions | keyvalue" value="{{eventType.key}}">{{eventType.value}}</option>
-                        </select>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary col-12" [disabled]="!createEventForm.valid">Mentés</button>

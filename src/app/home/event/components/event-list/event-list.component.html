@@ -24,7 +24,7 @@
                         <div class="form-group ">
                             <div class="input-group">
                                 <input class="form-control" placeholder="Dátumtól" name="d1"
-                                    ngbDatepicker #d1="ngbDatepicker" formControlName="dateFrom">
+                                    ngbDatepicker #d1="ngbDatepicker" formControlName="dateFrom" [maxDate]="maxDate">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
                                         <i class="far fa-calendar-alt"></i>
@@ -35,7 +35,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <input class="form-control" placeholder="Dátumig" name="d2"
-                                    ngbDatepicker #d2="ngbDatepicker" formControlName="dateTo">
+                                    ngbDatepicker #d2="ngbDatepicker" formControlName="dateTo" [maxDate]="maxDate">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button">
                                         <i class="far fa-calendar-alt"></i>
@@ -47,7 +47,7 @@
                             <button type="button" class="btn btn-primary col-12" (click)="resetFilter()">Szűrés törlése</button>   
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary col-12" (click)="submitFilterForm(filterForm.value)">Szűrés</button>   
+                            <button type="submit" class="btn btn-primary col-12" [disabled]="disabled" (click)="submitFilterForm(filterForm.value)">Szűrés</button>   
                         </div>
                     </form>
                 </div>
@@ -67,18 +67,18 @@
                 <tbody>
                     <ng-container *ngIf="filterableEventList.length > 0">
                         <tr 
-                            *ngFor="let event of filterableEventList | eventFilter: filterEventsByValue;"
+                            *ngFor="let event of filterableEventList"
                             [ngClass]="[
-                                (event.eventType === eventTypesObject['EVENT1']) ? 'event-type-1' : '',
-                                (event.eventType === eventTypesObject['EVENT2']) ? 'event-type-2' : '',
-                                (event.eventType === eventTypesObject['EVENT3']) ? 'event-type-3' : '',
-                                (event.eventType === eventTypesObject['EVENT4']) ? 'event-type-4' : '',
-                                (event.eventType === eventTypesObject['EVENT5']) ? 'event-type-5' : ''
+                                (event.eventType.key === 'EVENT1') ? 'event-type-1' : '',
+                                (event.eventType.key === 'EVENT2') ? 'event-type-2' : '',
+                                (event.eventType.key === 'EVENT3') ? 'event-type-3' : '',
+                                (event.eventType.key === 'EVENT4') ? 'event-type-4' : '',
+                                (event.eventType.key === 'EVENT5') ? 'event-type-5' : ''
                             ]"
                         >
                             <td scope="row" data-label="Időtartam (óra)">{{ event.timeHour }}</td>
                             <td data-label="Időtartam (perc)">{{ event.timeMinutes }}</td>
-                            <td data-label="Esemény">{{ event.eventType }}</td>
+                            <td data-label="Esemény">{{ event.eventType.value }}</td>
                             <td data-label="Rögzítve">{{ event.createDate }}</td>
                             <td data-label="Időpont">{{ event.createTime }}</td>
                         </tr>
