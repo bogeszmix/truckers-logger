@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import * as moment from 'moment';
@@ -19,6 +19,8 @@ import { ClassGetter } from '@angular/compiler/src/output/output_ast';
   styleUrls: ['./event-list.component.scss']
 })
 export class EventListComponent implements OnInit, OnDestroy {
+
+  filteredEventEmitter = new EventEmitter<ExtendedEventModel[]>();
 
   eventListSub: Subscription;
   filterFormSub: Subscription;
@@ -135,5 +137,7 @@ export class EventListComponent implements OnInit, OnDestroy {
         (event: ExtendedEventModel) => event.eventType.key === filterData.eventType
       );
     }
+
+    this.eventService.updateFilteredEventList(this.filterableEventList);
   }
 }

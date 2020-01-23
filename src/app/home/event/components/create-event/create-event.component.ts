@@ -38,7 +38,6 @@ export class CreateEventComponent implements OnInit {
 
   submitNewEvent(newEvent: any) {
     if (newEvent) {
-      console.log(newEvent);
       const extendedEvent: ExtendedEventModel = {
         id: 6,
         timeHour: newEvent.timeHour,

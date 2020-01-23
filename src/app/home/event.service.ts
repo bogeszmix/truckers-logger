@@ -52,6 +52,7 @@ export class EventService {
   ];
 
   private eventList = new BehaviorSubject<ExtendedEventModel[]>(this.mockEventListArray);
+  private filteredEventList = new BehaviorSubject<ExtendedEventModel[]>(undefined);
 
   constructor() { }
 
@@ -61,10 +62,22 @@ export class EventService {
     }
   }
 
+  get _filteredEventList() {
+    if (this.filteredEventList) {
+      return this.filteredEventList.asObservable();
+    }
+  }
+
   addNewEvent(newEvent: ExtendedEventModel) {
     if (newEvent) {
       this.mockEventListArray.push(newEvent);
       this.eventList.next(this.mockEventListArray);
+    }
+  }
+
+  updateFilteredEventList(events: ExtendedEventModel[]) {
+    if (events) {
+      this.filteredEventList.next(events);
     }
   }
 }
