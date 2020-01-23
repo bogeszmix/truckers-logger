@@ -13,29 +13,44 @@
                 <table class="table">
                     <tbody>
                         <tr>
+                            <td>Vezetés és egyéb munka és szabadság összesen:</td>
+                            <td>{{ results.driveAndOtherAndPaidHolidaysResult.hour }} óra</td>
+                            <td>{{ results.driveAndOtherAndPaidHolidaysResult.minutes }} perc</td>
+                        </tr>
+                        <tr>
                             <td>Vezetés és egyéb munka összesen:</td>
-                            <td>0 óra</td>
-                            <td>0 perc</td>
+                            <td>{{ results.driveAndOtherResult.hour }} óra</td>
+                            <td>{{ results.driveAndOtherResult.minutes }} perc</td>
                         </tr>
                         <tr>
                             <td>Vezetés összesen:</td>
-                            <td>0 óra</td>
-                            <td>0 perc</td>
+                            <td>{{ results.driveResult.hour }} óra</td>
+                            <td>{{ results.driveResult.minutes }} perc</td>
                         </tr>
                         <tr>
                             <td>Egyéb munka összesen:</td>
-                            <td>0 óra</td>
-                            <td>0 perc</td>
+                            <td>{{ results.otherResult.hour }} óra</td>
+                            <td>{{ results.otherResult.minutes }} perc</td>
                         </tr>
                         <tr>
                             <td>Készenlét összesen:</td>
-                            <td>0 óra</td>
-                            <td>0 perc</td>
+                            <td>{{ results.standByResult.hour }} óra</td>
+                            <td>{{ results.standByResult.minutes }} perc</td>
                         </tr>
                         <tr>
                             <td>Fizetett szabadság összesen:</td>
-                            <td>0 óra</td>
-                            <td>0 perc</td>
+                            <td>{{ results.paidLeaveResult.hour }} óra</td>
+                            <td>{{ results.paidLeaveResult.minutes }} perc</td>
+                        </tr>
+                        <tr>
+                            <td>Fizetett ünnep összesen:</td>
+                            <td>{{ results.paidHolidayResult.hour }} óra</td>
+                            <td>{{ results.paidHolidayResult.minutes }} perc</td>
+                        </tr>
+                        <tr>
+                            <td>Táppénz összesen:</td>
+                            <td>{{ results.sickPayResult.hour }} óra</td>
+                            <td>{{ results.sickPayResult.minutes }} perc</td>
                         </tr>
                     </tbody>
                 </table>

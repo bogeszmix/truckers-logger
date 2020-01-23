@@ -57,8 +57,7 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th scope="col">Időtartam (óra)</th>
-                        <th scope="col">Időtartam (perc)</th>
+                        <th scope="col">Időtartam (óra:perc)</th>
                         <th scope="col">Esemény</th>
                         <th scope="col">Rögzítve</th>
                         <th scope="col">Időpont</th>
@@ -76,8 +75,8 @@
                                 (event.eventType.key === 'EVENT5') ? 'event-type-5' : ''
                             ]"
                         >
-                            <td scope="row" data-label="Időtartam (óra)">{{ event.timeHour }}</td>
-                            <td data-label="Időtartam (perc)">{{ event.timeMinutes }}</td>
+                            <td scope="row" data-label="Időtartam (óra:perc)" *ngIf="event.timeMinutes > 9">{{ event.timeHour + ':' + event.timeMinutes }}</td>
+                            <td scope="row" data-label="Időtartam (óra:perc)" *ngIf="event.timeMinutes < 10">{{ event.timeHour + ':0' + event.timeMinutes }}</td>
                             <td data-label="Esemény">{{ event.eventType.value }}</td>
                             <td data-label="Rögzítve">{{ event.createDate }}</td>
                             <td data-label="Időpont">{{ event.createTime }}</td>
