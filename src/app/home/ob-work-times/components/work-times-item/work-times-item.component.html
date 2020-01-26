@@ -1,0 +1,31 @@
+<div class="card mb-3">
+    <div class="card-header clickable" role="button" data-toggle="collapse" data-target="#workTimeDetails1" aria-expanded="false" aria-controls="workTimeDetails1">
+        <div class="row">
+            <div class="col float-sm-left">Dátum: 2019.január</div>
+            <div class="col float-sm-right text-sm-right">Eltérés: -45:26</div>
+        </div>
+    </div>
+    <div class="collapse" id="workTimeDetails1">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 col-md-4">
+                    <canvas baseChart 
+                        [datasets]="barChartData"
+                        [labels]="barChartLabels"
+                        [options]="barChartOptions"
+                        [legend]="true"
+                        [chartType]="barChartType"></canvas> 
+                </div>
+                <div class="col-12 col-md-8">
+                    <div>
+                        <p>Kötelező munkaórák száma: 164:00</p>
+                        <p>Jelenlegi munkaórák száma: 68:44</p>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button class="btn btn-primary">Módosítás</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

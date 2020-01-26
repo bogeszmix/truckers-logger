@@ -1,0 +1,19 @@
+<div class="card mb-3">
+    <div class="card-header">
+        Munkaórák kimutatása (óra:perc)
+    </div>
+    <div class="card-body">
+        <div class="row justify-content-center">
+            <form class="col-sm-12 col-md-6" [formGroup]="yearPickerForm">
+                <div class="form-group">
+                    <label for="showYear">Kiválasztott év</label>
+                    <select class="form-control" id="showYear" formControlName="year" required>
+                        <option value="null" selected disabled hidden>Kérjük válasszon</option>
+                        <option *ngFor="let year of yearList" value="{{ year }}">{{ year }}</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <app-work-times-item *ngFor="let timeItems of workTimesList"></app-work-times-item>
+    </div>
+</div>
