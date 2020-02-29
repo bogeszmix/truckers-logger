@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { CreateEventComponent } from './components/create-event/create-event.component';
 import { EventListComponent } from './components/event-list/event-list.component';
@@ -19,6 +19,7 @@ import { EventComponent } from './event.component';
     FormsModule,
     ReactiveFormsModule,
     NgbDatepickerModule,
+    NgbPaginationModule,
     EventRoutingModule
   ]
 })

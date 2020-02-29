@@ -1,5 +1,40 @@
 <div class="card mb-3">
     <div class="card-header">
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#newMonthObWork"
+            aria-expanded="false" aria-controls="newMonthObWork">
+            Új hónap hozzáadása
+        </button>
+    </div>
+
+    <div class="collapse" id="newMonthObWork">
+        <div class="container card card-body">
+            <div class="row justify-content-center">
+                <form [formGroup]="newMonthObWorkForm" (ngSubmit)="submitNewMonth(newMonthObWorkForm.value)" class="col-sm-12 col-md-6">
+                    <div class="form-group only-month-year-picker">
+                        <div class="input-group">
+                            <input class="form-control" placeholder="Válassz hónapot" name="d1"
+                                ngbDatepicker #d1="ngbDatepicker" formControlName="monthSelector" [maxDate]="maxDate" (navigate)="onDatePickerChange($event)">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
+                                    <i class="far fa-calendar-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="timeHour">Időtartam (óra)</label>
+                        <input type="number" class="form-control" id="timeHour" placeholder="Időtartam (óra)" formControlName="obWorkTime" min="0" max="23">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary col-12" [disabled]="!newMonthObWorkForm.valid">Mentés</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card mb-3">
+    <div class="card-header">
         Munkaórák kimutatása (óra:perc)
     </div>
     <div class="card-body">
@@ -14,6 +49,6 @@
                 </div>
             </form>
         </div>
-        <app-work-times-item *ngFor="let timeItems of workTimesList"></app-work-times-item>
+        <app-work-times-item *ngFor="let monthItem of workTimesList" [monthData]="monthItem"></app-work-times-item>
     </div>
 </div>

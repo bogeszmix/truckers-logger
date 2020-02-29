@@ -1,17 +1,22 @@
 import { Component, OnDestroy, OnInit, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { ExtendedEventModel } from 'src/app/api/models/event.model';
-import { EventService } from 'src/app/home/event.service';
+import { EventService } from 'src/app/home/event/event.service';
 
 import { EventTypes } from '../../../enums/event-types.enum';
 import { EventFilterModel } from '../../models/event-filter.model';
-import { NgbDate, NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDate,
+  NgbDateStruct,
+  NgbCalendar
+} from '@ng-bootstrap/ng-bootstrap';
 import { DateNgBootstrapModel } from '../../models/date-ngbootstrap.model';
 import { NgbDateToMoment } from '../../../utils/ngb-date-to-moment';
 import { ClassGetter } from '@angular/compiler/src/output/output_ast';
+import { ParseMinToHM } from '../../../utils/parse-min-to-hm';
 
 @Component({
   selector: 'app-event-list',
@@ -19,7 +24,6 @@ import { ClassGetter } from '@angular/compiler/src/output/output_ast';
   styleUrls: ['./event-list.component.scss']
 })
 export class EventListComponent implements OnInit, OnDestroy {
-
   filteredEventEmitter = new EventEmitter<ExtendedEventModel[]>();
 
   eventListSub: Subscription;
@@ -32,6 +36,8 @@ export class EventListComponent implements OnInit, OnDestroy {
   eventTypesObject: any;
   eventTypes: EventTypes;
   eventTypeOptions: any[];
+  page = 1;
+  pageSize = 3;
 
   disabled: boolean;
   maxDate: NgbDateStruct;
@@ -40,7 +46,7 @@ export class EventListComponent implements OnInit, OnDestroy {
     private eventService: EventService,
     private formBuilder: FormBuilder,
     private ngbCalendar: NgbCalendar
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.eventTypeOptions = Object.assign(EventTypes);
@@ -70,29 +76,48 @@ export class EventListComponent implements OnInit, OnDestroy {
   }
 
   initEventList() {
-    this.eventListSub = this.eventService._eventList.subscribe((eventList: ExtendedEventModel[]) => {
-      if (eventList) {
-        this.eventList = eventList;
-        this.filterableEventList = [...this.eventList];
-      }
-    });
-  }
+    this.eventListSub = this.eventService._eventList
+      .pipe(
+        map((eventsList: ExtendedEventModel[]) => {
+          const convertedViewList = [];
+          if (eventsList) {
+            eventsList.forEach((eventItem: ExtendedEventModel) => {
+                const newConvertedItem = {
+                  timeInMin: ParseMinToHM.parseMinutesToHourMinFormat(eventItem.timeInMin),
+                  eventType: {key: eventItem.eventType.key, value: eventItem.eventType.value},
+                  createDate: eventItem.createDate,
+                  createTime: eventItem.createTime
+                };
+                convertedViewList.push(newConvertedItem);
+            });
+          }
 
+          return convertedViewList;
+        })
+      )
+      .subscribe((list: any[]) => {
+        if (list) {
+          this.eventList = list;
+          this.filterableEventList = [...this.eventList];
+        }
+      });
+  }
 
   checkFilterForm() {
-    this.filterFormSub = this.filterForm.valueChanges.pipe(
-      debounceTime(250),
-      distinctUntilChanged()
-    ).subscribe((form: EventFilterModel) => {
-      const dateFrom = form.dateFrom;
-      const dateTo = form.dateTo;
-      this.dateCompareCheck(dateFrom, dateTo);
-      this.filterableEventList = [...this.eventList];
-    });
+    this.filterFormSub = this.filterForm.valueChanges
+      .pipe(debounceTime(250), distinctUntilChanged())
+      .subscribe((form: EventFilterModel) => {
+        const dateFrom = form.dateFrom;
+        const dateTo = form.dateTo;
+        this.dateCompareCheck(dateFrom, dateTo);
+        this.filterableEventList = [...this.eventList];
+      });
   }
 
-
-  dateCompareCheck(dateFrom: DateNgBootstrapModel, dateTo: DateNgBootstrapModel) {
+  dateCompareCheck(
+    dateFrom: DateNgBootstrapModel,
+    dateTo: DateNgBootstrapModel
+  ) {
     const momentDateFrom = NgbDateToMoment.convertNgbDateToMoment(dateFrom);
     const momentDateTo = NgbDateToMoment.convertNgbDateToMoment(dateTo);
 
@@ -101,9 +126,7 @@ export class EventListComponent implements OnInit, OnDestroy {
     } else {
       this.disabled = true;
     }
-
   }
-
 
   resetFilter() {
     this.filterForm.reset();
@@ -114,27 +137,36 @@ export class EventListComponent implements OnInit, OnDestroy {
     const temp = [...this.filterableEventList];
 
     if (filterData.eventType && filterData.dateFrom && filterData.dateTo) {
-      const dateFrom = NgbDateToMoment.convertNgbDateToMoment(filterData.dateFrom);
+      const dateFrom = NgbDateToMoment.convertNgbDateToMoment(
+        filterData.dateFrom
+      );
       const dateTo = NgbDateToMoment.convertNgbDateToMoment(filterData.dateTo);
 
-      this.filterableEventList = temp.filter((event: ExtendedEventModel) =>
-        event.eventType.key === filterData.eventType &&
-        moment(event.createDate).isSameOrAfter(dateFrom) &&
-        moment(event.createDate).isSameOrBefore(dateTo)
+      this.filterableEventList = temp.filter(
+        (event: ExtendedEventModel) =>
+          event.eventType.key === filterData.eventType &&
+          moment(event.createDate).isSameOrAfter(dateFrom) &&
+          moment(event.createDate).isSameOrBefore(dateTo)
       );
     }
 
     if (!filterData.eventType && filterData.dateFrom && filterData.dateTo) {
-      const dateFrom = NgbDateToMoment.convertNgbDateToMoment(filterData.dateFrom);
+      const dateFrom = NgbDateToMoment.convertNgbDateToMoment(
+        filterData.dateFrom
+      );
       const dateTo = NgbDateToMoment.convertNgbDateToMoment(filterData.dateTo);
 
-      this.filterableEventList = temp.filter((event: ExtendedEventModel) =>
-        moment(event.createDate).isSameOrAfter(dateFrom) && moment(event.createDate).isSameOrBefore(dateTo));
+      this.filterableEventList = temp.filter(
+        (event: ExtendedEventModel) =>
+          moment(event.createDate).isSameOrAfter(dateFrom) &&
+          moment(event.createDate).isSameOrBefore(dateTo)
+      );
     }
 
     if (filterData.eventType && !filterData.dateFrom && !filterData.dateTo) {
       this.filterableEventList = temp.filter(
-        (event: ExtendedEventModel) => event.eventType.key === filterData.eventType
+        (event: ExtendedEventModel) =>
+          event.eventType.key === filterData.eventType
       );
     }
 

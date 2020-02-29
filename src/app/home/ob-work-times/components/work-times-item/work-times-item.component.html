@@ -1,11 +1,13 @@
 <div class="card mb-3">
-    <div class="card-header clickable" role="button" data-toggle="collapse" data-target="#workTimeDetails1" aria-expanded="false" aria-controls="workTimeDetails1">
+    <div class="card-header clickable" role="button" data-toggle="collapse" attr.data-target="#workTimeDetails{{ monthData?.id }}" aria-expanded="false" attr.aria-controls="workTimeDetails{{ monthData?.id }}">
         <div class="row">
-            <div class="col float-sm-left">Dátum: 2019.január</div>
-            <div class="col float-sm-right text-sm-right">Eltérés: -45:26</div>
+            <div class="col float-sm-left">Dátum: {{ timeData?.date }}</div>
+            <div class="col float-sm-right text-sm-right">
+                Eltérés: <span [ngClass]="((monthData?.obWorkTime - monthData?.currentWorkTime) >= 0)? 'text-success':'text-danger'" >{{ timeData?.difference }}</span>
+            </div>
         </div>
     </div>
-    <div class="collapse" id="workTimeDetails1">
+    <div class="collapse" id="{{ 'workTimeDetails' + monthData?.id}}">
         <div class="card-body">
             <div class="row">
                 <div class="col-12 col-md-4">
@@ -18,11 +20,11 @@
                 </div>
                 <div class="col-12 col-md-8">
                     <div>
-                        <p>Kötelező munkaórák száma: 164:00</p>
-                        <p>Jelenlegi munkaórák száma: 68:44</p>
+                        <p>Kötelező munkaórák száma: {{ timeData?.obTime }} óra</p>
+                        <p>Jelenlegi munkaórák száma: {{ timeData?.currentTime }}</p>
                     </div>
                     <div class="text-center mt-4">
-                        <button class="btn btn-primary">Módosítás</button>
+                        <button class="btn btn-primary" (click)="editMonth()">Módosítás</button>
                     </div>
                 </div>
             </div>

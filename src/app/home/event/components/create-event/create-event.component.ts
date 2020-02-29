@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { EventModel, ExtendedEventModel } from 'src/app/api/models/event.model';
 import { EventTypes } from 'src/app/home/enums/event-types.enum';
-import { EventService } from 'src/app/home/event.service';
+import { EventService } from 'src/app/home/event/event.service';
+import { ParseMinToHM } from '../../../utils/parse-min-to-hm';
 
 @Component({
   selector: 'app-create-event',
@@ -30,8 +31,7 @@ export class CreateEventComponent implements OnInit {
 
   initForm() {
     this.createEventForm = this.formBuilder.group({
-      timeHour: ['', [Validators.required, Validators.min(0), Validators.max(23)]],
-      timeMinutes: ['', [Validators.required, Validators.min(0), Validators.max(59)]],
+      time: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(5)]],
       eventType: [null, Validators.required]
     });
   }
@@ -40,8 +40,7 @@ export class CreateEventComponent implements OnInit {
     if (newEvent) {
       const extendedEvent: ExtendedEventModel = {
         id: 6,
-        timeHour: newEvent.timeHour,
-        timeMinutes: newEvent.timeMinutes,
+        timeInMin: ParseMinToHM.parseHourMinToMinutesFormat(newEvent.time),
         eventType: {key: newEvent.eventType, value: this.eventTypeOptions[newEvent.eventType]},
         createDate: this.currentDate,
         createTime: moment().format(moment.HTML5_FMT.TIME)

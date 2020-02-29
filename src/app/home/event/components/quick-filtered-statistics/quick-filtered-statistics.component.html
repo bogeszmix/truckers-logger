@@ -1,60 +1,82 @@
 <!-- Quick event statistics -->
 <div class="card mb-3">
-    <div class="card-header">
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#quickFilterStatistics"
-            aria-expanded="false" aria-controls="quickFilterStatistics">
-            Szűrt adatok statisztikája
-        </button>
-    </div>
+  <div class="card-header">
+    <button
+      class="btn btn-primary"
+      type="button"
+      data-toggle="collapse"
+      data-target="#quickFilterStatistics"
+      aria-expanded="false"
+      aria-controls="quickFilterStatistics"
+    >
+      Szűrt adatok statisztikája
+    </button>
+  </div>
 
-    <div class="collapse" id="quickFilterStatistics">
-        <div class="card card-body">
-            <div class="table-responsive">
-                <table class="table">
-                    <tbody>
-                        <tr>
-                            <td>Vezetés és egyéb munka és szabadság összesen:</td>
-                            <td>{{ results.driveAndOtherAndPaidHolidaysResult.hour }} óra</td>
-                            <td>{{ results.driveAndOtherAndPaidHolidaysResult.minutes }} perc</td>
-                        </tr>
-                        <tr>
-                            <td>Vezetés és egyéb munka összesen:</td>
-                            <td>{{ results.driveAndOtherResult.hour }} óra</td>
-                            <td>{{ results.driveAndOtherResult.minutes }} perc</td>
-                        </tr>
-                        <tr>
-                            <td>Vezetés összesen:</td>
-                            <td>{{ results.driveResult.hour }} óra</td>
-                            <td>{{ results.driveResult.minutes }} perc</td>
-                        </tr>
-                        <tr>
-                            <td>Egyéb munka összesen:</td>
-                            <td>{{ results.otherResult.hour }} óra</td>
-                            <td>{{ results.otherResult.minutes }} perc</td>
-                        </tr>
-                        <tr>
-                            <td>Készenlét összesen:</td>
-                            <td>{{ results.standByResult.hour }} óra</td>
-                            <td>{{ results.standByResult.minutes }} perc</td>
-                        </tr>
-                        <tr>
-                            <td>Fizetett szabadság összesen:</td>
-                            <td>{{ results.paidLeaveResult.hour }} óra</td>
-                            <td>{{ results.paidLeaveResult.minutes }} perc</td>
-                        </tr>
-                        <tr>
-                            <td>Fizetett ünnep összesen:</td>
-                            <td>{{ results.paidHolidayResult.hour }} óra</td>
-                            <td>{{ results.paidHolidayResult.minutes }} perc</td>
-                        </tr>
-                        <tr>
-                            <td>Táppénz összesen:</td>
-                            <td>{{ results.sickPayResult.hour }} óra</td>
-                            <td>{{ results.sickPayResult.minutes }} perc</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+  <div class="collapse" id="quickFilterStatistics">
+    <div class="card card-body">
+      <div class="table-responsive">
+        <table class="table">
+          <tbody>
+            <tr>
+              <td>Vezetés és egyéb munka és szabadság összesen:</td>
+              <td *ngIf="driveAndOtherAndPaidHolidaysResult.length > 0; else noData">{{ driveAndOtherAndPaidHolidaysResult }}</td>
+              <ng-template #noData>
+                <td>Nincs adat</td>
+              </ng-template>
+            </tr>
+            <tr>
+              <td>Vezetés és egyéb munka összesen:</td>
+              <td *ngIf="driveAndOtherResult.length > 0; else noData">{{ driveAndOtherResult }}</td>
+              <ng-template #noData>
+                <td>Nincs adat</td>
+              </ng-template>
+            </tr>
+            <tr>
+              <td>Vezetés összesen:</td>
+              <td *ngIf="driveResult.length > 0; else noData">{{ driveResult }}</td>
+              <ng-template #noData>
+                <td>Nincs adat</td>
+              </ng-template>
+            </tr>
+            <tr>
+              <td>Egyéb munka összesen:</td>
+              <td *ngIf="otherResult.length > 0; else noData">{{ otherResult }}</td>
+              <ng-template #noData>
+                <td>Nincs adat</td>
+              </ng-template>
+            </tr>
+            <tr>
+              <td>Készenlét összesen:</td>
+              <td *ngIf="standByResult.length > 0; else noData">{{ standByResult }}</td>
+              <ng-template #noData>
+                <td>Nincs adat</td>
+              </ng-template>
+            </tr>
+            <tr>
+              <td>Fizetett szabadság összesen:</td>
+              <td *ngIf="paidLeaveResult.length > 0; else noData">{{ paidLeaveResult }}</td>
+              <ng-template #noData>
+                <td>Nincs adat</td>
+              </ng-template>
+            </tr>
+            <tr>
+              <td>Fizetett ünnep összesen:</td>
+              <td *ngIf="paidHolidayResult.length > 0; else noData">{{ paidHolidayResult }}</td>
+              <ng-template #noData>
+                <td>Nincs adat</td>
+              </ng-template>
+            </tr>
+            <tr>
+              <td>Fizetett táppénz összesen:</td>
+              <td *ngIf="sickPayResult.length > 0; else noData">{{ sickPayResult }}</td>
+              <ng-template #noData>
+                <td>Nincs adat</td>
+              </ng-template>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
+  </div>
 </div>
