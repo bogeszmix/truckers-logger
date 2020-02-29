@@ -1,10 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { EventService } from '../../../event.service';
+import { EventService } from '../../event.service';
 import { Subscription } from 'rxjs';
 import { ExtendedEventModel } from '../../../../api/models/event.model';
-import { QuickStatisticsResultModelImpl } from './../../models/quick-statistics-result.model';
 import { EventTypes } from '../../../enums/event-types.enum';
-import { EventTimeModel } from '../../models/event-time.model';
+import { ParseMinToHM } from '../../../utils/parse-min-to-hm';
 
 @Component({
   selector: 'app-quick-filtered-statistics',
@@ -15,9 +14,16 @@ export class QuickFilteredStatisticsComponent implements OnInit, OnDestroy {
 
   filteredListSub: Subscription;
 
-  results: QuickStatisticsResultModelImpl;
+  driveAndOtherAndPaidHolidaysResult: string;
+  driveAndOtherResult: string;
+  driveResult: string;
+  otherResult: string;
+  paidHolidayResult: string;
+  paidLeaveResult: string;
+  sickPayResult: string;
+  standByResult: string;
+
   eventTypeKeys: any[];
-  anHour = 60;
 
   constructor(
     private eventService: EventService
@@ -44,117 +50,67 @@ export class QuickFilteredStatisticsComponent implements OnInit, OnDestroy {
   }
 
   setResultsToDefault() {
-    this.results = new QuickStatisticsResultModelImpl(
-      {
-        driveAndOtherAndPaidHolidaysResult: {hour: 0, minutes: 0},
-        driveAndOtherResult: {hour: 0, minutes: 0},
-        driveResult: {hour: 0, minutes: 0},
-        otherResult: {hour: 0, minutes: 0},
-        paidHolidayResult: {hour: 0, minutes: 0},
-        paidLeaveResult: {hour: 0, minutes: 0},
-        sickPayResult: {hour: 0, minutes: 0},
-        standByResult: {hour: 0, minutes: 0}
-      }
-    );
+    this.driveAndOtherAndPaidHolidaysResult = '';
+    this.driveAndOtherResult = '';
+    this.driveResult = '';
+    this.otherResult = '';
+    this.paidHolidayResult = '';
+    this.paidLeaveResult = '';
+    this.sickPayResult = '';
+    this.standByResult = '';
   }
 
   calculateAllResults(events: ExtendedEventModel[]) {
-    const driveResultTime: EventTimeModel = {hour: 0, minutes: 0};
-    const otherResultTime: EventTimeModel = {hour: 0, minutes: 0};
-    const paidHolidayResultTime: EventTimeModel = {hour: 0, minutes: 0};
-    const paidLeaveResultTime: EventTimeModel = {hour: 0, minutes: 0};
-    const sickPayResultTime: EventTimeModel = {hour: 0, minutes: 0};
-    const standByResultTime: EventTimeModel = {hour: 0, minutes: 0};
 
-    events.forEach((event: ExtendedEventModel) => {
+    let driveResult = 0;
+    let otherResult = 0;
+    let paidHolidayResult = 0;
+    let paidLeaveResult = 0;
+    let sickPayResult = 0;
+    let standByResult = 0;
+
+    events.forEach((event: any) => {
       switch (event.eventType.key) {
         case this.eventTypeKeys[0]: {
-          driveResultTime.minutes += (this.calcMinutesFromHour(event.timeHour) + event.timeMinutes);
+          driveResult += ParseMinToHM.parseHourMinToMinutesFormat(event.timeInMin);
           break;
         }
         case this.eventTypeKeys[1]: {
-          standByResultTime.minutes += (this.calcMinutesFromHour(event.timeHour) + event.timeMinutes);
+          standByResult += ParseMinToHM.parseHourMinToMinutesFormat(event.timeInMin);
           break;
         }
         case this.eventTypeKeys[2]: {
-          otherResultTime.minutes += (this.calcMinutesFromHour(event.timeHour) + event.timeMinutes) % this.anHour;
+          otherResult += ParseMinToHM.parseHourMinToMinutesFormat(event.timeInMin);
           break;
         }
         case this.eventTypeKeys[3]: {
-          paidLeaveResultTime.minutes += (this.calcMinutesFromHour(event.timeHour) + event.timeMinutes) % this.anHour;
+          paidLeaveResult += ParseMinToHM.parseHourMinToMinutesFormat(event.timeInMin);
           break;
         }
         case this.eventTypeKeys[4]: {
-          paidHolidayResultTime.minutes += (this.calcMinutesFromHour(event.timeHour) + event.timeMinutes) % this.anHour;
+          paidHolidayResult += ParseMinToHM.parseHourMinToMinutesFormat(event.timeInMin);
           break;
         }
         case this.eventTypeKeys[5]: {
-          sickPayResultTime.minutes += (this.calcMinutesFromHour(event.timeHour) + event.timeMinutes) % this.anHour;
+          sickPayResult += ParseMinToHM.parseHourMinToMinutesFormat(event.timeInMin);
           break;
         }
       }
     });
 
-    this.results.setDriveResult(
-      this.calcEventTimeFromMin(driveResultTime.minutes)
+    this.driveAndOtherAndPaidHolidaysResult = ParseMinToHM.parseMinutesToHourMinFormat(
+      (driveResult + otherResult + paidLeaveResult)
     );
-    this.results.setOtherResult(
-      this.calcEventTimeFromMin(otherResultTime.minutes)
+
+    this.driveAndOtherResult = ParseMinToHM.parseMinutesToHourMinFormat(
+      (driveResult + otherResult)
     );
-    this.results.setPaidHolidayResult(
-      this.calcEventTimeFromMin(paidHolidayResultTime.minutes)
-    );
-    this.results.setPaidLeaveResult(
-      this.calcEventTimeFromMin(paidLeaveResultTime.minutes)
-    );
-    this.results.setSickPayResult(
-      this.calcEventTimeFromMin(sickPayResultTime.minutes)
-    );
-    this.results.setStandByResult(
-      this.calcEventTimeFromMin(standByResultTime.minutes)
-    );
-    this.results.setDriveAndOtherResult(
-      this.calcMultiTime([
-        driveResultTime.minutes,
-        otherResultTime.minutes
-      ])
-    );
-    this.results.setDriveAndOtherAndPaidHolidaysResult(
-      this.calcMultiTime([
-        driveResultTime.minutes,
-        otherResultTime.minutes,
-        paidHolidayResultTime.minutes
-      ])
-    );
-  }
 
-  calcEventTimeFromMin(minutes: number): EventTimeModel {
-    const timeObj: EventTimeModel = {hour: 0, minutes: 0};
-
-    if (minutes > 0) {
-      timeObj.hour = Math.round(minutes / 60);
-      timeObj.minutes = minutes % 60;
-    }
-
-    return timeObj;
-  }
-
-  calcMultiTime(minutesArr: number[]): EventTimeModel {
-    let minResult = 0;
-    let timeObj: EventTimeModel = {hour: 0, minutes: 0};
-
-    for (const min of minutesArr) {
-      minResult += min;
-    }
-
-    if (minResult > 0) {
-      timeObj = this.calcEventTimeFromMin(minResult);
-    }
-
-    return timeObj;
-  }
-
-  calcMinutesFromHour(hour: number): number {
-    return hour * 60;
+    this.driveResult = ParseMinToHM.parseMinutesToHourMinFormat(driveResult);
+    this.otherResult = ParseMinToHM.parseMinutesToHourMinFormat(otherResult);
+    this.paidHolidayResult = ParseMinToHM.parseMinutesToHourMinFormat(paidHolidayResult);
+    this.paidLeaveResult = ParseMinToHM.parseMinutesToHourMinFormat(paidLeaveResult);
+    this.sickPayResult = ParseMinToHM.parseMinutesToHourMinFormat(sickPayResult);
+    this.standByResult = ParseMinToHM.parseMinutesToHourMinFormat(standByResult);
   }
 }

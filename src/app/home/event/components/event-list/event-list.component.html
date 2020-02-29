@@ -1,89 +1,155 @@
 <!-- Events list -->
 <div class="card mb-3">
-    <div class="card-header">
-        <i class="fas fa-table"></i>
-        A rögzített események
-    </div>
-    <div class="card-body">
-        <div>
-            <button class="btn btn-primary mb-2" type="button" data-toggle="collapse" data-target="#tableEventFilter"
-                aria-expanded="false" aria-controls="tableEventFilter">
-                Szűrő
-            </button>
-            <div class="container p-0 collapse" id="tableEventFilter">
-                <div class="row justify-content-center">
-                    <form class="col-sm-12 col-md-6 text-center" [formGroup]="filterForm">
-                        <div class="form-group ">
-                            <div>
-                                <select class="form-control" formControlName="eventType" required>
-                                    <option value="null" selected disabled>Kérjük válasszon</option>
-                                    <option *ngFor="let eventType of eventTypeOptions | keyvalue" value="{{eventType.key}}">{{eventType.value}}</option>
-                                </select>
-                            </div>               
-                        </div>
-                        <div class="form-group ">
-                            <div class="input-group">
-                                <input class="form-control" placeholder="Dátumtól" name="d1"
-                                    ngbDatepicker #d1="ngbDatepicker" formControlName="dateFrom" [maxDate]="maxDate">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
-                                        <i class="far fa-calendar-alt"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <input class="form-control" placeholder="Dátumig" name="d2"
-                                    ngbDatepicker #d2="ngbDatepicker" formControlName="dateTo" [maxDate]="maxDate">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button">
-                                        <i class="far fa-calendar-alt"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <button type="button" class="btn btn-primary col-12" (click)="resetFilter()">Szűrés törlése</button>   
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary col-12" [disabled]="disabled" (click)="submitFilterForm(filterForm.value)">Szűrés</button>   
-                        </div>
-                    </form>
-                </div>
+  <div class="card-header">
+    <i class="fas fa-table"></i>
+    A rögzített események
+  </div>
+  <div class="card-body">
+    <div>
+      <button
+        class="btn btn-primary mb-2"
+        type="button"
+        data-toggle="collapse"
+        data-target="#tableEventFilter"
+        aria-expanded="false"
+        aria-controls="tableEventFilter"
+      >
+        Szűrő
+      </button>
+      <div class="container p-0 collapse" id="tableEventFilter">
+        <div class="row justify-content-center">
+          <form class="col-sm-12 col-md-6 text-center" [formGroup]="filterForm">
+            <div class="form-group ">
+              <div>
+                <select
+                  class="form-control"
+                  formControlName="eventType"
+                  required
+                >
+                  <option value="null" selected disabled hidden
+                    >Kérjük válasszon</option
+                  >
+                  <option
+                    *ngFor="let eventType of eventTypeOptions | keyvalue"
+                    value="{{ eventType.key }}"
+                    >{{ eventType.value }}</option
+                  >
+                </select>
+              </div>
             </div>
+            <div class="form-group ">
+              <div class="input-group">
+                <input
+                  class="form-control"
+                  placeholder="Dátumtól"
+                  name="d1"
+                  ngbDatepicker
+                  #d1="ngbDatepicker"
+                  formControlName="dateFrom"
+                  [maxDate]="maxDate"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary calendar"
+                    (click)="d1.toggle()"
+                    type="button"
+                  >
+                    <i class="far fa-calendar-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <input
+                  class="form-control"
+                  placeholder="Dátumig"
+                  name="d2"
+                  ngbDatepicker
+                  #d2="ngbDatepicker"
+                  formControlName="dateTo"
+                  [maxDate]="maxDate"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary calendar"
+                    (click)="d2.toggle()"
+                    type="button"
+                  >
+                    <i class="far fa-calendar-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <button
+                type="button"
+                class="btn btn-primary col-12"
+                (click)="resetFilter()"
+              >
+                Szűrés törlése
+              </button>
+            </div>
+            <div class="form-group">
+              <button
+                type="submit"
+                class="btn btn-primary col-12"
+                [disabled]="disabled"
+                (click)="submitFilterForm(filterForm.value)"
+              >
+                Szűrés
+              </button>
+            </div>
+          </form>
         </div>
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th scope="col">Időtartam (óra:perc)</th>
-                        <th scope="col">Esemény</th>
-                        <th scope="col">Rögzítve</th>
-                        <th scope="col">Időpont</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <ng-container *ngIf="filterableEventList.length > 0">
-                        <tr 
-                            *ngFor="let event of filterableEventList"
-                            [ngClass]="[
-                                (event.eventType.key === 'EVENT1') ? 'event-type-1' : '',
-                                (event.eventType.key === 'EVENT2') ? 'event-type-2' : '',
-                                (event.eventType.key === 'EVENT3') ? 'event-type-3' : '',
-                                (event.eventType.key === 'EVENT4') ? 'event-type-4' : '',
-                                (event.eventType.key === 'EVENT5') ? 'event-type-5' : ''
-                            ]"
-                        >
-                            <td scope="row" data-label="Időtartam (óra:perc)" *ngIf="event.timeMinutes > 9">{{ event.timeHour + ':' + event.timeMinutes }}</td>
-                            <td scope="row" data-label="Időtartam (óra:perc)" *ngIf="event.timeMinutes < 10">{{ event.timeHour + ':0' + event.timeMinutes }}</td>
-                            <td data-label="Esemény">{{ event.eventType.value }}</td>
-                            <td data-label="Rögzítve">{{ event.createDate }}</td>
-                            <td data-label="Időpont">{{ event.createTime }}</td>
-                        </tr>
-                    </ng-container>
-                </tbody>
-            </table>
-        </div>
+      </div>
     </div>
+    <div class="table-responsive">
+      <table
+        class="table table-bordered"
+        id="dataTable"
+        width="100%"
+        cellspacing="0"
+      >
+        <thead>
+          <tr>
+            <th scope="col">Időtartam (óra:perc)</th>
+            <th scope="col">Esemény</th>
+            <th scope="col">Rögzítve</th>
+            <th scope="col">Időpont</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="filterableEventList.length > 0">
+          <tr
+            *ngFor="let event of filterableEventList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize"
+            [ngClass]="[
+              event.eventType.key === 'EVENT1' ? 'event-type-1' : '',
+              event.eventType.key === 'EVENT2' ? 'event-type-2' : '',
+              event.eventType.key === 'EVENT3' ? 'event-type-3' : '',
+              event.eventType.key === 'EVENT4' ? 'event-type-4' : '',
+              event.eventType.key === 'EVENT5' ? 'event-type-5' : ''
+            ]"
+          >
+            <td scope="row" data-label="Időtartam (óra:perc)">
+              {{ event.timeInMin }}
+            </td>
+            <td data-label="Esemény">{{ event.eventType.value }}</td>
+            <td data-label="Rögzítve">{{ event.createDate }}</td>
+            <td data-label="Időpont">{{ event.createTime }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="col-12 justify-content-center mt-2 mb-5 p-0">
+        <ngb-pagination
+          [collectionSize]="filterableEventList.length"
+          [(page)]="page"
+          [pageSize]="pageSize"
+          [maxSize]="3"
+          [rotate]="true"
+          [ellipses]="false"
+          [boundaryLinks]="true"
+        ></ngb-pagination>
+      </div>
+    </div>
+  </div>
 </div>

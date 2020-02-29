@@ -11,40 +11,35 @@ export class EventService {
   private mockEventListArray: ExtendedEventModel[] = [
     {
       id: 1,
-      timeHour: 15,
-      timeMinutes: 25,
+      timeInMin: 150,
       eventType: {key: 'EVENT1', value: 'Vezetés'},
       createDate: moment().format(moment.HTML5_FMT.DATE),
       createTime: moment().format(moment.HTML5_FMT.TIME)
     },
     {
       id: 2,
-      timeHour: 23,
-      timeMinutes: 0,
+      timeInMin: 480,
       eventType: {key: 'EVENT2', value: 'Készenlét'},
       createDate: moment().format(moment.HTML5_FMT.DATE),
       createTime: moment().format(moment.HTML5_FMT.TIME)
     },
     {
       id: 3,
-      timeHour: 10,
-      timeMinutes: 56,
+      timeInMin: 323,
       eventType: {key: 'EVENT1', value: 'Vezetés'},
       createDate: moment().format(moment.HTML5_FMT.DATE),
       createTime: moment().format(moment.HTML5_FMT.TIME)
     },
     {
       id: 4,
-      timeHour: 6,
-      timeMinutes: 9,
+      timeInMin: 600,
       eventType: {key: 'EVENT4', value: 'Fizetett szabadság'},
       createDate: moment().format(moment.HTML5_FMT.DATE),
       createTime: moment().format(moment.HTML5_FMT.TIME)
     },
     {
       id: 5,
-      timeHour: 11,
-      timeMinutes: 33,
+      timeInMin: 654,
       eventType: {key: 'EVENT3', value: 'Egyéb munka'},
       createDate: moment().format(moment.HTML5_FMT.DATE),
       createTime: moment().format(moment.HTML5_FMT.TIME)
@@ -54,7 +49,7 @@ export class EventService {
   private eventList = new BehaviorSubject<ExtendedEventModel[]>(this.mockEventListArray);
   private filteredEventList = new BehaviorSubject<ExtendedEventModel[]>(undefined);
 
-  constructor() { }
+  constructor() {}
 
   get _eventList() {
     if (this.eventList) {

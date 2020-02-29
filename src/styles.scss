@@ -2,3 +2,8 @@
 .sidebar .nav-item .nav-link:active, .sidebar .nav-item .nav-link:focus, .sidebar .nav-item .nav-link:hover {
     color: var(--white) !important;
 }
+
+.only-month-year-picker .ngb-dp-months {
+    visibility: hidden;
+    height: 0;
+}

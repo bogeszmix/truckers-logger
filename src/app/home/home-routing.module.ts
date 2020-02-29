@@ -9,6 +9,7 @@ const routes: Routes = [
     { path: 'journey-form', loadChildren: () => import('./journey-form/journey-form.module').then(m => m.JourneyFormModule) },
     { path: 'trailer', loadChildren: () => import('./trailer/trailer.module').then(m => m.TrailerModule) },
     { path: 'statistics', loadChildren: () => import('./statistics/statistics.module').then(m => m.StatisticsModule) },
+    { path: 'ob-work-times', loadChildren: () => import('./ob-work-times/ob-work-times.module').then(m => m.ObWorkTimesModule) },
     { path: '', loadChildren: () => import('./event/event.module').then(m => m.EventModule)}
   ]}
 ];

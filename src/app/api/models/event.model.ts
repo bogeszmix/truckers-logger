@@ -2,8 +2,7 @@ import { Moment } from 'moment';
 
 export interface EventModel {
     id: number;
-    timeHour: number;
-    timeMinutes: number;
+    timeInMin: number;
     eventType: {key: string, value: string};
 }
 

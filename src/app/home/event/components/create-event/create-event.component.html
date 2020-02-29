@@ -17,17 +17,13 @@
                     <div class="form-group">
                         <label for="eventType">Esemény típus</label>
                         <select class="form-control" id="eventType" formControlName="eventType" required>
-                            <option value="null" selected disabled>Kérjük válasszon</option>
+                            <option value="null" selected disabled hidden>Kérjük válasszon</option>
                             <option *ngFor="let eventType of eventTypeOptions | keyvalue" value="{{eventType.key}}">{{eventType.value}}</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="timeHour">Időtartam (óra)</label>
-                        <input type="number" class="form-control" id="timeHour" placeholder="Időtartam (óra)" formControlName="timeHour" min="0" max="23" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="timeMinutes">Időtartam (perc)</label>
-                        <input type="number" class="form-control" id="timeMinutes" placeholder="Időtartam (perc)" formControlName="timeMinutes" min="0" max="59" required>
+                        <label for="time">Időtartam (óra:perc)</label>
+                        <input type="text" class="form-control" id="time" placeholder="Időtartam (óra:perc)" formControlName="time" minlength="3" maxlength="5" required>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary col-12" [disabled]="!createEventForm.valid">Mentés</button>
