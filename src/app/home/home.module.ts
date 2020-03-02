@@ -6,11 +6,10 @@ import { HomeComponent } from './home.component';
 import { BreadcumbComponent } from './components/breadcumb/breadcumb.component';
 import { TopbarComponent } from './components/topbar/topbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { FooterComponent } from './components/footer/footer.component';
 
 
 @NgModule({
-  declarations: [HomeComponent, TopbarComponent, SidebarComponent, FooterComponent, BreadcumbComponent],
+  declarations: [HomeComponent, TopbarComponent, SidebarComponent, BreadcumbComponent],
   imports: [
     CommonModule,
     HomeRoutingModule
