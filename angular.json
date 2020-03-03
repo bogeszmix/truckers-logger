@@ -29,15 +29,14 @@
             ],
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "./node_modules/@fortawesome/fontawesome-free/css/all.min.css",
               "src/assets/css/sb-admin.min.css",
               "src/styles.scss"
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",
               "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
-              "./node_modules/chart.js/dist/Chart.bundle.js",
-              "src/assets/js/sb-admin.min.js"
+              "./node_modules/chart.js/dist/Chart.bundle.js"
             ]
           },
           "configurations": {

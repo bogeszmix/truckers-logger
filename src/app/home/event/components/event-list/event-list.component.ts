@@ -37,7 +37,7 @@ export class EventListComponent implements OnInit, OnDestroy {
   eventTypes: EventTypes;
   eventTypeOptions: any[];
   page = 1;
-  pageSize = 3;
+  pageSize = 10;
 
   disabled: boolean;
   maxDate: NgbDateStruct;
