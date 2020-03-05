@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 
-import { Chart, ChartType } from 'chart.js';
+import { ChartType } from 'chart.js';
 import { ObWorkTimeModel } from 'src/app/api/models/ob-work-time.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup } from '@angular/forms';
 import { ParseMinToHM } from '../../../utils/parse-min-to-hm';
 import * as moment from 'moment';
+import { EditObWorkTimesComponent } from '../modals/edit-ob-work-times/edit-ob-work-times.component';
 
 @Component({
   selector: 'app-work-times-item',
@@ -81,14 +81,17 @@ export class WorkTimesItemComponent implements OnInit, OnChanges {
     ];
   }
 
-  editMonth() {
-    const monthModalRef = this.modalService.open('');
-  }
-
-  submitNewMonth(monthForm: FormGroup) {
-    if (monthForm) {
+  editMonth(mData: ObWorkTimeModel) {
+    const monthModalRef = this.modalService.open(EditObWorkTimesComponent);
+    if (mData) {
+      monthModalRef.componentInstance.data = mData;
     }
-  }
 
+    monthModalRef.result.then((resultData: any) => {
+      if (resultData) { 
+        this.timeData.obTime = resultData.workTime;
+      }
+    });
+  }
 
 }
