@@ -26,8 +26,7 @@ import { ParseMinToHM } from '../../../utils/parse-min-to-hm';
 export class EventListComponent implements OnInit, OnDestroy {
   filteredEventEmitter = new EventEmitter<ExtendedEventModel[]>();
 
-  eventListSub: Subscription;
-  filterFormSub: Subscription;
+  subs: Subscription;
 
   filterForm: FormGroup;
 
@@ -49,6 +48,7 @@ export class EventListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.subs = new Subscription();
     this.eventTypeOptions = Object.assign(EventTypes);
     this.initFilterForm();
     this.disabled = false;
@@ -58,12 +58,8 @@ export class EventListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.eventListSub) {
-      this.eventListSub.unsubscribe();
-    }
-
-    if (this.filterFormSub) {
-      this.filterFormSub.unsubscribe();
+    if (this.subs) {
+      this.subs.unsubscribe();
     }
   }
 
@@ -76,13 +72,14 @@ export class EventListComponent implements OnInit, OnDestroy {
   }
 
   initEventList() {
-    this.eventListSub = this.eventService._eventList
+    this.subs.add(this.eventService._eventList
       .pipe(
         map((eventsList: ExtendedEventModel[]) => {
           const convertedViewList = [];
           if (eventsList) {
             eventsList.forEach((eventItem: ExtendedEventModel) => {
                 const newConvertedItem = {
+                  uniqueSecondaryId: eventItem.uniqueSecondaryId,
                   timeInMin: ParseMinToHM.parseMinutesToHourMinFormat(eventItem.timeInMin),
                   eventType: {key: eventItem.eventType.key, value: eventItem.eventType.value},
                   createDate: eventItem.createDate,
@@ -100,18 +97,18 @@ export class EventListComponent implements OnInit, OnDestroy {
           this.eventList = list;
           this.filterableEventList = [...this.eventList];
         }
-      });
+      }));
   }
 
   checkFilterForm() {
-    this.filterFormSub = this.filterForm.valueChanges
+    this.subs.add(this.filterForm.valueChanges
       .pipe(debounceTime(250), distinctUntilChanged())
       .subscribe((form: EventFilterModel) => {
         const dateFrom = form.dateFrom;
         const dateTo = form.dateTo;
         this.dateCompareCheck(dateFrom, dateTo);
         this.filterableEventList = [...this.eventList];
-      });
+      }));
   }
 
   dateCompareCheck(

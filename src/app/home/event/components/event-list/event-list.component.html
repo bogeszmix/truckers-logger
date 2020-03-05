@@ -113,6 +113,7 @@
       >
         <thead>
           <tr>
+            <th scope="col"></th>
             <th scope="col">Időtartam (óra:perc)</th>
             <th scope="col">Esemény</th>
             <th scope="col">Rögzítve</th>
@@ -130,7 +131,8 @@
               event.eventType.key === 'EVENT5' ? 'event-type-5' : ''
             ]"
           >
-            <td scope="row" data-label="Időtartam (óra:perc)">
+            <td scope="row" data-label=""> {{ event.uniqueSecondaryId }}</td>
+            <td data-label="Időtartam (óra:perc)">
               {{ event.timeInMin }}
             </td>
             <td data-label="Esemény">{{ event.eventType.value }}</td>

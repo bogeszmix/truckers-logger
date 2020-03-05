@@ -11,6 +11,7 @@ export class EventService {
   private mockEventListArray: ExtendedEventModel[] = [
     {
       id: 1,
+      uniqueSecondaryId: '#D000001',
       timeInMin: 150,
       eventType: {key: 'EVENT1', value: 'Vezetés'},
       createDate: moment().format(moment.HTML5_FMT.DATE),
@@ -18,6 +19,7 @@ export class EventService {
     },
     {
       id: 2,
+      uniqueSecondaryId: '#S000001',
       timeInMin: 480,
       eventType: {key: 'EVENT2', value: 'Készenlét'},
       createDate: moment().format(moment.HTML5_FMT.DATE),
@@ -25,6 +27,7 @@ export class EventService {
     },
     {
       id: 3,
+      uniqueSecondaryId: '#D000002',
       timeInMin: 323,
       eventType: {key: 'EVENT1', value: 'Vezetés'},
       createDate: moment().format(moment.HTML5_FMT.DATE),
@@ -32,6 +35,7 @@ export class EventService {
     },
     {
       id: 4,
+      uniqueSecondaryId: '#PF000001',
       timeInMin: 600,
       eventType: {key: 'EVENT4', value: 'Fizetett szabadság'},
       createDate: moment().format(moment.HTML5_FMT.DATE),
@@ -39,6 +43,7 @@ export class EventService {
     },
     {
       id: 5,
+      uniqueSecondaryId: '#OT000001',
       timeInMin: 654,
       eventType: {key: 'EVENT3', value: 'Egyéb munka'},
       createDate: moment().format(moment.HTML5_FMT.DATE),
