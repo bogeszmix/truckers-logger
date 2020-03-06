@@ -11,12 +11,15 @@ import { EventFilterModel } from '../../models/event-filter.model';
 import {
   NgbDate,
   NgbDateStruct,
-  NgbCalendar
+  NgbCalendar,
+  NgbModal
 } from '@ng-bootstrap/ng-bootstrap';
 import { DateNgBootstrapModel } from '../../models/date-ngbootstrap.model';
 import { NgbDateToMoment } from '../../../utils/ngb-date-to-moment';
 import { ClassGetter } from '@angular/compiler/src/output/output_ast';
 import { ParseMinToHM } from '../../../utils/parse-min-to-hm';
+import { EditEventComponent } from '../modals/edit-event/edit-event.component';
+import { DeleteEventComponent } from '../modals/delete-event/delete-event.component';
 
 @Component({
   selector: 'app-event-list',
@@ -41,10 +44,13 @@ export class EventListComponent implements OnInit, OnDestroy {
   disabled: boolean;
   maxDate: NgbDateStruct;
 
+  clickedRowObject: any;
+
   constructor(
     private eventService: EventService,
     private formBuilder: FormBuilder,
-    private ngbCalendar: NgbCalendar
+    private ngbCalendar: NgbCalendar,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit() {
@@ -168,5 +174,37 @@ export class EventListComponent implements OnInit, OnDestroy {
     }
 
     this.eventService.updateFilteredEventList(this.filterableEventList);
+  }
+
+  clickedRow(eventObject: any) {
+    if (eventObject) {
+      this.clickedRowObject = eventObject;
+    }
+  }
+
+  editEvent() {
+    if (this.clickedRowObject) {
+      const editModalRef = this.modalService.open(EditEventComponent);
+      editModalRef.componentInstance.eventItemObject = this.clickedRowObject;
+
+      editModalRef.result.then((editedItem: any) => {
+        if (editedItem) {
+          console.log(editedItem);
+        }
+      });
+    }
+  }
+
+  deleteEvent() {
+    if (this.clickedRowObject) {
+      const deleteModalRef = this.modalService.open(DeleteEventComponent);
+      deleteModalRef.componentInstance.deletableEvent = this.clickedRowObject;
+
+      deleteModalRef.result.then((deletedItem: any) => {
+        if (deletedItem) {
+          console.log(deletedItem);
+        }
+      });
+    }
   }
 }

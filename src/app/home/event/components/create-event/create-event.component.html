@@ -1,7 +1,7 @@
 <!-- New event add section -->
 <div class="card mb-3">
     <div class="card-header">
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#addNewEvent"
+        <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#addNewEvent"
             aria-expanded="false" aria-controls="addNewEvent">
             Új esemény hozzáadása
         </button>
@@ -10,25 +10,7 @@
     <div class="collapse" id="addNewEvent">
         <div class="container card card-body">
             <div class="row justify-content-center">
-                <form [formGroup]="createEventForm" (ngSubmit)="submitNewEvent(createEventForm.value)" class="col-sm-12 col-md-6">
-                    <div class="form-group">
-                        A mai nap dátuma: {{ currentDate }}
-                    </div>
-                    <div class="form-group">
-                        <label for="eventType">Esemény típus</label>
-                        <select class="form-control" id="eventType" formControlName="eventType" required>
-                            <option value="null" selected disabled hidden>Kérjük válasszon</option>
-                            <option *ngFor="let eventType of eventTypeOptions | keyvalue" value="{{eventType.key}}">{{eventType.value}}</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="time">Időtartam (óra:perc)</label>
-                        <input type="text" class="form-control" id="time" placeholder="Időtartam (óra:perc)" formControlName="time" minlength="3" maxlength="5" required>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary col-12" [disabled]="!createEventForm.valid">Mentés</button>
-                    </div>
-                </form>
+                <app-create-edit-event (formResult)="submitNewEvent($event)"></app-create-edit-event>
             </div>
         </div>
     </div>
