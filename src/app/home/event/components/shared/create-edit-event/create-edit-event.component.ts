@@ -2,8 +2,8 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { EventTypes } from 'src/app/home/enums/event-types.enum';
-import { ExtendedEventModel } from 'src/app/api/models/event.model';
-import { ParseMinToHM } from 'src/app/home/utils/parse-min-to-hm';
+import { ExtendedEventModel } from '../../../models/event.model';
+import { WorkTimeRegex } from 'src/app/home/enums/work-time-regex.enum';
 
 @Component({
   selector: 'app-create-edit-event',
@@ -33,30 +33,26 @@ export class CreateEditEventComponent implements OnInit {
   initForm() {
     if (!this.editableEvent) {
       this.createEventForm = this.formBuilder.group({
-        time: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(5)]],
+        time: ['', [
+          Validators.required,
+          Validators.pattern(new RegExp(WorkTimeRegex.FORMAT))]],
         eventType: [null, Validators.required]
       });
     }
 
     if (this.editableEvent) {
       this.createEventForm = this.formBuilder.group({
-        time: [this.editableEvent.timeInMin, [Validators.required, Validators.minLength(3), Validators.maxLength(5)]],
-        eventType: [this.editableEvent.eventType.key, Validators.required]
+        time: [this.editableEvent.timeInMin, [
+          Validators.required,
+          Validators.pattern(new RegExp(WorkTimeRegex.FORMAT))]],
+        eventType: [this.editableEvent.eventType, Validators.required]
       });
     }
   }
 
   submitNewEvent(newEvent: any) {
     if (newEvent) {
-      const extendedEvent: ExtendedEventModel = {
-        id: 6,
-        uniqueSecondaryId: '#D000002',
-        timeInMin: ParseMinToHM.parseHourMinToMinutesFormat(newEvent.time),
-        eventType: {key: newEvent.eventType, value: this.eventTypeOptions[newEvent.eventType]},
-        createDate: this.currentDate,
-        createTime: moment().format(moment.HTML5_FMT.TIME)
-      };
-      this.formResult.emit(extendedEvent);
+      this.formResult.emit(newEvent);
       this.createEventForm.reset();
     }
   }

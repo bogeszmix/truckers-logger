@@ -19,7 +19,7 @@ export class NgbDateToMoment {
                 day: date.day
             } as DateNgBootstrapModel;
             convertableDate = NgbDate.from(normalizedDate);
-            return moment(convertableDate);
+            return moment(convertableDate).isValid() ? moment(convertableDate) : moment();
         }
         return moment();
     }

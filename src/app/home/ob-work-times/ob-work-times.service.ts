@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ObWorkTimeModel } from 'src/app/api/models/ob-work-time.model';
+import { ObWorkTimeModel } from 'src/app/api/models/request/ob-work-time.model';
 import { BehaviorSubject } from 'rxjs';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 

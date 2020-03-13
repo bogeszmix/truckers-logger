@@ -13,7 +13,7 @@
                     <div class="form-group only-month-year-picker">
                         <div class="input-group">
                             <input class="form-control" placeholder="Válassz hónapot" name="d1"
-                                ngbDatepicker #d1="ngbDatepicker" formControlName="monthSelector" [maxDate]="maxDate" (navigate)="onDatePickerChange($event)">
+                                ngbDatepicker #d1="ngbDatepicker" formControlName="monthSelector" (navigate)="onDatePickerChange($event)">
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
                                     <i class="far fa-calendar-alt"></i>

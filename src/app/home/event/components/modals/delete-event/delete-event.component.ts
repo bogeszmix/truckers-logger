@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ExtendedEventModel } from 'src/app/api/models/event.model';
+
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ResponseEventModel } from 'src/app/api/models/response/response-event.model';
 
 @Component({
   selector: 'app-delete-event',
@@ -9,7 +10,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class DeleteEventComponent implements OnInit {
 
-  deletableEvent: ExtendedEventModel;
+  deletableEvent: ResponseEventModel;
 
   constructor(
     private activeModal: NgbActiveModal
@@ -22,7 +23,7 @@ export class DeleteEventComponent implements OnInit {
     this.activeModal.close();
   }
 
-  delete(acceptDelete: ExtendedEventModel) {
+  delete(acceptDelete: ResponseEventModel) {
     if (acceptDelete) {
       this.activeModal.close(acceptDelete);
     }

@@ -16,7 +16,7 @@
             <div class="form-group ">
               <div>
                 <select class="form-control" formControlName="eventType" required>
-                  <option value="null" selected disabled hidden>Kérjük válasszon</option>
+                  <option value="null" selected>Mind</option>
                   <option *ngFor="let eventType of eventTypeOptions | keyvalue" value="{{ eventType.key }}">
                     {{ eventType.value }}</option>
                 </select>
@@ -75,17 +75,17 @@
             aria-haspopup="true" aria-expanded="false"
             *ngFor="let event of filterableEventList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize"
             [ngClass]="[
-                event.eventType.key === 'EVENT1' ? 'event-type-1' : '',
-                event.eventType.key === 'EVENT2' ? 'event-type-2' : '',
-                event.eventType.key === 'EVENT3' ? 'event-type-3' : '',
-                event.eventType.key === 'EVENT4' ? 'event-type-4' : '',
-                event.eventType.key === 'EVENT5' ? 'event-type-5' : ''
+                event.eventType === 'EVENT1' ? 'event-type-1' : '',
+                event.eventType === 'EVENT2' ? 'event-type-2' : '',
+                event.eventType === 'EVENT3' ? 'event-type-3' : '',
+                event.eventType === 'EVENT4' ? 'event-type-4' : '',
+                event.eventType === 'EVENT5' ? 'event-type-5' : ''
               ]" (click)="clickedRow(event)">
             <td scope="row" data-label=""> {{ event.uniqueSecondaryId }}</td>
             <td data-label="Időtartam (óra:perc)">
               {{ event.timeInMin }}
             </td>
-            <td data-label="Esemény">{{ event.eventType.value }}</td>
+            <td data-label="Esemény">{{ event.eventType }}</td>
             <td data-label="Rögzítve">{{ event.createDate }}</td>
             <td data-label="Időpont">{{ event.createTime }}</td>
           </tr>
