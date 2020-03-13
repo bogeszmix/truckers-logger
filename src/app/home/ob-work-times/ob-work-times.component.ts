@@ -7,7 +7,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ObWorkTimesService } from './ob-work-times.service';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
-import { ObWorkTimeModel } from 'src/app/api/models/ob-work-time.model';
+import { ObWorkTimeModel } from 'src/app/api/models/request/ob-work-time.model';
 import * as moment from 'moment';
 
 @Component({

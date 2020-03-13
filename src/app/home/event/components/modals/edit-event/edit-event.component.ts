@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ParseMinToHM } from 'src/app/home/utils/parse-min-to-hm';
+import { ResponseEventModel } from 'src/app/api/models/response/response-event.model';
 
 @Component({
   selector: 'app-edit-event',
@@ -9,7 +11,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class EditEventComponent implements OnInit {
 
-  eventItemObject: any;
+  eventItemObject: ResponseEventModel;
 
   constructor(
     private activeModal: NgbActiveModal
@@ -19,7 +21,16 @@ export class EditEventComponent implements OnInit {
 
   submitEditEvent(event: any) {
     if (event) {
-      this.activeModal.close(event);
+      const modifiedEvent: ResponseEventModel = {
+        id: this.eventItemObject.id,
+        uniqueSecondaryId: this.eventItemObject.uniqueSecondaryId,
+        timeInMin: ParseMinToHM.parseHourMinToMinutesFormat(event.time),
+        eventType: event.eventType,
+        createDate: this.eventItemObject.createDate,
+        createTime: this.eventItemObject.createTime,
+        userId: this.eventItemObject.userId
+      };
+      this.activeModal.close(modifiedEvent);
     }
   }
 

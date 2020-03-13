@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ObWorkTimeModel } from 'src/app/api/models/ob-work-time.model';
+import { ObWorkTimeModel } from 'src/app/api/models/request/ob-work-time.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 

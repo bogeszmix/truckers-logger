@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import { ChartType } from 'chart.js';
-import { ObWorkTimeModel } from 'src/app/api/models/ob-work-time.model';
+import { ObWorkTimeModel } from 'src/app/api/models/request/ob-work-time.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ParseMinToHM } from '../../../utils/parse-min-to-hm';
 import * as moment from 'moment';

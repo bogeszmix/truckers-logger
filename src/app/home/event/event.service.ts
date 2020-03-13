@@ -1,83 +1,96 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import * as moment from 'moment';
-import { ExtendedEventModel } from 'src/app/api/models/event.model';
+
+import { tap, map } from 'rxjs/operators';
+import { ResponseEventModel } from 'src/app/api/models/response/response-event.model';
+import { APIEventService } from 'src/app/api/services/api-event.service';
+import { RequestEventModel } from 'src/app/api/models/request/request-event.model';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventService {
 
-  private mockEventListArray: ExtendedEventModel[] = [
-    {
-      id: 1,
-      uniqueSecondaryId: '#D000001',
-      timeInMin: 150,
-      eventType: {key: 'EVENT1', value: 'Vezetés'},
-      createDate: moment().format(moment.HTML5_FMT.DATE),
-      createTime: moment().format(moment.HTML5_FMT.TIME)
-    },
-    {
-      id: 2,
-      uniqueSecondaryId: '#S000001',
-      timeInMin: 480,
-      eventType: {key: 'EVENT2', value: 'Készenlét'},
-      createDate: moment().format(moment.HTML5_FMT.DATE),
-      createTime: moment().format(moment.HTML5_FMT.TIME)
-    },
-    {
-      id: 3,
-      uniqueSecondaryId: '#D000002',
-      timeInMin: 323,
-      eventType: {key: 'EVENT1', value: 'Vezetés'},
-      createDate: moment().format(moment.HTML5_FMT.DATE),
-      createTime: moment().format(moment.HTML5_FMT.TIME)
-    },
-    {
-      id: 4,
-      uniqueSecondaryId: '#PF000001',
-      timeInMin: 600,
-      eventType: {key: 'EVENT4', value: 'Fizetett szabadság'},
-      createDate: moment().format(moment.HTML5_FMT.DATE),
-      createTime: moment().format(moment.HTML5_FMT.TIME)
-    },
-    {
-      id: 5,
-      uniqueSecondaryId: '#OT000001',
-      timeInMin: 654,
-      eventType: {key: 'EVENT3', value: 'Egyéb munka'},
-      createDate: moment().format(moment.HTML5_FMT.DATE),
-      createTime: moment().format(moment.HTML5_FMT.TIME)
-    }
-  ];
+  private eventListSub = new BehaviorSubject<ResponseEventModel[]>([]);
+  private filteredEventListSub = new BehaviorSubject<ResponseEventModel[]>([]);
 
-  private eventList = new BehaviorSubject<ExtendedEventModel[]>(this.mockEventListArray);
-  private filteredEventList = new BehaviorSubject<ExtendedEventModel[]>(undefined);
-
-  constructor() {}
+  constructor(
+    private eventAPI: APIEventService
+  ) { }
 
   get _eventList() {
-    if (this.eventList) {
-      return this.eventList.asObservable();
+    if (this.eventListSub) {
+      return this.eventListSub.asObservable();
     }
   }
 
   get _filteredEventList() {
-    if (this.filteredEventList) {
-      return this.filteredEventList.asObservable();
+    if (this.filteredEventListSub) {
+      return this.filteredEventListSub.asObservable();
     }
   }
 
-  addNewEvent(newEvent: ExtendedEventModel) {
+  initEventList(filter?: { eventType: string, dateFrom: string, dateTo: string }): Observable<any> {
+    return this.eventAPI.readEvents().pipe(
+      map((eventMetaArray: any[]) =>
+        eventMetaArray.filter((item: any) => {
+          const eventFields = item.payload.doc.data();
+
+          if (!filter) {
+            return true;
+          }
+
+          if (!filter.eventType &&
+            moment(eventFields.createDate).isBetween(filter.dateFrom, filter.dateTo, null, '[]')) {
+            return true;
+          }
+
+          if (
+            filter.eventType &&
+            eventFields.eventType === filter.eventType &&
+            moment(eventFields.createDate).isBetween(filter.dateFrom, filter.dateTo, null, '[]')
+          ) {
+            return true;
+          }
+
+        }).map((eventItem: any) => {
+            const eventId = eventItem.payload.doc.id;
+            const eventFields = eventItem.payload.doc.data();
+            return {
+              id: eventId,
+              ...eventFields
+            } as ResponseEventModel;
+        })
+      ),
+      tap((filteredResponse: ResponseEventModel[]) => {
+        if (filteredResponse) {
+          this.eventListSub.next(filteredResponse);
+        }
+      })
+    );
+  }
+
+  filterEvents(filteredEvents: ResponseEventModel[]) {
+    this.filteredEventListSub.next(filteredEvents);
+  }
+
+  addNewEvent(newEvent: RequestEventModel): Promise<any> {
     if (newEvent) {
-      this.mockEventListArray.push(newEvent);
-      this.eventList.next(this.mockEventListArray);
+      return this.eventAPI.createEvent(newEvent);
     }
   }
 
-  updateFilteredEventList(events: ExtendedEventModel[]) {
-    if (events) {
-      this.filteredEventList.next(events);
+  modifyEvent(modifiedEvent: ResponseEventModel): Promise<any> {
+    if (modifiedEvent) {
+      return this.eventAPI.updateEvent(modifiedEvent);
+    }
+  }
+
+  deleteEvent(deletedEvent: ResponseEventModel): Promise<any> {
+    if (deletedEvent) {
+      return this.eventAPI.deleteEvent(deletedEvent);
     }
   }
 }

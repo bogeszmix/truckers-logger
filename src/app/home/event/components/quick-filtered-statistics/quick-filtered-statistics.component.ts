@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { EventService } from '../../event.service';
 import { Subscription } from 'rxjs';
-import { ExtendedEventModel } from '../../../../api/models/event.model';
 import { EventTypes } from '../../../enums/event-types.enum';
 import { ParseMinToHM } from '../../../utils/parse-min-to-hm';
+import { ExtendedEventModel } from '../../models/event.model';
+import { RequestEventModel } from 'src/app/api/models/request/request-event.model';
 
 @Component({
   selector: 'app-quick-filtered-statistics',
@@ -42,7 +43,7 @@ export class QuickFilteredStatisticsComponent implements OnInit, OnDestroy {
   }
 
   initResults() {
-    this.filteredListSub = this.eventService._filteredEventList.subscribe((events: ExtendedEventModel[]) => {
+    this.filteredListSub = this.eventService._filteredEventList.subscribe((events: RequestEventModel[]) => {
       if (events) {
         this.calculateAllResults(events);
       }
@@ -60,7 +61,7 @@ export class QuickFilteredStatisticsComponent implements OnInit, OnDestroy {
     this.standByResult = '';
   }
 
-  calculateAllResults(events: ExtendedEventModel[]) {
+  calculateAllResults(events: RequestEventModel[]) {
 
     let driveResult = 0;
     let otherResult = 0;
@@ -69,30 +70,32 @@ export class QuickFilteredStatisticsComponent implements OnInit, OnDestroy {
     let sickPayResult = 0;
     let standByResult = 0;
 
+
+
     events.forEach((event: any) => {
-      switch (event.eventType.key) {
+      switch (event.eventType) {
         case this.eventTypeKeys[0]: {
-          driveResult += ParseMinToHM.parseHourMinToMinutesFormat(event.timeInMin);
+          driveResult += event.timeInMin;
           break;
         }
         case this.eventTypeKeys[1]: {
-          standByResult += ParseMinToHM.parseHourMinToMinutesFormat(event.timeInMin);
+          standByResult += event.timeInMin;
           break;
         }
         case this.eventTypeKeys[2]: {
-          otherResult += ParseMinToHM.parseHourMinToMinutesFormat(event.timeInMin);
+          otherResult += event.timeInMin;
           break;
         }
         case this.eventTypeKeys[3]: {
-          paidLeaveResult += ParseMinToHM.parseHourMinToMinutesFormat(event.timeInMin);
+          paidLeaveResult += event.timeInMin;
           break;
         }
         case this.eventTypeKeys[4]: {
-          paidHolidayResult += ParseMinToHM.parseHourMinToMinutesFormat(event.timeInMin);
+          paidHolidayResult += event.timeInMin;
           break;
         }
         case this.eventTypeKeys[5]: {
-          sickPayResult += ParseMinToHM.parseHourMinToMinutesFormat(event.timeInMin);
+          sickPayResult += event.timeInMin;
           break;
         }
       }

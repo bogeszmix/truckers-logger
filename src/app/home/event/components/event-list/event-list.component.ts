@@ -3,23 +3,21 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
-import { ExtendedEventModel } from 'src/app/api/models/event.model';
 import { EventService } from 'src/app/home/event/event.service';
 
 import { EventTypes } from '../../../enums/event-types.enum';
 import { EventFilterModel } from '../../models/event-filter.model';
 import {
-  NgbDate,
   NgbDateStruct,
   NgbCalendar,
   NgbModal
 } from '@ng-bootstrap/ng-bootstrap';
 import { DateNgBootstrapModel } from '../../models/date-ngbootstrap.model';
 import { NgbDateToMoment } from '../../../utils/ngb-date-to-moment';
-import { ClassGetter } from '@angular/compiler/src/output/output_ast';
 import { ParseMinToHM } from '../../../utils/parse-min-to-hm';
 import { EditEventComponent } from '../modals/edit-event/edit-event.component';
 import { DeleteEventComponent } from '../modals/delete-event/delete-event.component';
+import { ResponseEventModel } from 'src/app/api/models/response/response-event.model';
 
 @Component({
   selector: 'app-event-list',
@@ -27,14 +25,13 @@ import { DeleteEventComponent } from '../modals/delete-event/delete-event.compon
   styleUrls: ['./event-list.component.scss']
 })
 export class EventListComponent implements OnInit, OnDestroy {
-  filteredEventEmitter = new EventEmitter<ExtendedEventModel[]>();
 
   subs: Subscription;
 
   filterForm: FormGroup;
 
-  eventList: ExtendedEventModel[];
-  filterableEventList: ExtendedEventModel[] = [];
+  eventList: any[];
+  filterableEventList: any[] = [];
   eventTypesObject: any;
   eventTypes: EventTypes;
   eventTypeOptions: any[];
@@ -55,6 +52,7 @@ export class EventListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subs = new Subscription();
+    this.subs.add(this.eventService.initEventList().subscribe());
     this.eventTypeOptions = Object.assign(EventTypes);
     this.initFilterForm();
     this.disabled = false;
@@ -80,25 +78,21 @@ export class EventListComponent implements OnInit, OnDestroy {
   initEventList() {
     this.subs.add(this.eventService._eventList
       .pipe(
-        map((eventsList: ExtendedEventModel[]) => {
-          const convertedViewList = [];
+        map((eventsList: ResponseEventModel[]) => {
           if (eventsList) {
-            eventsList.forEach((eventItem: ExtendedEventModel) => {
-                const newConvertedItem = {
-                  uniqueSecondaryId: eventItem.uniqueSecondaryId,
-                  timeInMin: ParseMinToHM.parseMinutesToHourMinFormat(eventItem.timeInMin),
-                  eventType: {key: eventItem.eventType.key, value: eventItem.eventType.value},
-                  createDate: eventItem.createDate,
-                  createTime: eventItem.createTime
-                };
-                convertedViewList.push(newConvertedItem);
-            });
+            return eventsList.map((eventItem: ResponseEventModel) =>
+              Object.prototype.constructor({
+                id: eventItem.id,
+                uniqueSecondaryId: eventItem.uniqueSecondaryId,
+                timeInMin: ParseMinToHM.parseMinutesToHourMinFormat(eventItem.timeInMin),
+                eventType: eventItem.eventType,
+                createDate: eventItem.createDate,
+                createTime: eventItem.createTime
+              })
+            );
           }
-
-          return convertedViewList;
         })
-      )
-      .subscribe((list: any[]) => {
+      ).subscribe((list: any[]) => {
         if (list) {
           this.eventList = list;
           this.filterableEventList = [...this.eventList];
@@ -113,7 +107,6 @@ export class EventListComponent implements OnInit, OnDestroy {
         const dateFrom = form.dateFrom;
         const dateTo = form.dateTo;
         this.dateCompareCheck(dateFrom, dateTo);
-        this.filterableEventList = [...this.eventList];
       }));
   }
 
@@ -137,43 +130,46 @@ export class EventListComponent implements OnInit, OnDestroy {
   }
 
   submitFilterForm(filterData: EventFilterModel) {
-    const temp = [...this.filterableEventList];
+
+    const resultFilter = {
+      eventType: null,
+      dateFrom: null,
+      dateTo: null
+    };
 
     if (filterData.eventType && filterData.dateFrom && filterData.dateTo) {
-      const dateFrom = NgbDateToMoment.convertNgbDateToMoment(
-        filterData.dateFrom
-      );
+      const dateFrom = NgbDateToMoment.convertNgbDateToMoment(filterData.dateFrom);
       const dateTo = NgbDateToMoment.convertNgbDateToMoment(filterData.dateTo);
 
-      this.filterableEventList = temp.filter(
-        (event: ExtendedEventModel) =>
-          event.eventType.key === filterData.eventType &&
-          moment(event.createDate).isSameOrAfter(dateFrom) &&
-          moment(event.createDate).isSameOrBefore(dateTo)
-      );
+      resultFilter.eventType = filterData.eventType;
+      resultFilter.dateFrom = moment(dateFrom).isSameOrBefore(dateTo) ? dateFrom : moment();
+      resultFilter.dateTo = moment(dateFrom).isSameOrBefore(dateTo) ? dateTo : moment();
+
     }
 
     if (!filterData.eventType && filterData.dateFrom && filterData.dateTo) {
-      const dateFrom = NgbDateToMoment.convertNgbDateToMoment(
-        filterData.dateFrom
-      );
+      const dateFrom = NgbDateToMoment.convertNgbDateToMoment(filterData.dateFrom);
       const dateTo = NgbDateToMoment.convertNgbDateToMoment(filterData.dateTo);
 
-      this.filterableEventList = temp.filter(
-        (event: ExtendedEventModel) =>
-          moment(event.createDate).isSameOrAfter(dateFrom) &&
-          moment(event.createDate).isSameOrBefore(dateTo)
-      );
+      resultFilter.dateFrom = moment(dateFrom).isSameOrBefore(dateTo) ? dateFrom : moment();
+      resultFilter.dateTo = moment(dateFrom).isSameOrBefore(dateTo) ? dateTo : moment();
     }
 
     if (filterData.eventType && !filterData.dateFrom && !filterData.dateTo) {
-      this.filterableEventList = temp.filter(
-        (event: ExtendedEventModel) =>
-          event.eventType.key === filterData.eventType
-      );
+      resultFilter.eventType = filterData.eventType;
+      resultFilter.dateFrom = moment().add(-1, 'day');
+      resultFilter.dateTo = moment();
     }
 
-    this.eventService.updateFilteredEventList(this.filterableEventList);
+    if (!filterData.eventType && !filterData.dateFrom && !filterData.dateTo) {
+      resultFilter.dateFrom = moment().add(-1, 'day');
+      resultFilter.dateTo = moment();
+    }
+
+    this.subs.add(this.eventService.initEventList(resultFilter)
+      .subscribe((filteredEvents: ResponseEventModel[]) => {
+        this.eventService.filterEvents(filteredEvents);
+    }));
   }
 
   clickedRow(eventObject: any) {
@@ -187,9 +183,11 @@ export class EventListComponent implements OnInit, OnDestroy {
       const editModalRef = this.modalService.open(EditEventComponent);
       editModalRef.componentInstance.eventItemObject = this.clickedRowObject;
 
-      editModalRef.result.then((editedItem: any) => {
+      editModalRef.result.then((editedItem: ResponseEventModel) => {
         if (editedItem) {
-          console.log(editedItem);
+          this.eventService.modifyEvent(editedItem)
+            .then(() => console.log('Successful'))
+            .catch(response => console.log(response));
         }
       });
     }
@@ -200,9 +198,11 @@ export class EventListComponent implements OnInit, OnDestroy {
       const deleteModalRef = this.modalService.open(DeleteEventComponent);
       deleteModalRef.componentInstance.deletableEvent = this.clickedRowObject;
 
-      deleteModalRef.result.then((deletedItem: any) => {
+      deleteModalRef.result.then((deletedItem: ResponseEventModel) => {
         if (deletedItem) {
-          console.log(deletedItem);
+          this.eventService.deleteEvent(deletedItem)
+            .then(() => console.log('Successful'))
+            .catch(response => console.log(response));
         }
       });
     }
