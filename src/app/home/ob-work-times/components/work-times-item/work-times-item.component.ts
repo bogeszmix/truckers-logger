@@ -88,7 +88,7 @@ export class WorkTimesItemComponent implements OnInit, OnChanges {
     }
 
     monthModalRef.result.then((resultData: any) => {
-      if (resultData) { 
+      if (resultData) {
         this.timeData.obTime = resultData.workTime;
       }
     });
