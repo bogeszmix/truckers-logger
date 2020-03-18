@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ObWorkTimeModel } from 'src/app/api/models/request/ob-work-time.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ResponseObWorkTimeModel } from 'src/app/api/models/response/response-ob-work-time.model';
+import { ParseMinToHM } from 'src/app/home/utils/parse-min-to-hm';
+import { WorkTimeRegex } from 'src/app/home/enums/work-time-regex.enum';
 
 @Component({
   selector: 'app-edit-ob-work-times',
@@ -10,7 +12,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class EditObWorkTimesComponent implements OnInit {
 
-  data: any;
+  data: ResponseObWorkTimeModel;
 
   editWorkForm: FormGroup;
 
@@ -25,7 +27,11 @@ export class EditObWorkTimesComponent implements OnInit {
 
   initForm() {
     this.editWorkForm = this.formBuilder.group({
-      workTime: [this.data.obTime, [Validators.required]]
+      workTime: [ParseMinToHM.parseMinutesToHourMinFormat(this.data.obWorkTime),
+          [
+            Validators.required,
+            Validators.pattern(new RegExp(WorkTimeRegex.FORMAT))
+          ]]
     });
   }
 
@@ -34,8 +40,9 @@ export class EditObWorkTimesComponent implements OnInit {
   }
 
   submitForm(formValue: any) {
-    if (formValue) {
-      this.activeModal.close(formValue);
+    if (formValue && formValue.workTime) {
+      this.data.obWorkTime = ParseMinToHM.parseHourMinToMinutesFormat(formValue.workTime);
+      this.activeModal.close(this.data);
     }
   }
 

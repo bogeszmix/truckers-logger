@@ -10,16 +10,20 @@
         <div class="container card card-body">
             <div class="row justify-content-center">
                 <form [formGroup]="newMonthObWorkForm" (ngSubmit)="submitNewMonth(newMonthObWorkForm.value)" class="col-sm-12 col-md-6">
-                    <div class="form-group only-month-year-picker">
-                        <div class="input-group">
-                            <input class="form-control" placeholder="Válassz hónapot" name="d1"
-                                ngbDatepicker #d1="ngbDatepicker" formControlName="monthSelector" (navigate)="onDatePickerChange($event)">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
-                                    <i class="far fa-calendar-alt"></i>
-                                </button>
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <label for="yearSelect">Év</label>
+                        <select class="form-control" id="yearSelect" formControlName="yearSelector" required>
+                            <option *ngFor="let year of newFormYearList" value="{{ year }}">{{ year }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="monthSelect">Hónap</label>
+                        <select class="form-control" id="monthSelect" formControlName="monthSelector" required>
+                            <option value="null" selected disabled hidden>Kérjük válasszon</option>
+                            <option *ngFor="let month of newFormMonthList" value="{{ month }}">{{ month }}
+                            </option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="timeHour">Időtartam (óra)</label>
@@ -44,7 +48,7 @@
                     <label for="showYear">Kiválasztott év</label>
                     <select class="form-control" id="showYear" formControlName="year" required>
                         <option value="null" selected disabled hidden>Kérjük válasszon</option>
-                        <option *ngFor="let year of yearList" value="{{ year }}">{{ year }}</option>
+                        <option *ngFor="let year of filterYearList" value="{{ year }}">{{ year }}</option>
                     </select>
                 </div>
             </form>
