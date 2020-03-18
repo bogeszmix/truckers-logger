@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { EditObWorkTimesComponent } from '../modals/edit-ob-work-times/edit-ob-work-times.component';
 import { ResponseObWorkTimeModel } from 'src/app/api/models/response/response-ob-work-time.model';
 import { ObWorkTimesService } from '../../ob-work-times.service';
+import { DeleteObWorkTimesComponent } from '../modals/delete-ob-work-times/delete-ob-work-times.component';
 
 @Component({
   selector: 'app-work-times-item',
@@ -33,17 +34,32 @@ export class WorkTimesItemComponent implements OnInit, OnChanges {
     }
   }
 
-  editMonth(mData: ResponseObWorkTimeModel) {
+  editMonth(monthData: ResponseObWorkTimeModel) {
     const monthModalRef = this.modalService.open(EditObWorkTimesComponent);
-    if (mData) {
-      monthModalRef.componentInstance.data = mData;
+    if (monthData) {
+      monthModalRef.componentInstance.data = monthData;
     }
 
     monthModalRef.result.then((resultData: ResponseObWorkTimeModel) => {
       if (resultData) {
         this.workTimeService.modifyObWorkTime(resultData)
-        .then(() => console.log('Successful'))
-        .catch(response => console.log(response));
+          .then(() => console.log('Successful'))
+          .catch(response => console.log(response));
+      }
+    });
+  }
+
+  deleteMonth(monthData: ResponseObWorkTimeModel) {
+    const monthModalRef = this.modalService.open(DeleteObWorkTimesComponent);
+    if (monthData) {
+      monthModalRef.componentInstance.data = monthData;
+    }
+
+    monthModalRef.result.then((resultData: ResponseObWorkTimeModel) => {
+      if (resultData) {
+        this.workTimeService.deleteObWorkTime(resultData)
+          .then(() => console.log('Successful'))
+          .catch(response => console.log(response));
       }
     });
   }

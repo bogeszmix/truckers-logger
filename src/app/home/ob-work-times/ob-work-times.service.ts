@@ -62,4 +62,10 @@ export class ObWorkTimesService {
     }
   }
 
+  deleteObWorkTime(deleteableMonth: ResponseObWorkTimeModel): Promise<any> {
+    if (deleteableMonth) {
+      return this.apiWorkTimeService.deleteWorkTime(deleteableMonth);
+    }
+  }
+
 }
