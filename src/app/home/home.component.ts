@@ -20,9 +20,17 @@ export class HomeComponent implements OnInit {
 
   isSidebarOpened(event: boolean) {
     if (event) {
-      this.renderer.addClass(this.toggableSidebar.nativeElement.querySelector('.sidebar'), 'toggled');
+      this.addToggle();
     } else {
-      this.renderer.removeClass(this.toggableSidebar.nativeElement.querySelector('.sidebar'), 'toggled');
+      this.removeToggle();
     }
+  }
+
+  addToggle() {
+    this.renderer.addClass(this.toggableSidebar.nativeElement.querySelector('.sidebar'), 'toggled');
+  }
+
+  removeToggle() {
+    this.renderer.removeClass(this.toggableSidebar.nativeElement.querySelector('.sidebar'), 'toggled');
   }
 }
