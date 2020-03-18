@@ -21,7 +21,7 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
 
   newMonthObWorkForm: FormGroup;
   yearPickerForm: FormGroup;
-  filterYearList: number[];
+  filterYearList: number[] = [];
   newFormMonthList: string[] = [];
   newFormYearList: number[] = [];
 
@@ -34,7 +34,6 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.obWorkTimesSub = new Subscription();
-    this.filterYearList = [2019, 2020];
     this.initDatePickerValues();
     this.initMonthList();
     this.initYearPickerForm();
@@ -50,8 +49,9 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
 
   initDatePickerValues() {
     this.newFormMonthList = moment.months();
-    for (let i = moment().year(); i >= 2000; i--) {
+    for (let i = moment().add(1, 'year').year(); i >= 2000; i--) {
       this.newFormYearList.push(i);
+      this.filterYearList.push(i);
     }
   }
 
@@ -76,7 +76,7 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
 
   initYearPickerForm() {
     this.yearPickerForm = this.formBuilder.group({
-      year: [null]
+      year: [moment().year()]
     });
   }
 
