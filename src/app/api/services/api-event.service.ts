@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { ResponseEventModel } from '../models/response/response-event.model';
 import { RequestEventModel } from '../models/request/request-event.model';
 
