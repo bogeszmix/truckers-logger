@@ -12,6 +12,7 @@ import { RequestObWorkTimeModel } from 'src/app/api/models/request/request-ob-wo
 import { ParseMinToHM } from '../utils/parse-min-to-hm';
 import { AuthService } from 'src/app/auth/auth.service';
 import { WorkTimeRegex } from '../enums/work-time-regex.enum';
+import { ToastService } from '../shared/toast/toast.service';
 
 @Component({
   selector: 'app-ob-work-times',
@@ -32,6 +33,7 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private obWorkService: ObWorkTimesService,
+    private toastService: ToastService,
     private authService: AuthService
   ) {}
 
@@ -106,8 +108,8 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
         userId: this.authService.getCurrentLoggedInUser().uid
       } as RequestObWorkTimeModel;
       this.obWorkService.addNewMonth(newWorkTimeModel)
-        .then(() => console.log('Successful'))
-        .catch(response => console.log(response));
+      .then(() => this.toastService.showSuccess('Sikeresen létrehozva'))
+      .catch(response => this.toastService.showAlert('Hiba történt'));
     }
   }
 
