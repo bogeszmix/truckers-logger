@@ -23,9 +23,11 @@ export class APIEventService {
         return null;
     }
 
-    readEvents(): Observable<any> {
-        return this.dbConn.collection(this.BASE_URL, ref => ref.where('userId', '==', 'AASdaasdeare3332432x'))
-            .snapshotChanges();
+    readEvents(loggedInUser: firebase.User): Observable<any> {
+        if (loggedInUser) {
+            return this.dbConn.collection(this.BASE_URL, ref => ref.where('userId', '==', loggedInUser.uid))
+                .snapshotChanges();
+        }
     }
 
     updateEvent(event: ResponseEventModel): Promise<any> {

@@ -18,7 +18,7 @@
                         </div>
                         <div class="form-group text-center mt-4">
                             <button class="btn btn-primary" type="submit" (click)="login(loginForm.value)"
-                                [disabled]="!loginForm">Bejelentkezés</button>
+                                [disabled]="!loginForm.valid">Bejelentkezés</button>
                         </div>
                     </form>
                 </div>
