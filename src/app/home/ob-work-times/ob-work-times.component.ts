@@ -10,6 +10,8 @@ import * as moment from 'moment';
 import { ResponseObWorkTimeModel } from 'src/app/api/models/response/response-ob-work-time.model';
 import { RequestObWorkTimeModel } from 'src/app/api/models/request/request-ob-work-time.model';
 import { ParseMinToHM } from '../utils/parse-min-to-hm';
+import { AuthService } from 'src/app/auth/auth.service';
+import { WorkTimeRegex } from '../enums/work-time-regex.enum';
 
 @Component({
   selector: 'app-ob-work-times',
@@ -29,7 +31,8 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
-    private obWorkService: ObWorkTimesService
+    private obWorkService: ObWorkTimesService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -70,7 +73,7 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
     this.newMonthObWorkForm = this.formBuilder.group({
       monthSelector: [null, Validators.required],
       yearSelector: [moment().year(), Validators.required],
-      obWorkTime: ['']
+      obWorkTime: ['', Validators.pattern(new RegExp(WorkTimeRegex.FORMAT))]
     });
   }
 
@@ -100,7 +103,7 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
           .month(newObWorkMonth.monthSelector)
           .format(moment.HTML5_FMT.DATE),
         obWorkTime: ParseMinToHM.parseHourMinToMinutesFormat(newObWorkMonth.obWorkTime),
-        userId: 'AASdaasdeare3332432x'
+        userId: this.authService.getCurrentLoggedInUser().uid
       } as RequestObWorkTimeModel;
       this.obWorkService.addNewMonth(newWorkTimeModel)
         .then(() => console.log('Successful'))

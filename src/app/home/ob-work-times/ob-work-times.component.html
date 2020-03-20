@@ -26,8 +26,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="timeHour">Időtartam (óra)</label>
-                        <input type="number" class="form-control" id="timeHour" placeholder="Időtartam (óra)" formControlName="obWorkTime" min="0" max="23">
+                        <label for="timeHour">Időtartam (óra:perc)</label>
+                        <input type="text" class="form-control" id="timeHour" placeholder="Időtartam (óra:perc)" formControlName="obWorkTime">
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary col-12" [disabled]="!newMonthObWorkForm.valid">Mentés</button>

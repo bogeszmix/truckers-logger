@@ -23,9 +23,11 @@ export class APIObWorkService {
         return null;
     }
 
-    readWorkTimes(): Observable<any> {
-        return this.dbConn.collection(this.BASE_URL, ref => ref.where('userId', '==', 'AASdaasdeare3332432x'))
-            .snapshotChanges();
+    readWorkTimes(loggedInUser: firebase.User): Observable<any> {
+        if (loggedInUser) {
+            return this.dbConn.collection(this.BASE_URL, ref => ref.where('userId', '==', loggedInUser.uid))
+                .snapshotChanges();
+        }
     }
 
     updateWorkTime(workTime: ResponseObWorkTimeModel): Promise<any> {

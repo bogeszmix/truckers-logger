@@ -6,6 +6,7 @@ import { tap, map } from 'rxjs/operators';
 import { ResponseEventModel } from 'src/app/api/models/response/response-event.model';
 import { APIEventService } from 'src/app/api/services/api-event.service';
 import { RequestEventModel } from 'src/app/api/models/request/request-event.model';
+import { AuthService } from 'src/app/auth/auth.service';
 
 
 @Injectable({
@@ -17,7 +18,8 @@ export class EventService {
   private filteredEventListSub = new BehaviorSubject<ResponseEventModel[]>([]);
 
   constructor(
-    private eventAPI: APIEventService
+    private eventAPI: APIEventService,
+    private authService: AuthService
   ) { }
 
   get _eventList() {
@@ -33,7 +35,7 @@ export class EventService {
   }
 
   initEventList(filter?: { eventType: string, dateFrom: string, dateTo: string }): Observable<any> {
-    return this.eventAPI.readEvents().pipe(
+    return this.eventAPI.readEvents(this.authService.getCurrentLoggedInUser()).pipe(
       map((eventMetaArray: any[]) =>
         eventMetaArray.filter((item: any) => {
           const eventFields = item.payload.doc.data();

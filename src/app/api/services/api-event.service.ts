@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { ResponseEventModel } from '../models/response/response-event.model';
 import { RequestEventModel } from '../models/request/request-event.model';
 
@@ -24,9 +23,11 @@ export class APIEventService {
         return null;
     }
 
-    readEvents(): Observable<any> {
-        return this.dbConn.collection(this.BASE_URL, ref => ref.where('userId', '==', 'AASdaasdeare3332432x'))
-            .snapshotChanges();
+    readEvents(loggedInUser: firebase.User): Observable<any> {
+        if (loggedInUser) {
+            return this.dbConn.collection(this.BASE_URL, ref => ref.where('userId', '==', loggedInUser.uid))
+                .snapshotChanges();
+        }
     }
 
     updateEvent(event: ResponseEventModel): Promise<any> {
