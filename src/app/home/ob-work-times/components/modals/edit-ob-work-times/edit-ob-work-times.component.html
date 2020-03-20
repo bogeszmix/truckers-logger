@@ -10,6 +10,9 @@
             <label for="obWork">Munkaóra szám</label>
             <input id="obWork" class="form-control" type="text" placeholder="Add meg a kötelező óraszámot"
                 formControlName="workTime">
+            <div class="text-center" *ngIf="editWorkForm.controls.workTime.hasError('pattern')">
+                <span class="text-warning">Nem megfelelő idő formátum. Helyes formátum például: 5:34</span>
+            </div>
         </div>
     </form>
 </div>
