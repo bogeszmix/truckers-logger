@@ -6,6 +6,7 @@ import { EditObWorkTimesComponent } from '../modals/edit-ob-work-times/edit-ob-w
 import { ResponseObWorkTimeModel } from 'src/app/api/models/response/response-ob-work-time.model';
 import { ObWorkTimesService } from '../../ob-work-times.service';
 import { DeleteObWorkTimesComponent } from '../modals/delete-ob-work-times/delete-ob-work-times.component';
+import { ToastService } from 'src/app/home/shared/toast/toast.service';
 
 @Component({
   selector: 'app-work-times-item',
@@ -20,7 +21,8 @@ export class WorkTimesItemComponent implements OnInit, OnChanges {
 
   constructor(
     private modalService: NgbModal,
-    private workTimeService: ObWorkTimesService
+    private workTimeService: ObWorkTimesService,
+    private toastService: ToastService
   ) { }
 
   ngOnInit() {}
@@ -43,8 +45,8 @@ export class WorkTimesItemComponent implements OnInit, OnChanges {
     monthModalRef.result.then((resultData: ResponseObWorkTimeModel) => {
       if (resultData) {
         this.workTimeService.modifyObWorkTime(resultData)
-          .then(() => console.log('Successful'))
-          .catch(response => console.log(response));
+        .then(() => this.toastService.showSuccess('Sikeresen módosítva'))
+        .catch(response => this.toastService.showAlert('Hiba történt'));
       }
     });
   }
@@ -58,8 +60,8 @@ export class WorkTimesItemComponent implements OnInit, OnChanges {
     monthModalRef.result.then((resultData: ResponseObWorkTimeModel) => {
       if (resultData) {
         this.workTimeService.deleteObWorkTime(resultData)
-          .then(() => console.log('Successful'))
-          .catch(response => console.log(response));
+        .then(() => this.toastService.showSuccess('Sikeresen törölve'))
+        .catch(response => this.toastService.showAlert('Hiba történt'));
       }
     });
   }

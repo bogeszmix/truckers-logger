@@ -4,6 +4,7 @@ import { EventService } from 'src/app/home/event/event.service';
 import { RequestEventModel } from 'src/app/api/models/request/request-event.model';
 import { ParseMinToHM } from 'src/app/home/utils/parse-min-to-hm';
 import { AuthService } from 'src/app/auth/auth.service';
+import { ToastService } from 'src/app/home/shared/toast/toast.service';
 
 @Component({
   selector: 'app-create-event',
@@ -14,7 +15,8 @@ export class CreateEventComponent implements OnInit {
 
   constructor(
     private eventService: EventService,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastService: ToastService
   ) { }
 
   ngOnInit() {}
@@ -30,11 +32,9 @@ export class CreateEventComponent implements OnInit {
         userId: this.authService.getCurrentLoggedInUser().uid
       };
       this.eventService.addNewEvent(newEvent)
-        .then(() => console.log('Successful'))
-        .catch(response => console.log(response));
+        .then(() => this.toastService.showSuccess('Sikeresen létrehozva'))
+        .catch(response => this.toastService.showAlert('Hiba történt'));
     }
   }
-
-
 
 }
