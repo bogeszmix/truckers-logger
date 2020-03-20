@@ -30,6 +30,8 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
 
   workTimesList: ResponseObWorkTimeModel[] = [];
 
+  isLoading = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private obWorkService: ObWorkTimesService,
@@ -61,7 +63,8 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
   }
 
   initMonthList() {
-    this.obWorkTimesSub.add(this.obWorkService.initWorkTimeList().subscribe());
+    this.isLoading = true;
+    this.obWorkTimesSub.add(this.obWorkService.initWorkTimeList().subscribe(() => this.isLoading = false));
     this.obWorkTimesSub.add(this.obWorkService._obWorkTimes.subscribe(
       (monthItems: ResponseObWorkTimeModel[]) => {
         if (monthItems) {

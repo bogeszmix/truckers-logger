@@ -56,6 +56,11 @@
                 </div>
             </form>
         </div>
+        <div class="row justify-content-center">
+            <div class="spinner-border text-primary" role="status" *ngIf="isLoading">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
         <app-work-times-item *ngFor="let monthItem of workTimesList" [monthData]="monthItem"></app-work-times-item>
     </div>
 </div>
