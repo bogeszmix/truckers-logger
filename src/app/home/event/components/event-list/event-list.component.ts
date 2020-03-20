@@ -44,6 +44,8 @@ export class EventListComponent implements OnInit, OnDestroy {
 
   clickedRowObject: any;
 
+  isLoading = false;
+
   constructor(
     private eventService: EventService,
     private formBuilder: FormBuilder,
@@ -54,7 +56,6 @@ export class EventListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subs = new Subscription();
-    this.subs.add(this.eventService.initEventList().subscribe());
     this.eventTypeOptions = Object.assign(EventTypes);
     this.initFilterForm();
     this.disabled = false;
@@ -78,6 +79,8 @@ export class EventListComponent implements OnInit, OnDestroy {
   }
 
   initEventList() {
+    this.isLoading = true;
+    this.subs.add(this.eventService.initEventList().subscribe(() => this.isLoading = false));
     this.subs.add(this.eventService._eventList
       .pipe(
         map((eventsList: ResponseEventModel[]) => {

@@ -95,6 +95,11 @@
               </div>
         </tbody>
       </table>
+      <div class="row justify-content-center">
+        <div class="spinner-border text-primary" role="status" *ngIf="isLoading">
+            <span class="sr-only">Loading...</span>
+        </div>
+      </div>
       <div class="col-12 justify-content-center mt-2 mb-5 p-0">
         <ngb-pagination [collectionSize]="filterableEventList.length" [(page)]="page" [pageSize]="pageSize"
           [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
