@@ -28,6 +28,9 @@
                     <div class="form-group">
                         <label for="timeHour">Időtartam (óra:perc)</label>
                         <input type="text" class="form-control" id="timeHour" placeholder="Időtartam (óra:perc)" formControlName="obWorkTime">
+                        <div class="text-center" *ngIf="newMonthObWorkForm.controls.obWorkTime.hasError('pattern')">
+                            <span class="text-warning">Nem megfelelő idő formátum. Helyes formátum például: 5:34</span>
+                        </div>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary col-12" [disabled]="!newMonthObWorkForm.valid">Mentés</button>

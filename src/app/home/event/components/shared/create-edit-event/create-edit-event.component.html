@@ -15,6 +15,9 @@
         <div class="form-group">
             <label for="time">Időtartam (óra:perc)</label>
             <input type="text" class="form-control" id="time" placeholder="Időtartam (óra:perc)" formControlName="time" required>
+            <div class="text-center" *ngIf="createEventForm.controls.time.hasError('pattern')">
+                <span class="text-warning">Nem megfelelő idő formátum. Helyes formátum például: 5:34</span>
+            </div>
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-primary col-12" [disabled]="!createEventForm.valid">Mentés</button>
