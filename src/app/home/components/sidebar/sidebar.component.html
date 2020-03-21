@@ -1,33 +1,35 @@
 <!-- Sidebar -->
-<ul class="navbar-nav">
-    <li class="nav-item" [routerLinkActive]="['active']">
-        <a class="nav-link" routerLink="/home/event">
-            <i class="fas fa-fw fa-tachometer-alt sidebar-menu-item"></i>
-            <span>Események</span>
-        </a>
-    </li>
-    <li class="nav-item" [routerLinkActive]="['active']">
-        <a class="nav-link" routerLink="/home/trailer">
-            <i class="fas fa-fw fa-truck sidebar-menu-item"></i>
-            <span>Szerelvények</span>
-        </a>
-    </li>
-    <li class="nav-item" [routerLinkActive]="['active']">
-        <a class="nav-link" routerLink="/home/journey-form">
-            <i class="fas fa-fw fa-clipboard sidebar-menu-item"></i>
-            <span>Menetlevelek</span>
-        </a>
-    </li>
-    <li class="nav-item" [routerLinkActive]="['active']">
-        <a class="nav-link" routerLink="/home/ob-work-times">
-            <i class="fas fa-business-time sidebar-menu-item"></i>
-            <span>Munkaórák</span>
-        </a>
-    </li>
-    <li class="nav-item" [routerLinkActive]="['active']">
-        <a class="nav-link" routerLink="/home/statistics">
-            <i class="fas fa-fw fa-chart-area sidebar-menu-item"></i>
-            <span>Statisztikák</span>
-        </a>
-    </li>
-</ul>
+<div *transloco="let t">
+    <ul class="navbar-nav">
+        <li class="nav-item" [routerLinkActive]="['active']">
+            <a class="nav-link" routerLink="/home/event">
+                <i class="fas fa-fw fa-tachometer-alt sidebar-menu-icon"></i>
+                <span>{{ t('HOME.SIDEBAR.MENU_ITEM_EVENTS')}}</span>
+            </a>
+        </li>
+        <li class="nav-item" [routerLinkActive]="['active']">
+            <a class="nav-link" routerLink="/home/trailer">
+                <i class="fas fa-fw fa-truck sidebar-menu-icon"></i>
+                <span>{{ t('HOME.SIDEBAR.MENU_ITEM_CARGO')}}</span>
+            </a>
+        </li>
+        <li class="nav-item" [routerLinkActive]="['active']">
+            <a class="nav-link" routerLink="/home/journey-form">
+                <i class="fas fa-fw fa-clipboard sidebar-menu-icon"></i>
+                <span>{{ t('HOME.SIDEBAR.MENU_ITEM_JOURNEYLIST')}}</span>
+            </a>
+        </li>
+        <li class="nav-item" [routerLinkActive]="['active']">
+            <a class="nav-link" routerLink="/home/ob-work-times">
+                <i class="fas fa-business-time sidebar-menu-icon"></i>
+                <span>{{ t('HOME.SIDEBAR.MENU_ITEM_OBWORK')}}</span>
+            </a>
+        </li>
+        <li class="nav-item" [routerLinkActive]="['active']">
+            <a class="nav-link" routerLink="/home/statistics">
+                <i class="fas fa-fw fa-chart-area sidebar-menu-icon"></i>
+                <span>{{ t('HOME.SIDEBAR.MENU_ITEM_STATISTICS')}}</span>
+            </a>
+        </li>
+    </ul>
+</div>

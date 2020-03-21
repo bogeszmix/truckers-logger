@@ -1,16 +1,18 @@
 <!-- New event add section -->
-<div class="card mb-3">
-    <div class="card-header">
-        <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#addNewEvent"
-            aria-expanded="false" aria-controls="addNewEvent">
-            Új esemény hozzáadása
-        </button>
-    </div>
-
-    <div class="collapse" id="addNewEvent">
-        <div class="container card card-body">
-            <div class="row justify-content-center">
-                <app-create-edit-event (formResult)="submitNewEvent($event)"></app-create-edit-event>
+<div *transloco="let t">
+    <div class="card mb-3">
+        <div class="card-header">
+            <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#addNewEvent"
+                aria-expanded="false" aria-controls="addNewEvent">
+                {{ t('EVENTS.CREATE_EVENT') }}
+            </button>
+        </div>
+    
+        <div class="collapse" id="addNewEvent">
+            <div class="container card card-body">
+                <div class="row justify-content-center">
+                    <app-create-edit-event (formResult)="submitNewEvent($event)"></app-create-edit-event>
+                </div>
             </div>
         </div>
     </div>

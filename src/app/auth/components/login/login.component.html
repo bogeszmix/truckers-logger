@@ -1,24 +1,24 @@
-<div class="container">
+<div *transloco="let t">
     <div class="row justify-content-center">
         <div class="col-lg-5">
             <div class="card shadow-lg border-0 rounded-lg mt-5">
                 <div class="card-header">
-                    <h3 class="text-center font-weight-light my-4">Bejelentkezés</h3>
+                    <h3 class="text-center font-weight-light my-4">{{ t('AUTH.LOGIN.TITLE') }}</h3>
                 </div>
                 <div class="card-body">
                     <form [formGroup]="loginForm">
                         <div class="form-group">
-                            <label class="small mb-1" for="inputEmailAddress">Email</label>
+                            <label class="small mb-1" for="inputEmailAddress">{{ t('AUTH.LOGIN.FORM.EMAIL_LABEL') }}</label>
                             <input class="form-control py-4" id="inputEmailAddress" type="email" formControlName="email"
-                                placeholder="Email cím" />
+                                placeholder="{{ t('AUTH.LOGIN.FORM.EMAIL_PLACEHOLDER_LABEL') }}" />
                         </div>
                         <div class="form-group">
-                            <label class="small mb-1" for="inputPassword">Jelszó</label>
-                            <input class="form-control py-4" id="inputPassword" type="password" formControlName="password" placeholder="Jelszó" />
+                            <label class="small mb-1" for="inputPassword">{{ t('AUTH.LOGIN.FORM.PASSWORD_LABEL') }}</label>
+                            <input class="form-control py-4" id="inputPassword" type="password" formControlName="password" placeholder="{{ t('AUTH.LOGIN.FORM.PASSWORD_PLACEHOLDER_LABEL') }}" />
                         </div>
                         <div class="form-group text-center mt-4">
                             <button class="btn btn-primary" type="submit" (click)="login(loginForm.value)"
-                                [disabled]="!loginForm.valid">Bejelentkezés</button>
+                                [disabled]="!loginForm.valid">{{ t('AUTH.LOGIN.FORM.BTN_SUBMIT_LABEL') }}</button>
                         </div>
                     </form>
                 </div>

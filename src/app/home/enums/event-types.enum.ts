@@ -1,8 +1,8 @@
 export enum EventTypes {
-    EVENT1 = 'Vezetés',
-    EVENT2 = 'Készenlét',
-    EVENT3 = 'Egyéb munka',
-    EVENT4 = 'Fizetett szabadság',
-    EVENT5 = 'Fizetett ünnep',
-    EVENT6 = 'Fizetett táppénz'
+    EVENT1 = 'EVENT1',
+    EVENT2 = 'EVENT2',
+    EVENT3 = 'EVENT3',
+    EVENT4 = 'EVENT4',
+    EVENT5 = 'EVENT5',
+    EVENT6 = 'EVENT6'
 }

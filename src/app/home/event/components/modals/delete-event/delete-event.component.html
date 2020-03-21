@@ -1,13 +1,17 @@
-<div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Esemény törlése</h4>
-    <button type="button" class="close" aria-label="Close" (click)="closeWithOutSave()">
-        <i class="fas fa-times"></i>
-    </button>
-</div>
-<div class="modal-body">
-    <p> Biztosan törli a {{ deletableEvent.uniqueSecondaryId }} azonosítójú eseményt?
-</div>
-<div class="modal-footer">
-    <button type="submit" class="btn btn-outline-primary" (click)="delete(deletableEvent)">Igen</button>
-    <button type="button" class="btn btn-outline-dark" (click)="closeWithOutSave()">Mégse</button>
+<div *transloco="let t">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{ t('EVENTS.MODALS.DELETE.TITLE') }}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeWithOutSave()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p> {{ t('EVENTS.MODALS.DELETE.SENTENCE_TEXT_PART_1') }}
+            {{ deletableEvent.uniqueSecondaryId }}
+            {{ t('EVENTS.MODALS.DELETE.SENTENCE_TEXT_PART_2') }}
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-primary" (click)="delete(deletableEvent)">{{ t('EVENTS.MODALS.DELETE.BTN_ACCEPT_LABEL') }}</button>
+        <button type="button" class="btn btn-outline-dark" (click)="closeWithOutSave()">{{ t('EVENTS.MODALS.DELETE.BTN_CANCEL_LABEL') }}</button>
+    </div>
 </div>

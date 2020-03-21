@@ -1,0 +1,13 @@
+.sidebar-menu-icon {
+    margin-right: 0.5rem;
+}
+
+.sidebar.toggled .sidebar-menu-icon {
+    margin-right: unset;
+}
+
+@media (max-width: 768px) {
+    .sidebar-menu-icon {
+        margin-right: unset;
+    }
+}

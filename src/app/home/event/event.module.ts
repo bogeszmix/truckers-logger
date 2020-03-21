@@ -16,6 +16,7 @@ import { EventComponent } from './event.component';
 import { EditEventComponent } from './components/modals/edit-event/edit-event.component';
 import { DeleteEventComponent } from './components/modals/delete-event/delete-event.component';
 import { CreateEditEventComponent } from './components/shared/create-edit-event/create-edit-event.component';
+import { TranslocoModule, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 
 @NgModule({
   declarations: [
@@ -35,8 +36,12 @@ import { CreateEditEventComponent } from './components/shared/create-edit-event/
     NgbPaginationModule,
     NgbDropdownModule,
     NgbModalModule,
+    TranslocoModule,
     EventRoutingModule
   ],
-  entryComponents: [EditEventComponent, DeleteEventComponent]
+  entryComponents: [EditEventComponent, DeleteEventComponent],
+  providers: [
+    { provide: TRANSLOCO_SCOPE, useValue: {scope: 'home/events', alias: 'EVENTS'} }
+  ]
 })
 export class EventModule {}

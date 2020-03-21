@@ -1,0 +1,12 @@
+{
+  "LOGIN": {
+    "TITLE": "Bejelentkezés",
+    "FORM": {
+      "EMAIL_LABEL": "Email",
+      "EMAIL_PLACEHOLDER_LABEL": "Email cím",
+      "PASSWORD_LABEL": "Jelszó",
+      "PASSWORD_PLACEHOLDER_LABEL": "Jelszó",
+      "BTN_SUBMIT_LABEL": "Bejelentkezés"
+    }
+  }
+}

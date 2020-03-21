@@ -1,108 +1,110 @@
 <!-- Events list -->
-<div class="card mb-3">
-  <div class="card-header">
-    <i class="fas fa-table"></i>
-    A rögzített események
-  </div>
-  <div class="card-body">
-    <div>
-      <button class="btn btn-outline-primary mb-2" type="button" data-toggle="collapse" data-target="#tableEventFilter"
-        aria-expanded="false" aria-controls="tableEventFilter">
-        Szűrő
-      </button>
-      <div class="container p-0 collapse" id="tableEventFilter">
-        <div class="row justify-content-center">
-          <form class="col-sm-12 col-md-6 text-center" [formGroup]="filterForm">
-            <div class="form-group ">
-              <div>
-                <select class="form-control" formControlName="eventType" required>
-                  <option value="null" selected>Mind</option>
-                  <option *ngFor="let eventType of eventTypeOptions | keyvalue" value="{{ eventType.key }}">
-                    {{ eventType.value }}</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group ">
-              <div class="input-group">
-                <input class="form-control" placeholder="Dátumtól" name="d1" ngbDatepicker #d1="ngbDatepicker"
-                  formControlName="dateFrom" [maxDate]="maxDate" />
-                <div class="input-group-append">
-                  <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
-                    <i class="far fa-calendar-alt"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="input-group">
-                <input class="form-control" placeholder="Dátumig" name="d2" ngbDatepicker #d2="ngbDatepicker"
-                  formControlName="dateTo" [maxDate]="maxDate" />
-                <div class="input-group-append">
-                  <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button">
-                    <i class="far fa-calendar-alt"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <button type="button" class="btn btn-primary col-12" (click)="resetFilter()">
-                Szűrés törlése
-              </button>
-            </div>
-            <div class="form-group">
-              <button type="submit" class="btn btn-primary col-12" [disabled]="disabled"
-                (click)="submitFilterForm(filterForm.value)">
-                Szűrés
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+<div *transloco="let t">
+  <div class="card mb-3">
+    <div class="card-header">
+      <i class="fas fa-table"></i>
+      {{ t('EVENTS.LIST_EVENT.TITLE') }}
     </div>
-    <div class="table-responsive">
-      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-        <thead>
-          <tr>
-            <th scope="col"></th>
-            <th scope="col">Időtartam (óra:perc)</th>
-            <th scope="col">Esemény</th>
-            <th scope="col">Rögzítve</th>
-            <th scope="col">Időpont</th>
-          </tr>
-        </thead>
-        <tbody class="dropdown no-arrow" *ngIf="filterableEventList.length > 0">
-          <tr class="dropdown-toggle" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false"
-            *ngFor="let event of filterableEventList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize"
-            [ngClass]="[
-                event.eventType === 'EVENT1' ? 'event-type-1' : '',
-                event.eventType === 'EVENT2' ? 'event-type-2' : '',
-                event.eventType === 'EVENT3' ? 'event-type-3' : '',
-                event.eventType === 'EVENT4' ? 'event-type-4' : '',
-                event.eventType === 'EVENT5' ? 'event-type-5' : ''
-              ]" (click)="clickedRow(event)">
-            <td scope="row" data-label=""> {{ event.uniqueSecondaryId }}</td>
-            <td data-label="Időtartam (óra:perc)">
-              {{ event.timeInMin }}
-            </td>
-            <td data-label="Esemény">{{ event.eventType }}</td>
-            <td data-label="Rögzítve">{{ event.createDate }}</td>
-            <td data-label="Időpont">{{ event.createTime }}</td>
-          </tr>
-              <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" (click)="editEvent()">Módosítás</a>
-                <a class="dropdown-item" (click)="deleteEvent()">Törlés</a>
+    <div class="card-body">
+      <div>
+        <button class="btn btn-outline-primary mb-2" type="button" data-toggle="collapse" data-target="#tableEventFilter"
+          aria-expanded="false" aria-controls="tableEventFilter">
+          {{ t('EVENTS.LIST_EVENT.FILTER.BTN_FILTER_COLLAPSE_LABEL') }}
+        </button>
+        <div class="container p-0 collapse" id="tableEventFilter">
+          <div class="row justify-content-center">
+            <form class="col-sm-12 col-md-6 text-center" [formGroup]="filterForm">
+              <div class="form-group ">
+                <div>
+                  <select class="form-control" formControlName="eventType" required>
+                    <option value="null" selected>{{ t('EVENTS.EVENT_TYPES.EVENT0') }}</option>
+                    <option *ngFor="let eventType of eventTypeOptions | keyvalue" value="{{ eventType.key }}">
+                      {{ t('EVENTS.EVENT_TYPES.' + eventType.value) }}</option>
+                  </select>
+                </div>
               </div>
-        </tbody>
-      </table>
-      <div class="row justify-content-center">
-        <div class="spinner-border text-primary" role="status" *ngIf="isLoading">
-            <span class="sr-only">Loading...</span>
+              <div class="form-group ">
+                <div class="input-group">
+                  <input class="form-control" placeholder="{{ t('EVENTS.LIST_EVENT.FILTER.FORM.DATE_FROM_PLACEHOLDER_LABEL') }}" name="d1" ngbDatepicker #d1="ngbDatepicker"
+                    formControlName="dateFrom" [maxDate]="maxDate" />
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
+                      <i class="far fa-calendar-alt"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" placeholder="{{ t('EVENTS.LIST_EVENT.FILTER.FORM.DATE_TO_PLACEHOLDER_LABEL') }}" name="d2" ngbDatepicker #d2="ngbDatepicker"
+                    formControlName="dateTo" [maxDate]="maxDate" />
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button">
+                      <i class="far fa-calendar-alt"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <button type="button" class="btn btn-primary col-12" (click)="resetFilter()">
+                  {{ t('EVENTS.LIST_EVENT.FILTER.BTN_DELETE_FILTER_LABEL') }}
+                </button>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary col-12" [disabled]="disabled"
+                  (click)="submitFilterForm(filterForm.value)">
+                  {{ t('EVENTS.LIST_EVENT.FILTER.BTN_FILTER_SUBMIT_LABEL') }}
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-      <div class="col-12 justify-content-center mt-2 mb-5 p-0">
-        <ngb-pagination [collectionSize]="filterableEventList.length" [(page)]="page" [pageSize]="pageSize"
-          [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">{{ t('EVENTS.LIST_EVENT.LIST.HEADERS.TIME') }}</th>
+              <th scope="col">{{ t('EVENTS.LIST_EVENT.LIST.HEADERS.EVENT_TYPE') }}</th>
+              <th scope="col">{{ t('EVENTS.LIST_EVENT.LIST.HEADERS.CREATED_DATE') }}</th>
+              <th scope="col">{{ t('EVENTS.LIST_EVENT.LIST.HEADERS.CREATED_TIME') }}</th>
+            </tr>
+          </thead>
+          <tbody class="dropdown no-arrow" *ngIf="filterableEventList.length > 0">
+            <tr class="dropdown-toggle" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false"
+              *ngFor="let event of filterableEventList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize"
+              [ngClass]="[
+                  event.eventType === 'EVENT1' ? 'event-type-1' : '',
+                  event.eventType === 'EVENT2' ? 'event-type-2' : '',
+                  event.eventType === 'EVENT3' ? 'event-type-3' : '',
+                  event.eventType === 'EVENT4' ? 'event-type-4' : '',
+                  event.eventType === 'EVENT5' ? 'event-type-5' : ''
+                ]" (click)="clickedRow(event)">
+              <td scope="row" attr.data-label=""> {{ event.uniqueSecondaryId }}</td>
+              <td [attr.data-label]=" t('EVENTS.LIST_EVENT.LIST.HEADERS.TIME')">
+                {{ event.timeInMin }}
+              </td>
+              <td [attr.data-label]="t('EVENTS.LIST_EVENT.LIST.HEADERS.EVENT_TYPE')">{{ t('EVENTS.EVENT_TYPES.' + event.eventType) }}</td>
+              <td [attr.data-label]="t('EVENTS.LIST_EVENT.LIST.HEADERS.CREATED_DATE')">{{ event.createDate }}</td>
+              <td [attr.data-label]="t('EVENTS.LIST_EVENT.LIST.HEADERS.CREATED_TIME')">{{ event.createTime }}</td>
+            </tr>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item" (click)="editEvent()">{{ t('EVENTS.LIST_EVENT.LIST.DROPDOWN_MENU.EDIT') }}</a>
+                  <a class="dropdown-item" (click)="deleteEvent()">{{ t('EVENTS.LIST_EVENT.LIST.DROPDOWN_MENU.DELETE') }}</a>
+                </div>
+          </tbody>
+        </table>
+        <div class="row justify-content-center">
+          <div class="spinner-border text-primary" role="status" *ngIf="isLoading">
+              <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+        <div class="col-12 justify-content-center mt-2 mb-5 p-0">
+          <ngb-pagination [collectionSize]="filterableEventList.length" [(page)]="page" [pageSize]="pageSize"
+            [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
+        </div>
       </div>
     </div>
   </div>

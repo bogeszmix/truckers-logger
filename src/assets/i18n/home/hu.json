@@ -1,0 +1,13 @@
+{
+    "TOPBAR": {
+        "APP_TITLE": "Trucker Logger",
+        "LOGOUT": "Kijelentkezés"
+    },
+    "SIDEBAR": {
+        "MENU_ITEM_EVENTS": "Események",
+        "MENU_ITEM_CARGO": "Szerelvények",
+        "MENU_ITEM_JOURNEYLIST": "Menetlevelek",
+        "MENU_ITEM_OBWORK": "Munkaórák",
+        "MENU_ITEM_STATISTICS": "Statisztikák"
+    }
+}

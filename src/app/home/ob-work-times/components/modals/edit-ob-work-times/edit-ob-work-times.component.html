@@ -1,21 +1,25 @@
-<div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Kötelező munkaóra módosítása</h4>
-    <button type="button" class="close" aria-label="Close" (click)="closeWithOutSave()">
-        <i class="fas fa-times"></i>
-    </button>
-</div>
-<div class="modal-body">
-    <form [formGroup]="editWorkForm">
-        <div class="form-group">
-            <label for="obWork">Munkaóra szám</label>
-            <input id="obWork" class="form-control" type="text" placeholder="Add meg a kötelező óraszámot"
-                formControlName="workTime">
-            <div class="text-center" *ngIf="editWorkForm.controls.workTime.hasError('pattern')">
-                <span class="text-warning">Nem megfelelő idő formátum. Helyes formátum például: 5:34</span>
+<div *transloco="let t">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{ t('OBWORK.EDIT_OBWORK.TITLE') }}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeWithOutSave()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="editWorkForm">
+            <div class="form-group">
+                <label for="obWork">{{ t('OBWORK.EDIT_OBWORK.FORM.TIME_LABEL') }}</label>
+                <input id="obWork" class="form-control" type="text" placeholder="{{ t('OBWORK.EDIT_OBWORK.FORM.TIME_PLACEHOLDER_LABEL') }}"
+                    formControlName="workTime">
+                <div class="text-center" *ngIf="editWorkForm.controls.workTime.hasError('pattern')">
+                    <span class="text-danger">{{ t('OBWORK.EDIT_OBWORK.FORM.TIME_ERROR_MESSAGE') }}</span>
+                </div>
             </div>
-        </div>
-    </form>
-</div>
-<div class="modal-footer">
-    <button type="submit" class="btn btn-outline-primary" [disabled]="!editWorkForm.valid" (click)="submitForm(editWorkForm.value)">Mentés</button>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-primary" [disabled]="!editWorkForm.valid" (click)="submitForm(editWorkForm.value)">
+            {{ t('OBWORK.EDIT_OBWORK.FORM.BTN_SAVE_LABEL') }}
+        </button>
+    </div>
 </div>
