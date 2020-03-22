@@ -1,9 +1,11 @@
-<div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Esemény módosítása</h4>
-    <button type="button" class="close" aria-label="Close" (click)="closeWithOutSave()">
-        <i class="fas fa-times"></i>
-    </button>
-</div>
-<div class="modal-body">
-    <app-create-edit-event [editableEvent]="eventItemObject" (formResult)="submitEditEvent($event)"></app-create-edit-event>
+<div *transloco="let t">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{ t('EVENTS.EDIT_EVENT') }}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeWithOutSave()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div class="modal-body">
+        <app-create-edit-event [editableEvent]="eventItemObject" (formResult)="submitEditEvent($event)"></app-create-edit-event>
+    </div>
 </div>

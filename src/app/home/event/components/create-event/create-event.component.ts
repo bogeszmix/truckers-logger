@@ -5,6 +5,7 @@ import { RequestEventModel } from 'src/app/api/models/request/request-event.mode
 import { ParseMinToHM } from 'src/app/home/utils/parse-min-to-hm';
 import { AuthService } from 'src/app/auth/auth.service';
 import { ToastService } from 'src/app/home/shared/toast/toast.service';
+import { TranslationService } from 'src/app/translation/translation.service';
 
 @Component({
   selector: 'app-create-event',
@@ -16,6 +17,7 @@ export class CreateEventComponent implements OnInit {
   constructor(
     private eventService: EventService,
     private authService: AuthService,
+    private translationService: TranslationService,
     private toastService: ToastService
   ) { }
 
@@ -32,8 +34,12 @@ export class CreateEventComponent implements OnInit {
         userId: this.authService.getCurrentLoggedInUser().uid
       };
       this.eventService.addNewEvent(newEvent)
-        .then(() => this.toastService.showSuccess('Sikeresen létrehozva'))
-        .catch(response => this.toastService.showAlert('Hiba történt'));
+        .then(() => this.toastService.showSuccess(
+          this.translationService.getInstant('EVENTS.TOAST.CREATED_SUCCESSFUL')
+        ))
+        .catch(response => this.toastService.showAlert(
+          this.translationService.getInstant('EVENTS.TOAST.SOMETHING_WENT_WRONG')
+        ));
     }
   }
 

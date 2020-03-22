@@ -1,0 +1,49 @@
+{
+    "NEW_OBWORK": {
+        "TITLE": "Új hónap hozzáadása",
+        "FORM": {
+            "DEFAULT_OPTION": "Kérjük válasszon",
+            "YEAR_LABEL": "Év",
+            "MONTH_LABEL": "Hónap",
+            "TIME_LABEL": "Időtartam (óra:perc)",
+            "TIME_PLACEHOLDER_LABEL": "Időtartam (óra:perc)",
+            "TIME_ERROR_MESSAGE_TEXT": "Nem megfelelő idő formátum. Helyes formátum például: 5:34",
+            "ALREADY_MONTH_ERROR_MESSAGE": "Az adott hónap már felvételre került a rendszerben",
+            "BTN_SAVE_LABEL": "Mentés"
+        }
+    },
+    "DELETE_OBWORK": {
+        "TITLE": "Esemény törlése",
+        "SENTENCE_TEXT": "Biztosan törli az adott hónapot?",
+        "BTN_ACCEPT_LABEL": "Igen",
+        "BTN_CANCEL_LABEL": "Mégse"
+    },
+    "EDIT_OBWORK": {
+        "TITLE": "Kötelező munkaóra módosítása",
+        "FORM": {
+            "TIME_LABEL": "Munkaóra szám",
+            "TIME_PLACEHOLDER_LABEL": "Add meg a kötelező óraszámot",
+            "TIME_ERROR_MESSAGE": "Nem megfelelő idő formátum. Helyes formátum például: 5:34",
+            "BTN_SAVE_LABEL": "Mentés"
+        }
+    },
+    "LIST_OBWORK": {
+        "TITLE": "Munkaórák kimutatása (óra:perc)",
+        "FORM": {
+            "DEFAULT_OPTION": "Kérjük válasszon",
+            "YEAR_PICK_LABEL": "Kiválasztott év"
+
+        }
+    },
+    "LIST_ITEM": {
+        "DATE_LABEL": "Dátum:",
+        "OB_TIME": "Kötelező idő:",
+        "BTN_MODIFY_LABEL": "Módosítás"
+    },
+    "TOAST": {
+        "CREATED_SUCCESSFUL": "Az új havi óra nyílvántartás sikeresen létrehozva",
+        "EDITED_SUCCESSFUL": "A havi óra nyílvántartás sikeresen módosítva",
+        "DELETED_SUCCESSFUL": "A havi óra nyílvántartás sikeresen törölve",
+        "SOMETHING_WENT_WRONG": "Hiba történt"
+    }
+}

@@ -1,15 +1,21 @@
-<div class="card mb-3">
-    <div class="card-header">
-        <div class="row">
-            <div class="col-12 col-md-4 align-self-center">Dátum: {{ timeData?.date }}</div>
-            <div class="col-12 col-md-3 align-self-center">
-                Kötelező idő: {{ timeData?.obTime }}
-            </div>
-            <div class="col-12 col-md-5 text-center text-sm-right align-self-center mt-2 mt-md-0">
-                <button class="btn btn-primary mr-2" (click)="editMonth(monthData)">Módosítás</button>
-                <button type="button" class="btn btn-outline-warning" (click)="deleteMonth(monthData)">
-                    <i class="fas fa-trash"></i>
-                </button>
+<div *transloco="let t">
+    <div class="card mb-3">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-12 col-md-4 align-self-center">
+                    {{ t('OBWORK.LIST_ITEM.DATE_LABEL') }} {{ timeData?.date }}
+                </div>
+                <div class="col-12 col-md-3 align-self-center">
+                    {{ t('OBWORK.LIST_ITEM.OB_TIME') }} {{ timeData?.obTime }}
+                </div>
+                <div class="col-12 col-md-5 text-center text-sm-right align-self-center mt-2 mt-md-0">
+                    <button class="btn btn-primary mr-2" (click)="editMonth(monthData)">
+                        {{ t('OBWORK.LIST_ITEM.BTN_MODIFY_LABEL') }}
+                    </button>
+                    <button type="button" class="btn btn-outline-warning" (click)="deleteMonth(monthData)">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>

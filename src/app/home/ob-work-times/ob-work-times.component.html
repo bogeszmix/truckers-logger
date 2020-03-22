@@ -1,66 +1,73 @@
-<div class="card mb-3">
-    <div class="card-header">
-        <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#newMonthObWork"
-            aria-expanded="false" aria-controls="newMonthObWork">
-            Új hónap hozzáadása
-        </button>
-    </div>
-
-    <div class="collapse" id="newMonthObWork">
-        <div class="container card card-body">
-            <div class="row justify-content-center">
-                <form [formGroup]="newMonthObWorkForm" (ngSubmit)="submitNewMonth(newMonthObWorkForm.value)" class="col-sm-12 col-md-6">
-                    <div class="form-group">
-                        <label for="yearSelect">Év</label>
-                        <select class="form-control" id="yearSelect" formControlName="yearSelector" required>
-                            <option *ngFor="let year of newFormYearList" value="{{ year }}">{{ year }}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="monthSelect">Hónap</label>
-                        <select class="form-control" id="monthSelect" formControlName="monthSelector" required>
-                            <option value="null" selected disabled hidden>Kérjük válasszon</option>
-                            <option *ngFor="let month of newFormMonthList" value="{{ month }}">{{ month }}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="timeHour">Időtartam (óra:perc)</label>
-                        <input type="text" class="form-control" id="timeHour" placeholder="Időtartam (óra:perc)" formControlName="obWorkTime">
-                        <div class="text-center" *ngIf="newMonthObWorkForm.controls.obWorkTime.hasError('pattern')">
-                            <span class="text-warning">Nem megfelelő idő formátum. Helyes formátum például: 5:34</span>
+<div *transloco="let t">
+    <div class="card mb-3">
+        <div class="card-header">
+            <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#newMonthObWork"
+                aria-expanded="false" aria-controls="newMonthObWork">
+                {{ t('OBWORK.NEW_OBWORK.TITLE') }}
+            </button>
+        </div>
+    
+        <div class="collapse" id="newMonthObWork">
+            <div class="container card card-body">
+                <div class="row justify-content-center">
+                    <form [formGroup]="newMonthObWorkForm" (ngSubmit)="submitNewMonth(newMonthObWorkForm.value)" class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label for="yearSelect">{{ t('OBWORK.NEW_OBWORK.FORM.YEAR_LABEL') }}</label>
+                            <select class="form-control" id="yearSelect" formControlName="yearSelector" required>
+                                <option *ngFor="let year of newFormYearList" value="{{ year }}">{{ year }}
+                                </option>
+                            </select>
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <label for="monthSelect">{{ t('OBWORK.NEW_OBWORK.FORM.MONTH_LABEL') }}</label>
+                            <select class="form-control" id="monthSelect" formControlName="monthSelector" required>
+                                <option value="null" selected disabled hidden>{{ t('OBWORK.NEW_OBWORK.FORM.DEFAULT_OPTION') }}</option>
+                                <option *ngFor="let month of newFormMonthList" value="{{ month }}">{{ month }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="timeHour">{{ t('OBWORK.NEW_OBWORK.FORM.TIME_LABEL') }}</label>
+                            <input type="text" class="form-control" id="timeHour" placeholder="{{ t('OBWORK.NEW_OBWORK.FORM.TIME_PLACEHOLDER_LABEL') }}" formControlName="obWorkTime">
+                            <div class="text-center" *ngIf="newMonthObWorkForm.controls.obWorkTime.hasError('pattern')">
+                                <span class="text-danger">{{ t('OBWORK.NEW_OBWORK.FORM.TIME_ERROR_MESSAGE_TEXT') }}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="text-center" *ngIf="isMonthAlreadyExist">
+                                <span class="text-danger">{{ t('OBWORK.NEW_OBWORK.FORM.TIME_ERROR_MESSAGE_TEXT') }}</span>
+                            </div>
+                            <button type="submit" class="btn btn-primary col-12" [disabled]="!newMonthObWorkForm.valid">
+                                {{ t('OBWORK.NEW_OBWORK.FORM.BTN_SAVE_LABEL') }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="card-header">
+            {{ t('OBWORK.LIST_OBWORK.TITLE') }}
+        </div>
+        <div class="card-body">
+            <div class="row justify-content-center">
+                <form class="col-sm-12 col-md-6" [formGroup]="yearPickerForm">
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary col-12" [disabled]="!newMonthObWorkForm.valid">Mentés</button>
+                        <label for="showYear">{{ t('OBWORK.LIST_OBWORK.FORM.YEAR_PICK_LABEL') }}</label>
+                        <select class="form-control" id="showYear" formControlName="year" required>
+                            <option value="null" selected disabled hidden>{{ t('OBWORK.LIST_OBWORK.FORM.DEFAULT_OPTION') }}</option>
+                            <option *ngFor="let year of filterYearList" value="{{ year }}">{{ year }}</option>
+                        </select>
                     </div>
                 </form>
             </div>
-        </div>
-    </div>
-</div>
-<div class="card mb-3">
-    <div class="card-header">
-        Munkaórák kimutatása (óra:perc)
-    </div>
-    <div class="card-body">
-        <div class="row justify-content-center">
-            <form class="col-sm-12 col-md-6" [formGroup]="yearPickerForm">
-                <div class="form-group">
-                    <label for="showYear">Kiválasztott év</label>
-                    <select class="form-control" id="showYear" formControlName="year" required>
-                        <option value="null" selected disabled hidden>Kérjük válasszon</option>
-                        <option *ngFor="let year of filterYearList" value="{{ year }}">{{ year }}</option>
-                    </select>
+            <div class="row justify-content-center">
+                <div class="spinner-border text-primary" role="status" *ngIf="isLoading">
+                    <span class="sr-only">Loading...</span>
                 </div>
-            </form>
-        </div>
-        <div class="row justify-content-center">
-            <div class="spinner-border text-primary" role="status" *ngIf="isLoading">
-                <span class="sr-only">Loading...</span>
             </div>
+            <app-work-times-item *ngFor="let monthItem of workTimesList" [monthData]="monthItem"></app-work-times-item>
         </div>
-        <app-work-times-item *ngFor="let monthItem of workTimesList" [monthData]="monthItem"></app-work-times-item>
     </div>
 </div>

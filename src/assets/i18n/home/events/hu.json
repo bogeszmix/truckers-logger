@@ -1,0 +1,75 @@
+{
+  "CREATE_EVENT": "Új esemény hozzáadása",
+  "EDIT_EVENT": "Esemény szerkesztése",
+  "LIST_EVENT": {
+    "TITLE": "A rögzített események",
+    "FILTER": {
+      "BTN_FILTER_COLLAPSE_LABEL": "Szűrő",
+      "BTN_DELETE_FILTER_LABEL": "Szűrés törlése",
+      "BTN_FILTER_SUBMIT_LABEL": "Szűrés",
+      "FORM": {
+        "DATE_FROM_PLACEHOLDER_LABEL": "Dátumtól",
+        "DATE_TO_PLACEHOLDER_LABEL": "Dátumig"
+      }
+    },
+    "LIST": {
+        "HEADERS": {
+            "TIME": "Időtartam (óra:perc)",
+            "EVENT_TYPE": "Esemény",
+            "CREATED_DATE": "Rögzítve",
+            "CREATED_TIME": "Időpont"
+        },
+        "DROPDOWN_MENU": {
+            "EDIT": "Módosítás",
+            "DELETE": "Törlés"
+        }
+    }
+  },
+  "QUICK_STATISTICS": {
+    "TITLE": "Szűrt adatok statisztikája:",
+    "DRIVE_OTHER_PAIDLEAVE": "Vezetés és egyéb munka és szabadság összesen:",
+    "DRIVE_OTHER": "Vezetés és egyéb munka összesen:",
+    "DRIVE": "Vezetés összesen:",
+    "OTHER": "Egyéb munka összesen:",
+    "STAND_BY": "Készenlét összesen:",
+    "PAID_LEAVE": "Fizetett szabadság összesen:",
+    "PAID_HOLIDAY": "Fizetett ünnep összesen:",
+    "SICK_PAID": "Fizetett táppénz összesen:",
+    "NO_DATA": "Nincs adat"
+  },
+  "EVENT_TYPES": {
+    "EVENT0": "Mind",
+    "EVENT1": "Vezetés",
+    "EVENT2": "Készenlét",
+    "EVENT3": "Egyéb munka",
+    "EVENT4": "Fizetett szabadság",
+    "EVENT5": "Fizetett ünnep",
+    "EVENT6": "Fizetett táppénz"
+  },
+  "MODALS": {
+      "DELETE": {
+          "TITLE": "Esemény törlése",
+          "SENTENCE_TEXT_PART_1": "Biztosan törli a ",
+          "SENTENCE_TEXT_PART_2": " azonosítójú eseményt?",
+          "BTN_ACCEPT_LABEL": "Igen",
+          "BTN_CANCEL_LABEL": "Mégse"
+      },
+      "CREATE_EDIT": {
+          "TITLE": "Esemény szerkesztése",
+          "EVENT_DATE": "Az esemény dátuma: ",
+          "EVENT_TYPE_LABEL": "Esemény típus",
+          "EVENT_TYPE_PLACEHOLDER_LABEL": "Esemény típus",
+          "EVENT_TYPE_DEFAULT_PLACEHOLDER_LABEL": "Kérjük válasszon",
+          "EVENT_TIME_LABEL": "Időtartam (óra:perc)",
+          "EVENT_TIME_PLACEHOLDER_LABEL": "Időtartam (óra:perc)",
+          "EVENT_TIME_ERROR_TEXT": "Nem megfelelő idő formátum. Helyes formátum például: 5:34",
+          "BTN_SAVE_LABEL": "Mentés"
+      }
+  },
+  "TOAST": {
+    "CREATED_SUCCESSFUL": "Az új esemény bejegyzés sikeresen létrehozva",
+    "EDITED_SUCCESSFUL": "Az esemény bejegyzés sikeresen módosítva",
+    "DELETED_SUCCESSFUL": "Az esemény bejegyzés sikeresen törölve",
+    "SOMETHING_WENT_WRONG": "Hiba történt"
+  }
+}

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
@@ -14,7 +15,11 @@ import { SharedModule } from './shared/shared.module';
   imports: [
     CommonModule,
     HomeRoutingModule,
+    TranslocoModule,
     SharedModule
+  ],
+  providers: [
+    { provide: TRANSLOCO_SCOPE, useValue: {scope: 'home', alias: 'HOME'} }
   ]
 })
 export class HomeModule { }

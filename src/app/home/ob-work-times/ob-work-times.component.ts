@@ -13,6 +13,7 @@ import { ParseMinToHM } from '../utils/parse-min-to-hm';
 import { AuthService } from 'src/app/auth/auth.service';
 import { WorkTimeRegex } from '../enums/work-time-regex.enum';
 import { ToastService } from '../shared/toast/toast.service';
+import { TranslationService } from 'src/app/translation/translation.service';
 
 @Component({
   selector: 'app-ob-work-times',
@@ -31,10 +32,12 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
   workTimesList: ResponseObWorkTimeModel[] = [];
 
   isLoading = false;
+  isMonthAlreadyExist = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private obWorkService: ObWorkTimesService,
+    private translationService: TranslationService,
     private toastService: ToastService,
     private authService: AuthService
   ) {}
@@ -46,6 +49,7 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
     this.initYearPickerForm();
     this.initNewMonthObWorkForm();
     this.yearPickerFormChange();
+    this.onNewMonthObWorkFormChange();
   }
 
   ngOnDestroy() {
@@ -88,6 +92,15 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
     });
   }
 
+  onNewMonthObWorkFormChange() {
+    this.obWorkTimesSub.add(this.newMonthObWorkForm.valueChanges.subscribe(values => {
+      this.isNewMonthExist({
+        yearSelector: values.yearSelector,
+        monthSelector: values.monthSelector
+      }, this.workTimesList);
+    }));
+  }
+
   yearPickerFormChange() {
     if (this.yearPickerForm) {
       this.obWorkTimesSub.add(this.yearPickerForm.valueChanges.subscribe((values: any) => {
@@ -111,8 +124,12 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
         userId: this.authService.getCurrentLoggedInUser().uid
       } as RequestObWorkTimeModel;
       this.obWorkService.addNewMonth(newWorkTimeModel)
-      .then(() => this.toastService.showSuccess('Sikeresen létrehozva'))
-      .catch(response => this.toastService.showAlert('Hiba történt'));
+      .then(() => this.toastService.showSuccess(
+        this.translationService.getInstant('OBWORK.TOAST.CREATED_SUCCESSFUL')
+      ))
+      .catch(response => this.toastService.showAlert(
+        this.translationService.getInstant('OBWORK.TOAST.SOMETHING_WENT_WRONG')
+      ));
     }
   }
 
@@ -125,7 +142,9 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
         moment().year(newObWorkMonth.yearSelector).month(newObWorkMonth.monthSelector)
           .isSame(workTimeItem.date, 'month')
       );
-      return true ? index >= 0 : false;
+      const isExists = true ? index >= 0 : false;
+      this.isMonthAlreadyExist = isExists;
+      return isExists;
     }
   }
 }

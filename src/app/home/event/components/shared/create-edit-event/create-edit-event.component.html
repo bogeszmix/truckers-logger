@@ -1,26 +1,28 @@
 <!-- New event add section -->
-<div>
+<div *transloco="let t">
     <form [formGroup]="createEventForm" (ngSubmit)="submitNewEvent(createEventForm.value)" >
         <div class="form-group">
-            A mai nap dátuma: {{ currentDate }}
+            {{ t('EVENTS.MODALS.CREATE_EDIT.EVENT_DATE') }} {{ currentDate }}
         </div>
         <div class="form-group">
-            <label for="eventType">Esemény típus</label>
+            <label for="eventType">{{ t('EVENTS.MODALS.CREATE_EDIT.EVENT_TYPE_LABEL') }}</label>
             <select class="form-control" id="eventType" formControlName="eventType" required>
-                <option value="null" selected disabled hidden>Kérjük válasszon</option>
-                <option *ngFor="let eventType of eventTypeOptions | keyvalue" value="{{eventType.key}}">{{eventType.value}}
+                <option value="null" selected disabled hidden>{{ t('EVENTS.MODALS.CREATE_EDIT.EVENT_TYPE_DEFAULT_PLACEHOLDER_LABEL') }}</option>
+                <option *ngFor="let eventType of eventTypeOptions | keyvalue" value="{{eventType.key}}">{{ t('EVENTS.EVENT_TYPES.' + eventType.value) }}
                 </option>
             </select>
         </div>
         <div class="form-group">
-            <label for="time">Időtartam (óra:perc)</label>
-            <input type="text" class="form-control" id="time" placeholder="Időtartam (óra:perc)" formControlName="time" required>
+            <label for="time">{{ t('EVENTS.MODALS.CREATE_EDIT.EVENT_TIME_LABEL') }}</label>
+            <input type="text" class="form-control" id="time" placeholder="{{ t('EVENTS.MODALS.CREATE_EDIT.EVENT_TIME_PLACEHOLDER_LABEL') }}" formControlName="time" required>
             <div class="text-center" *ngIf="createEventForm.controls.time.hasError('pattern')">
-                <span class="text-warning">Nem megfelelő idő formátum. Helyes formátum például: 5:34</span>
+                <span class="text-danger">{{ t('EVENTS.MODALS.CREATE_EDIT.EVENT_TIME_ERROR_TEXT') }}</span>
             </div>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary col-12" [disabled]="!createEventForm.valid">Mentés</button>
+            <button type="submit" class="btn btn-primary col-12" [disabled]="!createEventForm.valid">
+                {{ t('EVENTS.MODALS.CREATE_EDIT.BTN_SAVE_LABEL') }}
+            </button>
         </div>
     </form>
 </div>
