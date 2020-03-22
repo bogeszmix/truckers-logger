@@ -65,5 +65,11 @@
           "EVENT_TIME_ERROR_TEXT": "Nem megfelelő idő formátum. Helyes formátum például: 5:34",
           "BTN_SAVE_LABEL": "Mentés"
       }
+  },
+  "TOAST": {
+    "CREATED_SUCCESSFUL": "Az új esemény bejegyzés sikeresen létrehozva",
+    "EDITED_SUCCESSFUL": "Az esemény bejegyzés sikeresen módosítva",
+    "DELETED_SUCCESSFUL": "Az esemény bejegyzés sikeresen törölve",
+    "SOMETHING_WENT_WRONG": "Hiba történt"
   }
 }

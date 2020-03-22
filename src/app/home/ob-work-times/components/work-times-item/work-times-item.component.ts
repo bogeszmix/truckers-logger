@@ -7,6 +7,7 @@ import { ResponseObWorkTimeModel } from 'src/app/api/models/response/response-ob
 import { ObWorkTimesService } from '../../ob-work-times.service';
 import { DeleteObWorkTimesComponent } from '../modals/delete-ob-work-times/delete-ob-work-times.component';
 import { ToastService } from 'src/app/home/shared/toast/toast.service';
+import { TranslationService } from 'src/app/translation/translation.service';
 
 @Component({
   selector: 'app-work-times-item',
@@ -22,6 +23,7 @@ export class WorkTimesItemComponent implements OnInit, OnChanges {
   constructor(
     private modalService: NgbModal,
     private workTimeService: ObWorkTimesService,
+    private translationService: TranslationService,
     private toastService: ToastService
   ) { }
 
@@ -45,8 +47,12 @@ export class WorkTimesItemComponent implements OnInit, OnChanges {
     monthModalRef.result.then((resultData: ResponseObWorkTimeModel) => {
       if (resultData) {
         this.workTimeService.modifyObWorkTime(resultData)
-        .then(() => this.toastService.showSuccess('Sikeresen módosítva'))
-        .catch(response => this.toastService.showAlert('Hiba történt'));
+        .then(() => this.toastService.showSuccess(
+          this.translationService.getInstant('OBWORK.TOAST.EDITED_SUCCESSFUL')
+        ))
+        .catch(response => this.toastService.showAlert(
+          this.translationService.getInstant('OBWORK.TOAST.SOMETHING_WENT_WRONG')
+        ));
       }
     });
   }
@@ -60,8 +66,12 @@ export class WorkTimesItemComponent implements OnInit, OnChanges {
     monthModalRef.result.then((resultData: ResponseObWorkTimeModel) => {
       if (resultData) {
         this.workTimeService.deleteObWorkTime(resultData)
-        .then(() => this.toastService.showSuccess('Sikeresen törölve'))
-        .catch(response => this.toastService.showAlert('Hiba történt'));
+        .then(() => this.toastService.showSuccess(
+          this.translationService.getInstant('OBWORK.TOAST.DELETED_SUCCESSFUL')
+        ))
+        .catch(response => this.toastService.showAlert(
+          this.translationService.getInstant('OBWORK.TOAST.SOMETHING_WENT_WRONG')
+        ));
       }
     });
   }

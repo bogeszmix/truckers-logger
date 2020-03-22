@@ -19,6 +19,7 @@ import { EditEventComponent } from '../modals/edit-event/edit-event.component';
 import { DeleteEventComponent } from '../modals/delete-event/delete-event.component';
 import { ResponseEventModel } from 'src/app/api/models/response/response-event.model';
 import { ToastService } from 'src/app/home/shared/toast/toast.service';
+import { TranslationService } from 'src/app/translation/translation.service';
 
 @Component({
   selector: 'app-event-list',
@@ -49,6 +50,7 @@ export class EventListComponent implements OnInit, OnDestroy {
   constructor(
     private eventService: EventService,
     private formBuilder: FormBuilder,
+    private translationService: TranslationService,
     private ngbCalendar: NgbCalendar,
     private toastService: ToastService,
     private modalService: NgbModal
@@ -191,8 +193,12 @@ export class EventListComponent implements OnInit, OnDestroy {
       editModalRef.result.then((editedItem: ResponseEventModel) => {
         if (editedItem) {
           this.eventService.modifyEvent(editedItem)
-          .then(() => this.toastService.showSuccess('Sikeresen módosítva'))
-          .catch(response => this.toastService.showAlert('Hiba történt'));
+          .then(() => this.toastService.showSuccess(
+            this.translationService.getInstant('EVENTS.TOAST.EDITED_SUCCESSFUL')
+          ))
+          .catch(response => this.toastService.showAlert(
+            this.translationService.getInstant('EVENTS.TOAST.SOMETHING_WENT_WRONG')
+          ));
         }
       });
     }
@@ -206,8 +212,12 @@ export class EventListComponent implements OnInit, OnDestroy {
       deleteModalRef.result.then((deletedItem: ResponseEventModel) => {
         if (deletedItem) {
           this.eventService.deleteEvent(deletedItem)
-          .then(() => this.toastService.showSuccess('Sikeresen törölve'))
-          .catch(response => this.toastService.showAlert('Hiba történt'));
+          .then(() => this.toastService.showSuccess(
+            this.translationService.getInstant('EVENTS.TOAST.DELETED_SUCCESSFUL')
+          ))
+          .catch(response => this.toastService.showAlert(
+            this.translationService.getInstant('EVENTS.TOAST.SOMETHING_WENT_WRONG')
+          ));
         }
       });
     }
