@@ -64,6 +64,27 @@ export class EventService {
               id: eventId,
               ...eventFields
             } as ResponseEventModel;
+        }).sort((a: ResponseEventModel, b: ResponseEventModel) => {
+          const orderFlag = orderBy ? orderBy : 'DESC';
+          if (orderFlag === 'ASC') {
+            if (moment(a.createDate).isBefore(b.createDate, 'day')) {
+              return -1;
+            }
+            if (moment(a.createDate).isAfter(b.createDate, 'day')) {
+              return 1;
+            }
+
+            return 0;
+        }
+          if ((orderFlag === 'DESC')) {
+            if (moment(a.createDate).isBefore(b.createDate, 'day')) {
+              return 1;
+            }
+            if (moment(a.createDate).isAfter(b.createDate, 'day')) {
+              return -1;
+            }
+            return 0;
+        }
         })
       ),
       tap((filteredResponse: ResponseEventModel[]) => {

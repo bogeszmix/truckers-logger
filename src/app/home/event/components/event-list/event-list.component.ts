@@ -117,6 +117,20 @@ export class EventListComponent implements OnInit, OnDestroy {
       }));
   }
 
+  checkOrderForm() {
+    this.subs.add(this.orderForm.valueChanges.subscribe((orderValues: any) => {
+      console.log(orderValues);
+      console.log(this.globalFilterObject);
+      this.subs.add(this.eventService.initEventList(
+        this.getFinalFilterObject(this.globalFilterObject),
+        orderValues
+      ).subscribe((filteredEvents: ResponseEventModel[]) => {
+          console.log(filteredEvents);
+          this.eventService.filterEvents(filteredEvents);
+      }));
+    }));
+  }
+
   dateCompareCheck(
     dateFrom: DateNgBootstrapModel,
     dateTo: DateNgBootstrapModel
