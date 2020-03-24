@@ -1,14 +1,12 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2, OnDestroy, AfterViewInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
+export class HomeComponent implements OnInit {
 
-  sidebarStatusSub: Subscription;
   isOpened: boolean;
 
   @ViewChild('toggableSidebar', { static: false}) toggableSidebar: ElementRef<HTMLElement>;
@@ -20,35 +18,19 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
   }
 
-  ngOnDestroy(): void {
-    if (this.sidebarStatusSub) {
-      this.sidebarStatusSub.unsubscribe();
-    }
-  }
-
-  ngAfterViewInit(): void {
-    if (this.toggableSidebar) {
+  isSidebarOpened(event: boolean) {
+    if (event) {
       this.addToggle();
+    } else {
+      this.removeToggle();
     }
-  }
-
-  isSidebarOpened(event: Observable<boolean>) {
-    this.sidebarStatusSub = event.subscribe((status: boolean) => {
-      if (this.toggableSidebar) {
-        if (status) {
-          this.addToggle();
-        } else {
-          this.removeToggle();
-        }
-      }
-    });
   }
 
   addToggle() {
-      this.renderer.addClass(this.toggableSidebar.nativeElement.querySelector('.sidebar'), 'toggled');
+    this.renderer.addClass(this.toggableSidebar.nativeElement.querySelector('.sidebar'), 'toggled');
   }
 
   removeToggle() {
-      this.renderer.removeClass(this.toggableSidebar.nativeElement.querySelector('.sidebar'), 'toggled');
+    this.renderer.removeClass(this.toggableSidebar.nativeElement.querySelector('.sidebar'), 'toggled');
   }
 }

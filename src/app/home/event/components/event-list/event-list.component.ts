@@ -31,7 +31,6 @@ export class EventListComponent implements OnInit, OnDestroy {
   subs: Subscription;
 
   filterForm: FormGroup;
-  orderForm: FormGroup;
 
   eventList: any[];
   filterableEventList: any[] = [];
@@ -45,7 +44,6 @@ export class EventListComponent implements OnInit, OnDestroy {
   maxDate: NgbDateStruct;
 
   clickedRowObject: any;
-  globalFilterObject: EventFilterModel;
 
   isLoading = false;
 
@@ -62,12 +60,10 @@ export class EventListComponent implements OnInit, OnDestroy {
     this.subs = new Subscription();
     this.eventTypeOptions = Object.assign(EventTypes);
     this.initFilterForm();
-    this.initOrderForm();
     this.disabled = false;
     this.maxDate = this.ngbCalendar.getToday();
     this.initEventList();
     this.checkFilterForm();
-    this.checkOrderForm();
   }
 
   ngOnDestroy() {
@@ -81,12 +77,6 @@ export class EventListComponent implements OnInit, OnDestroy {
       eventType: [null],
       dateFrom: [''],
       dateTo: ['']
-    });
-  }
-
-  initOrderForm() {
-    this.orderForm = this.formBuilder.group({
-      orderField: ['DESC']
     });
   }
 
@@ -127,19 +117,6 @@ export class EventListComponent implements OnInit, OnDestroy {
       }));
   }
 
-  checkOrderForm() {
-    this.subs.add(this.orderForm.valueChanges.subscribe((orderValues: any) => {
-      console.log(orderValues);
-      console.log(this.globalFilterObject);
-      this.subs.add(this.eventService.initEventList(
-        this.getFinalFilterObject(this.globalFilterObject),
-        orderValues
-      ).subscribe((filteredEvents: ResponseEventModel[]) => {
-          this.eventService.filterEvents(filteredEvents);
-      }));
-    }));
-  }
-
   dateCompareCheck(
     dateFrom: DateNgBootstrapModel,
     dateTo: DateNgBootstrapModel
@@ -160,26 +137,12 @@ export class EventListComponent implements OnInit, OnDestroy {
   }
 
   submitFilterForm(filterData: EventFilterModel) {
-    this.globalFilterObject = filterData;
-    this.subs.add(this.eventService.initEventList(
-      this.getFinalFilterObject(this.globalFilterObject)
-    ).subscribe((filteredEvents: ResponseEventModel[]) => {
-        this.eventService.filterEvents(filteredEvents);
-    }));
-  }
 
-  getFinalFilterObject(filterData: EventFilterModel) {
     const resultFilter = {
       eventType: null,
       dateFrom: null,
       dateTo: null
     };
-
-    if (!filterData) {
-      resultFilter.dateFrom = moment().add(-1, 'month');
-      resultFilter.dateTo = moment();
-      return resultFilter;
-    }
 
     if (filterData.eventType && filterData.dateFrom && filterData.dateTo) {
       const dateFrom = NgbDateToMoment.convertNgbDateToMoment(filterData.dateFrom);
@@ -201,16 +164,19 @@ export class EventListComponent implements OnInit, OnDestroy {
 
     if (filterData.eventType && !filterData.dateFrom && !filterData.dateTo) {
       resultFilter.eventType = filterData.eventType;
-      resultFilter.dateFrom = moment().add(-1, 'month');
+      resultFilter.dateFrom = moment().add(-1, 'day');
       resultFilter.dateTo = moment();
     }
 
     if (!filterData.eventType && !filterData.dateFrom && !filterData.dateTo) {
-      resultFilter.dateFrom = moment().add(-1, 'month');
+      resultFilter.dateFrom = moment().add(-1, 'day');
       resultFilter.dateTo = moment();
     }
 
-    return resultFilter;
+    this.subs.add(this.eventService.initEventList(resultFilter)
+      .subscribe((filteredEvents: ResponseEventModel[]) => {
+        this.eventService.filterEvents(filteredEvents);
+    }));
   }
 
   clickedRow(eventObject: any) {
