@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
 import { HomeRoutingModule } from './home-routing.module';
@@ -8,6 +9,7 @@ import { BreadcumbComponent } from './components/breadcumb/breadcumb.component';
 import { TopbarComponent } from './components/topbar/topbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SharedModule } from './shared/shared.module';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 
 @NgModule({
@@ -15,6 +17,8 @@ import { SharedModule } from './shared/shared.module';
   imports: [
     CommonModule,
     HomeRoutingModule,
+    AngularFireDatabaseModule,
+    AngularFirestoreModule,
     TranslocoModule,
     SharedModule
   ],
