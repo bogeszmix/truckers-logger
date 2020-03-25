@@ -1,0 +1,12 @@
+<div *transloco="let t">
+    <form [formGroup]="orderForm">
+        <div class="form-group">
+            <select class="form-control" formControlName="orderField">
+                <option 
+                    *ngFor="let orderOption of orderOptions"
+                    [attr.value]="orderOption?.value"
+                    [attr.selected]="orderOption?.default == true ? '' : null">{{ t(orderOption?.translateKey) }}</option>
+            </select>
+        </div>
+    </form>
+</div>

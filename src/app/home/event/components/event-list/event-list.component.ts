@@ -18,8 +18,9 @@ import { ParseMinToHM } from '../../../utils/parse-min-to-hm';
 import { EditEventComponent } from '../modals/edit-event/edit-event.component';
 import { DeleteEventComponent } from '../modals/delete-event/delete-event.component';
 import { ResponseEventModel } from 'src/app/api/models/response/response-event.model';
-import { ToastService } from 'src/app/home/shared/toast/toast.service';
+import { ToastService } from 'src/app/home/shared/components/toast/toast.service';
 import { TranslationService } from 'src/app/translation/translation.service';
+import { OrderOptionModel } from 'src/app/home/shared/models/order-option.model';
 
 @Component({
   selector: 'app-event-list',
@@ -34,6 +35,7 @@ export class EventListComponent implements OnInit, OnDestroy {
 
   eventList: any[];
   filterableEventList: any[] = [];
+  orderList: OrderOptionModel[];
   eventTypesObject: any;
   eventTypes: EventTypes;
   eventTypeOptions: any[];
@@ -44,6 +46,7 @@ export class EventListComponent implements OnInit, OnDestroy {
   maxDate: NgbDateStruct;
 
   clickedRowObject: any;
+  dateOrder: string;
 
   isLoading = false;
 
@@ -60,6 +63,7 @@ export class EventListComponent implements OnInit, OnDestroy {
     this.subs = new Subscription();
     this.eventTypeOptions = Object.assign(EventTypes);
     this.initFilterForm();
+    this.initOrderOptionList();
     this.disabled = false;
     this.maxDate = this.ngbCalendar.getToday();
     this.initEventList();
@@ -78,6 +82,20 @@ export class EventListComponent implements OnInit, OnDestroy {
       dateFrom: [''],
       dateTo: ['']
     });
+  }
+
+  initOrderOptionList() {
+    this.orderList = [
+      {
+        value: 'DESC',
+        translateKey: 'EVENTS.LIST_EVENT.ORDER_OPTIONS.DESC',
+        default: true
+      },
+      {
+        value: 'ASC',
+        translateKey: 'EVENTS.LIST_EVENT.ORDER_OPTIONS.ASC'
+      }
+    ];
   }
 
   initEventList() {
@@ -117,6 +135,8 @@ export class EventListComponent implements OnInit, OnDestroy {
       }));
   }
 
+
+
   dateCompareCheck(
     dateFrom: DateNgBootstrapModel,
     dateTo: DateNgBootstrapModel
@@ -137,12 +157,25 @@ export class EventListComponent implements OnInit, OnDestroy {
   }
 
   submitFilterForm(filterData: EventFilterModel) {
+    this.subs.add(this.eventService.initEventList(
+      this.getFinalFilterObject(filterData)
+    ).subscribe((filteredEvents: ResponseEventModel[]) => {
+        this.eventService.filterEvents(filteredEvents);
+    }));
+  }
 
+  getFinalFilterObject(filterData: EventFilterModel) {
     const resultFilter = {
       eventType: null,
       dateFrom: null,
       dateTo: null
     };
+
+    if (!filterData) {
+      resultFilter.dateFrom = moment().add(-1, 'month');
+      resultFilter.dateTo = moment();
+      return resultFilter;
+    }
 
     if (filterData.eventType && filterData.dateFrom && filterData.dateTo) {
       const dateFrom = NgbDateToMoment.convertNgbDateToMoment(filterData.dateFrom);
@@ -164,19 +197,16 @@ export class EventListComponent implements OnInit, OnDestroy {
 
     if (filterData.eventType && !filterData.dateFrom && !filterData.dateTo) {
       resultFilter.eventType = filterData.eventType;
-      resultFilter.dateFrom = moment().add(-1, 'day');
+      resultFilter.dateFrom = moment().add(-1, 'month');
       resultFilter.dateTo = moment();
     }
 
     if (!filterData.eventType && !filterData.dateFrom && !filterData.dateTo) {
-      resultFilter.dateFrom = moment().add(-1, 'day');
+      resultFilter.dateFrom = moment().add(-1, 'month');
       resultFilter.dateTo = moment();
     }
 
-    this.subs.add(this.eventService.initEventList(resultFilter)
-      .subscribe((filteredEvents: ResponseEventModel[]) => {
-        this.eventService.filterEvents(filteredEvents);
-    }));
+    return resultFilter;
   }
 
   clickedRow(eventObject: any) {
@@ -221,5 +251,9 @@ export class EventListComponent implements OnInit, OnDestroy {
         }
       });
     }
+  }
+
+  selectedOrder(selectedObj: string) {
+    this.dateOrder = selectedObj;
   }
 }

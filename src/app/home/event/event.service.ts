@@ -34,7 +34,7 @@ export class EventService {
     }
   }
 
-  initEventList(filter?: { eventType: string, dateFrom: string, dateTo: string }): Observable<any> {
+  initEventList(filter?: { eventType: string, dateFrom: string, dateTo: string }, orderBy?: string): Observable<any> {
     return this.eventAPI.readEvents(this.authService.getCurrentLoggedInUser()).pipe(
       map((eventMetaArray: any[]) =>
         eventMetaArray.filter((item: any) => {

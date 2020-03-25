@@ -17,6 +17,8 @@ import { EditEventComponent } from './components/modals/edit-event/edit-event.co
 import { DeleteEventComponent } from './components/modals/delete-event/delete-event.component';
 import { CreateEditEventComponent } from './components/shared/create-edit-event/create-edit-event.component';
 import { TranslocoModule, TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { OrderByDatePipe } from './pipes/order-by-date.pipe';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { TranslocoModule, TRANSLOCO_SCOPE } from '@ngneat/transloco';
     EventListComponent,
     EditEventComponent,
     DeleteEventComponent,
-    CreateEditEventComponent
+    CreateEditEventComponent,
+    OrderByDatePipe
   ],
   imports: [
     CommonModule,
@@ -37,7 +40,8 @@ import { TranslocoModule, TRANSLOCO_SCOPE } from '@ngneat/transloco';
     NgbDropdownModule,
     NgbModalModule,
     TranslocoModule,
-    EventRoutingModule
+    EventRoutingModule,
+    SharedModule
   ],
   entryComponents: [EditEventComponent, DeleteEventComponent],
   providers: [

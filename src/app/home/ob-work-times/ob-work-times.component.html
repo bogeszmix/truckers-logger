@@ -62,12 +62,17 @@
                     </div>
                 </form>
             </div>
+            <div class="row justify-content-end">
+                <div class="col col-md-4">
+                    <app-order-selector [orderOptions]="orderOptionList" (selectedOrderMode)="selectedOrder($event)"></app-order-selector>
+                </div>
+            </div>
             <div class="row justify-content-center">
                 <div class="spinner-border text-primary" role="status" *ngIf="isLoading">
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
-            <app-work-times-item *ngFor="let monthItem of workTimesList" [monthData]="monthItem"></app-work-times-item>
+            <app-work-times-item *ngFor="let monthItem of workTimesList | orderWorkByDate: orderOpt" [monthData]="monthItem"></app-work-times-item>
         </div>
     </div>
 </div>

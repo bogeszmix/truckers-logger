@@ -33,6 +33,10 @@
             "DEFAULT_OPTION": "Kérjük válasszon",
             "YEAR_PICK_LABEL": "Kiválasztott év"
 
+        },
+        "ORDER_OPTIONS": {
+            "DESC": "Csökkenő dátum",
+            "ASC": "Növekvő dátum"
         }
     },
     "LIST_ITEM": {
