@@ -34,7 +34,7 @@ export class EventService {
     }
   }
 
-  initEventList(filter?: { eventType: string, dateFrom: string, dateTo: string }): Observable<any> {
+  initEventList(filter?: { eventType: string, dateFrom: string, dateTo: string }, orderBy?: string): Observable<any> {
     return this.eventAPI.readEvents(this.authService.getCurrentLoggedInUser()).pipe(
       map((eventMetaArray: any[]) =>
         eventMetaArray.filter((item: any) => {
@@ -67,20 +67,20 @@ export class EventService {
         }).sort((a: ResponseEventModel, b: ResponseEventModel) => {
           const orderFlag = orderBy ? orderBy : 'DESC';
           if (orderFlag === 'ASC') {
-            if (moment(a.createDate).isBefore(b.createDate, 'day')) {
+            if (moment(a.createDate).isBefore(b.createDate)) {
               return -1;
             }
-            if (moment(a.createDate).isAfter(b.createDate, 'day')) {
+            if (moment(a.createDate).isAfter(b.createDate)) {
               return 1;
             }
 
             return 0;
         }
           if ((orderFlag === 'DESC')) {
-            if (moment(a.createDate).isBefore(b.createDate, 'day')) {
+            if (moment(a.createDate).isBefore(b.createDate)) {
               return 1;
             }
-            if (moment(a.createDate).isAfter(b.createDate, 'day')) {
+            if (moment(a.createDate).isAfter(b.createDate)) {
               return -1;
             }
             return 0;
