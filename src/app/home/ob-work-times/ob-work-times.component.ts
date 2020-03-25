@@ -14,6 +14,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { WorkTimeRegex } from '../enums/work-time-regex.enum';
 import { ToastService } from '../shared/components/toast/toast.service';
 import { TranslationService } from 'src/app/translation/translation.service';
+import { OrderOptionModel } from '../shared/models/order-option.model';
 
 @Component({
   selector: 'app-ob-work-times',
@@ -30,6 +31,10 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
   newFormYearList: number[] = [];
 
   workTimesList: ResponseObWorkTimeModel[] = [];
+
+  orderOptionList: OrderOptionModel[];
+
+  orderOpt: string;
 
   isLoading = false;
   isMonthAlreadyExist = false;
@@ -48,6 +53,7 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
     this.initMonthList();
     this.initYearPickerForm();
     this.initNewMonthObWorkForm();
+    this.initOrderOptionList();
     this.yearPickerFormChange();
     this.onNewMonthObWorkFormChange();
   }
@@ -146,5 +152,23 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
       this.isMonthAlreadyExist = isExists;
       return isExists;
     }
+  }
+
+  initOrderOptionList() {
+    this.orderOptionList = [
+      {
+        value: 'DESC',
+        translateKey: 'OBWORK.LIST_OBWORK.ORDER_OPTIONS.DESC',
+        default: true
+      },
+      {
+        value: 'ASC',
+        translateKey: 'OBWORK.LIST_OBWORK.ORDER_OPTIONS.ASC'
+      }
+    ];
+  }
+
+  selectedOrder(selectedObj: string) {
+    this.orderOpt = selectedObj;
   }
 }

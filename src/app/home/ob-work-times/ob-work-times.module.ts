@@ -9,10 +9,12 @@ import { NgbDatepickerModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap'
 import { EditObWorkTimesComponent } from './components/modals/edit-ob-work-times/edit-ob-work-times.component';
 import { DeleteObWorkTimesComponent } from './components/modals/delete-ob-work-times/delete-ob-work-times.component';
 import { TranslocoModule, TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { OrderWorkByDatePipe } from './pipes/order-work-by-date.pipe';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
-  declarations: [ObWorkTimesComponent, WorkTimesItemComponent, EditObWorkTimesComponent, DeleteObWorkTimesComponent],
+  declarations: [ObWorkTimesComponent, WorkTimesItemComponent, EditObWorkTimesComponent, DeleteObWorkTimesComponent, OrderWorkByDatePipe],
   imports: [
     CommonModule,
     ObWorkTimesRoutingModule,
@@ -20,7 +22,8 @@ import { TranslocoModule, TRANSLOCO_SCOPE } from '@ngneat/transloco';
     ReactiveFormsModule,
     NgbDatepickerModule,
     NgbModalModule,
-    TranslocoModule
+    TranslocoModule,
+    SharedModule
   ],
   entryComponents: [EditObWorkTimesComponent, DeleteObWorkTimesComponent],
   providers: [
