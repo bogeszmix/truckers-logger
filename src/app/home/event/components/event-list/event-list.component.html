@@ -89,7 +89,7 @@
           <tbody class="dropdown no-arrow" *ngIf="filterableEventList.length > 0">
             <tr class="dropdown-toggle" role="button" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false"
-              *ngFor="let event of filterableEventList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize"
+              *ngFor="let event of filterableEventList | orderByDate: dateOrder | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize"
               [ngClass]="[
                   event.eventType === 'EVENT1' ? 'event-type-1' : '',
                   event.eventType === 'EVENT2' ? 'event-type-2' : '',

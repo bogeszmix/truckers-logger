@@ -45,7 +45,7 @@ export class EventListComponent implements OnInit, OnDestroy {
   maxDate: NgbDateStruct;
 
   clickedRowObject: any;
-  globalFilterObject: EventFilterModel;
+  dateOrder: 'ASC' | 'DESC';
 
   isLoading = false;
 
@@ -61,6 +61,7 @@ export class EventListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subs = new Subscription();
     this.eventTypeOptions = Object.assign(EventTypes);
+    this.dateOrder = 'DESC';
     this.initFilterForm();
     this.initOrderForm();
     this.disabled = false;
@@ -129,14 +130,7 @@ export class EventListComponent implements OnInit, OnDestroy {
 
   checkOrderForm() {
     this.subs.add(this.orderForm.valueChanges.subscribe((orderValues: any) => {
-      console.log(orderValues);
-      console.log(this.globalFilterObject);
-      this.subs.add(this.eventService.initEventList(
-        this.getFinalFilterObject(this.globalFilterObject),
-        orderValues
-      ).subscribe((filteredEvents: ResponseEventModel[]) => {
-          this.eventService.filterEvents(filteredEvents);
-      }));
+      this.dateOrder = orderValues.orderField;
     }));
   }
 
@@ -160,9 +154,8 @@ export class EventListComponent implements OnInit, OnDestroy {
   }
 
   submitFilterForm(filterData: EventFilterModel) {
-    this.globalFilterObject = filterData;
     this.subs.add(this.eventService.initEventList(
-      this.getFinalFilterObject(this.globalFilterObject)
+      this.getFinalFilterObject(filterData)
     ).subscribe((filteredEvents: ResponseEventModel[]) => {
         this.eventService.filterEvents(filteredEvents);
     }));
