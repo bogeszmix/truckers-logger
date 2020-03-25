@@ -12,7 +12,7 @@ import { RequestObWorkTimeModel } from 'src/app/api/models/request/request-ob-wo
 import { ParseMinToHM } from '../utils/parse-min-to-hm';
 import { AuthService } from 'src/app/auth/auth.service';
 import { WorkTimeRegex } from '../enums/work-time-regex.enum';
-import { ToastService } from '../shared/toast/toast.service';
+import { ToastService } from '../shared/components/toast/toast.service';
 import { TranslationService } from 'src/app/translation/translation.service';
 
 @Component({

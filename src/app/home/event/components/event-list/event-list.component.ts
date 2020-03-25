@@ -18,8 +18,9 @@ import { ParseMinToHM } from '../../../utils/parse-min-to-hm';
 import { EditEventComponent } from '../modals/edit-event/edit-event.component';
 import { DeleteEventComponent } from '../modals/delete-event/delete-event.component';
 import { ResponseEventModel } from 'src/app/api/models/response/response-event.model';
-import { ToastService } from 'src/app/home/shared/toast/toast.service';
+import { ToastService } from 'src/app/home/shared/components/toast/toast.service';
 import { TranslationService } from 'src/app/translation/translation.service';
+import { OrderOptionModel } from 'src/app/home/shared/models/order-option.model';
 
 @Component({
   selector: 'app-event-list',
@@ -31,10 +32,10 @@ export class EventListComponent implements OnInit, OnDestroy {
   subs: Subscription;
 
   filterForm: FormGroup;
-  orderForm: FormGroup;
 
   eventList: any[];
   filterableEventList: any[] = [];
+  orderList: OrderOptionModel[];
   eventTypesObject: any;
   eventTypes: EventTypes;
   eventTypeOptions: any[];
@@ -45,7 +46,7 @@ export class EventListComponent implements OnInit, OnDestroy {
   maxDate: NgbDateStruct;
 
   clickedRowObject: any;
-  dateOrder: 'ASC' | 'DESC';
+  dateOrder: string;
 
   isLoading = false;
 
@@ -61,14 +62,12 @@ export class EventListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subs = new Subscription();
     this.eventTypeOptions = Object.assign(EventTypes);
-    this.dateOrder = 'DESC';
     this.initFilterForm();
-    this.initOrderForm();
+    this.initOrderOptionList();
     this.disabled = false;
     this.maxDate = this.ngbCalendar.getToday();
     this.initEventList();
     this.checkFilterForm();
-    this.checkOrderForm();
   }
 
   ngOnDestroy() {
@@ -85,10 +84,18 @@ export class EventListComponent implements OnInit, OnDestroy {
     });
   }
 
-  initOrderForm() {
-    this.orderForm = this.formBuilder.group({
-      orderField: ['DESC']
-    });
+  initOrderOptionList() {
+    this.orderList = [
+      {
+        value: 'DESC',
+        translateKey: 'EVENTS.LIST_EVENT.ORDER_OPTIONS.DESC',
+        default: true
+      },
+      {
+        value: 'ASC',
+        translateKey: 'EVENTS.LIST_EVENT.ORDER_OPTIONS.ASC'
+      }
+    ];
   }
 
   initEventList() {
@@ -128,11 +135,7 @@ export class EventListComponent implements OnInit, OnDestroy {
       }));
   }
 
-  checkOrderForm() {
-    this.subs.add(this.orderForm.valueChanges.subscribe((orderValues: any) => {
-      this.dateOrder = orderValues.orderField;
-    }));
-  }
+
 
   dateCompareCheck(
     dateFrom: DateNgBootstrapModel,
@@ -248,5 +251,9 @@ export class EventListComponent implements OnInit, OnDestroy {
         }
       });
     }
+  }
+
+  selectedOrder(selectedObj: string) {
+    this.dateOrder = selectedObj;
   }
 }

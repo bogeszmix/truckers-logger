@@ -6,7 +6,7 @@ import { EditObWorkTimesComponent } from '../modals/edit-ob-work-times/edit-ob-w
 import { ResponseObWorkTimeModel } from 'src/app/api/models/response/response-ob-work-time.model';
 import { ObWorkTimesService } from '../../ob-work-times.service';
 import { DeleteObWorkTimesComponent } from '../modals/delete-ob-work-times/delete-ob-work-times.component';
-import { ToastService } from 'src/app/home/shared/toast/toast.service';
+import { ToastService } from 'src/app/home/shared/components/toast/toast.service';
 import { TranslationService } from 'src/app/translation/translation.service';
 
 @Component({

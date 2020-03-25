@@ -15,14 +15,7 @@
             </button>
           </div>
           <div class="col float-right">
-            <form [formGroup]="orderForm">
-              <div class="form-group">
-                <select class="form-control" formControlName="orderField">
-                  <option value="DESC">Csökkenő dátum</option>
-                    <option value="ASC">Növekvő dátum</option>
-                </select>
-              </div>
-            </form>
+            <app-order-selector [orderOptions]="orderList" (selectedOrderMode)="selectedOrder($event)"></app-order-selector>
           </div>
         </div>
         <div class="container p-0 collapse" id="tableEventFilter">

@@ -4,7 +4,7 @@ import { EventService } from 'src/app/home/event/event.service';
 import { RequestEventModel } from 'src/app/api/models/request/request-event.model';
 import { ParseMinToHM } from 'src/app/home/utils/parse-min-to-hm';
 import { AuthService } from 'src/app/auth/auth.service';
-import { ToastService } from 'src/app/home/shared/toast/toast.service';
+import { ToastService } from 'src/app/home/shared/components/toast/toast.service';
 import { TranslationService } from 'src/app/translation/translation.service';
 
 @Component({

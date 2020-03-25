@@ -3,6 +3,10 @@
   "EDIT_EVENT": "Esemény szerkesztése",
   "LIST_EVENT": {
     "TITLE": "A rögzített események",
+    "ORDER_OPTIONS": {
+      "DESC": "Csökkenő dátum",
+      "ASC": "Növekvő dátum"
+    },
     "FILTER": {
       "BTN_FILTER_COLLAPSE_LABEL": "Szűrő",
       "BTN_DELETE_FILTER_LABEL": "Szűrés törlése",
