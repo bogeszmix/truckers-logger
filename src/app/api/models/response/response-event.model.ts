@@ -1,9 +1,8 @@
 export interface ResponseEventModel {
-    id: string;
-    uniqueSecondaryId: string;
-    timeInMin: number;
-    eventType: string;
-    createDate: string;
-    createTime: string;
+    id?: string;
+    uniqueSecondaryId?: string;
+    timeInMin?: number;
+    eventType?: string;
+    createDateTime?: string;
     userId: string;
 }

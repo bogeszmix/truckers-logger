@@ -33,8 +33,7 @@ export class LoginComponent implements OnInit {
   login(credentials: RequestUserModel) {
     if (credentials) {
       this.authService.login(credentials)
-        .then(() => this.router.navigateByUrl('/home')
-        .catch(response => console.log(response)));
+        .then(() => this.router.navigateByUrl('/home'));
     }
   }
 

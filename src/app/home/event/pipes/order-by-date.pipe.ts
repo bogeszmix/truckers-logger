@@ -12,19 +12,19 @@ export class OrderByDatePipe implements PipeTransform {
       events.sort((a: ResponseEventModel, b: ResponseEventModel) => {
 
         if (orderBy === 'ASC') {
-          if (moment(a.createDate).isBefore(b.createDate)) {
+          if (moment(a.createDateTime).isBefore(b.createDateTime)) {
             return -1;
           }
-          if (moment(a.createDate).isAfter(b.createDate)) {
+          if (moment(a.createDateTime).isAfter(b.createDateTime)) {
             return 1;
           }
 
           return 0;
         } else {
-          if (moment(a.createDate).isBefore(b.createDate)) {
+          if (moment(a.createDateTime).isBefore(b.createDateTime)) {
             return 1;
           }
-          if (moment(a.createDate).isAfter(b.createDate)) {
+          if (moment(a.createDateTime).isAfter(b.createDateTime)) {
             return -1;
           }
           return 0;

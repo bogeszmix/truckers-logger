@@ -1,0 +1,44 @@
+<div *transloco="let t">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{ t('OBWORK.NEW_OBWORK.TITLE') }}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeWithOutSave()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="newMonthObWorkForm" (ngSubmit)="submitNewMonth(newMonthObWorkForm.value)">
+        <div class="form-group">
+            <label for="yearSelect">{{ t('OBWORK.NEW_OBWORK.FORM.YEAR_LABEL') }}</label>
+            <select class="form-control" id="yearSelect" formControlName="yearSelector" required>
+                <option *ngFor="let year of newFormYearList" value="{{ year }}">{{ year }}
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="monthSelect">{{ t('OBWORK.NEW_OBWORK.FORM.MONTH_LABEL') }}</label>
+            <select class="form-control" id="monthSelect" formControlName="monthSelector" required>
+                <option value="null" selected disabled hidden>{{ t('OBWORK.NEW_OBWORK.FORM.DEFAULT_OPTION') }}</option>
+                <option *ngFor="let month of newFormMonthList" value="{{ month }}">
+                    {{ t('OBWORK.MONTH_LIST.' + month) }}
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="timeHour">{{ t('OBWORK.NEW_OBWORK.FORM.TIME_LABEL') }}</label>
+            <input type="text" class="form-control" id="timeHour"
+                placeholder="{{ t('OBWORK.NEW_OBWORK.FORM.TIME_PLACEHOLDER_LABEL') }}" formControlName="obWorkTime">
+            <div class="text-center" *ngIf="newMonthObWorkForm.controls.obWorkTime.hasError('pattern')">
+                <span class="text-danger">{{ t('OBWORK.NEW_OBWORK.FORM.TIME_ERROR_MESSAGE_TEXT') }}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="text-center" *ngIf="isMonthAlreadyExist">
+                <span class="text-danger">{{ t('OBWORK.NEW_OBWORK.FORM.ALREADY_MONTH_ERROR_MESSAGE') }}</span>
+            </div>
+            <button type="submit" class="btn btn-primary col-12" [disabled]="!newMonthObWorkForm.valid">
+                {{ t('OBWORK.NEW_OBWORK.FORM.BTN_SAVE_LABEL') }}
+            </button>
+        </div>
+    </form>
+    </div>
+</div>

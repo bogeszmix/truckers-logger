@@ -34,7 +34,7 @@ export class EventService {
     }
   }
 
-  initEventList(filter?: { eventType: string, dateFrom: string, dateTo: string }, orderBy?: string): Observable<any> {
+  initEventList(filter?: { eventType?: string, dateFrom?: string, dateTo?: string }, orderBy?: string): Observable<any> {
     return this.eventAPI.readEvents(this.authService.getCurrentLoggedInUser()).pipe(
       map((eventMetaArray: any[]) =>
         eventMetaArray.filter((item: any) => {
@@ -45,14 +45,14 @@ export class EventService {
           }
 
           if (!filter.eventType &&
-            moment(eventFields.createDate).isBetween(filter.dateFrom, filter.dateTo, null, '[]')) {
+            moment(eventFields.createDateTime).isBetween(filter.dateFrom, filter.dateTo, 'day', '[]')) {
             return true;
           }
 
           if (
             filter.eventType &&
             eventFields.eventType === filter.eventType &&
-            moment(eventFields.createDate).isBetween(filter.dateFrom, filter.dateTo, null, '[]')
+            moment(eventFields.createDateTime).isBetween(filter.dateFrom, filter.dateTo, 'day', '[]')
           ) {
             return true;
           }

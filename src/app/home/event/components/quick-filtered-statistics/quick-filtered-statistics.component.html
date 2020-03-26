@@ -1,84 +1,66 @@
 <!-- Quick event statistics -->
 <div *transloco="let t">
-  <div class="card mb-3">
-    <div class="card-header">
-      <button
-        class="btn btn-outline-primary"
-        type="button"
-        data-toggle="collapse"
-        data-target="#quickFilterStatistics"
-        aria-expanded="false"
-        aria-controls="quickFilterStatistics"
-      >
-      {{ t('EVENTS.QUICK_STATISTICS.TITLE') }}
-      </button>
-    </div>
-  
-    <div class="collapse" id="quickFilterStatistics">
-      <div class="card card-body">
-        <div class="table-responsive">
-          <table class="table">
-            <tbody>
-              <tr>
-                <td>{{ t('EVENTS.QUICK_STATISTICS.DRIVE_OTHER_PAIDLEAVE') }}</td>
-                <td *ngIf="driveAndOtherAndPaidHolidaysResult.length > 0; else noData">{{ driveAndOtherAndPaidHolidaysResult }}</td>
-                <ng-template #noData>
-                  <td>{{ t('EVENTS.QUICK_STATISTICS.NO_DATA') }}</td>
-                </ng-template>
-              </tr>
-              <tr>
-                <td>{{ t('EVENTS.QUICK_STATISTICS.DRIVE_OTHER') }}</td>
-                <td *ngIf="driveAndOtherResult.length > 0; else noData">{{ driveAndOtherResult }}</td>
-                <ng-template #noData>
-                  <td>{{ t('EVENTS.QUICK_STATISTICS.NO_DATA') }}</td>
-                </ng-template>
-              </tr>
-              <tr>
-                <td>{{ t('EVENTS.QUICK_STATISTICS.DRIVE') }}</td>
-                <td *ngIf="driveResult.length > 0; else noData">{{ driveResult }}</td>
-                <ng-template #noData>
-                  <td>{{ t('EVENTS.QUICK_STATISTICS.NO_DATA') }}</td>
-                </ng-template>
-              </tr>
-              <tr>
-                <td>{{ t('EVENTS.QUICK_STATISTICS.OTHER') }}</td>
-                <td *ngIf="otherResult.length > 0; else noData">{{ otherResult }}</td>
-                <ng-template #noData>
-                  <td>{{ t('EVENTS.QUICK_STATISTICS.NO_DATA') }}</td>
-                </ng-template>
-              </tr>
-              <tr>
-                <td>{{ t('EVENTS.QUICK_STATISTICS.STAND_BY') }}</td>
-                <td *ngIf="standByResult.length > 0; else noData">{{ standByResult }}</td>
-                <ng-template #noData>
-                  <td>{{ t('EVENTS.QUICK_STATISTICS.NO_DATA') }}</td>
-                </ng-template>
-              </tr>
-              <tr>
-                <td>{{ t('EVENTS.QUICK_STATISTICS.PAID_LEAVE') }}</td>
-                <td *ngIf="paidLeaveResult.length > 0; else noData">{{ paidLeaveResult }}</td>
-                <ng-template #noData>
-                  <td>{{ t('EVENTS.QUICK_STATISTICS.NO_DATA') }}</td>
-                </ng-template>
-              </tr>
-              <tr>
-                <td>{{ t('EVENTS.QUICK_STATISTICS.PAID_HOLIDAY') }}</td>
-                <td *ngIf="paidHolidayResult.length > 0; else noData">{{ paidHolidayResult }}</td>
-                <ng-template #noData>
-                  <td>{{ t('EVENTS.QUICK_STATISTICS.NO_DATA') }}</td>
-                </ng-template>
-              </tr>
-              <tr>
-                <td>{{ t('EVENTS.QUICK_STATISTICS.SICK_PAID') }}</td>
-                <td *ngIf="sickPayResult.length > 0; else noData">{{ sickPayResult }}</td>
-                <ng-template #noData>
-                  <td>{{ t('EVENTS.QUICK_STATISTICS.NO_DATA') }}</td>
-                </ng-template>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+  <div class="table-responsive">
+    <table class="table">
+      <tbody>
+        <tr>
+          <td>{{ t('EVENTS.QUICK_STATISTICS.DRIVE_OTHER_PAIDLEAVE') }}</td>
+          <td *ngIf="driveAndOtherAndPaidHolidaysResult.length > 0; else noData">
+            {{ driveAndOtherAndPaidHolidaysResult }}</td>
+          <ng-template #noData>
+            <td>{{ t('EVENTS.QUICK_STATISTICS.NO_DATA') }}</td>
+          </ng-template>
+        </tr>
+        <tr>
+          <td>{{ t('EVENTS.QUICK_STATISTICS.DRIVE_OTHER') }}</td>
+          <td *ngIf="driveAndOtherResult.length > 0; else noData">{{ driveAndOtherResult }}</td>
+          <ng-template #noData>
+            <td>{{ t('EVENTS.QUICK_STATISTICS.NO_DATA') }}</td>
+          </ng-template>
+        </tr>
+        <tr>
+          <td>{{ t('EVENTS.QUICK_STATISTICS.DRIVE') }}</td>
+          <td *ngIf="driveResult.length > 0; else noData">{{ driveResult }}</td>
+          <ng-template #noData>
+            <td>{{ t('EVENTS.QUICK_STATISTICS.NO_DATA') }}</td>
+          </ng-template>
+        </tr>
+        <tr>
+          <td>{{ t('EVENTS.QUICK_STATISTICS.OTHER') }}</td>
+          <td *ngIf="otherResult.length > 0; else noData">{{ otherResult }}</td>
+          <ng-template #noData>
+            <td>{{ t('EVENTS.QUICK_STATISTICS.NO_DATA') }}</td>
+          </ng-template>
+        </tr>
+        <tr>
+          <td>{{ t('EVENTS.QUICK_STATISTICS.STAND_BY') }}</td>
+          <td *ngIf="standByResult.length > 0; else noData">{{ standByResult }}</td>
+          <ng-template #noData>
+            <td>{{ t('EVENTS.QUICK_STATISTICS.NO_DATA') }}</td>
+          </ng-template>
+        </tr>
+        <tr>
+          <td>{{ t('EVENTS.QUICK_STATISTICS.PAID_LEAVE') }}</td>
+          <td *ngIf="paidLeaveResult.length > 0; else noData">{{ paidLeaveResult }}</td>
+          <ng-template #noData>
+            <td>{{ t('EVENTS.QUICK_STATISTICS.NO_DATA') }}</td>
+          </ng-template>
+        </tr>
+        <tr>
+          <td>{{ t('EVENTS.QUICK_STATISTICS.PAID_HOLIDAY') }}</td>
+          <td *ngIf="paidHolidayResult.length > 0; else noData">{{ paidHolidayResult }}</td>
+          <ng-template #noData>
+            <td>{{ t('EVENTS.QUICK_STATISTICS.NO_DATA') }}</td>
+          </ng-template>
+        </tr>
+        <tr>
+          <td>{{ t('EVENTS.QUICK_STATISTICS.SICK_PAID') }}</td>
+          <td *ngIf="sickPayResult.length > 0; else noData">{{ sickPayResult }}</td>
+          <ng-template #noData>
+            <td>{{ t('EVENTS.QUICK_STATISTICS.NO_DATA') }}</td>
+          </ng-template>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

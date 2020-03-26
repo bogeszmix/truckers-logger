@@ -1,11 +1,11 @@
 <app-topbar (isToggled)="isSidebarOpened($event)"></app-topbar>
-
+<app-toast aria-live="polite" aria-atomic="true"></app-toast>
 <div id="wrapper" #toggableSidebar >
 
     <app-sidebar class="sidebar"></app-sidebar>
 
     <div id="content-wrapper">
-        <app-toast aria-live="polite" aria-atomic="true"></app-toast>
+        
 
         <div class="container-fluid">
 

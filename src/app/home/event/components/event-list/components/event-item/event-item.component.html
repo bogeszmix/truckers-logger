@@ -1,0 +1,40 @@
+<div *transloco="let t">
+    <div 
+        class="card mb-3" 
+        [ngClass]="[
+        eventItem.eventType === 'EVENT1' ? 'event-type-1' : '',
+        eventItem.eventType === 'EVENT2' ? 'event-type-2' : '',
+        eventItem.eventType === 'EVENT3' ? 'event-type-3' : '',
+        eventItem.eventType === 'EVENT4' ? 'event-type-4' : '',
+        eventItem.eventType === 'EVENT5' ? 'event-type-5' : '']"
+    >
+        <div class="card-header">
+            <div class="row">
+                <div class="col-12 col-md-4 align-self-center">
+                    {{ eventItem?.uniqueSecondaryId }}
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-12 col-md-4 align-self-center">
+                    <b>{{ t('EVENTS.LIST_EVENT.LIST.HEADERS.TIME') }}</b> {{ eventItem?.timeInMin }}
+                </div>
+                <div class="col-12 col-md-4 align-self-center">
+                    <b>{{ t('EVENTS.LIST_EVENT.LIST.HEADERS.EVENT_TYPE') }}</b> {{ t('EVENTS.EVENT_TYPES.' + eventItem?.eventType) }}
+                </div>
+                <div class="col-12 col-md-4 align-self-center">
+                    <b>{{ t('EVENTS.LIST_EVENT.LIST.HEADERS.CREATED_DATE') }}</b> {{ eventItem?.createDateTime | dateFormatTime }}
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-12 text-center text-sm-right align-self-center mt-2 mt-md-0">
+                    <button class="btn btn-primary mr-2" (click)="editEvent()">
+                        {{ t('EVENTS.LIST_EVENT.LIST.HEADERS.BTN_MODIFY_LABEL') }}
+                    </button>
+                    <button type="button" class="btn btn-outline-danger" (click)="deleteEvent()">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
