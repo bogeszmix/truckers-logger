@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import * as moment from 'moment';
+import moment from 'moment';
 import { ResponseObWorkTimeModel } from 'src/app/api/models/response/response-ob-work-time.model';
 import { WorkTimeRegex } from 'src/app/home/enums/work-time-regex.enum';
 import { ParseMinToHM } from 'src/app/home/utils/parse-min-to-hm';

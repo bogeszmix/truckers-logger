@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as moment from 'moment';
+import moment from 'moment';
 import { RequestEventModel } from 'src/app/api/models/request/request-event.model';
 import { ParseMinToHM } from 'src/app/home/utils/parse-min-to-hm';
 import { AuthService } from 'src/app/auth/auth.service';

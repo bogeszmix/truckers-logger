@@ -9,5 +9,10 @@
         "MENU_ITEM_JOURNEYLIST": "Menetlevelek",
         "MENU_ITEM_OBWORK": "Munkaórák",
         "MENU_ITEM_STATISTICS": "Statisztikák"
+    },
+    "EXPORT": {
+        "BTN_EXPORT_LABEL": "Export Pdf",
+        "SUCCESS_MESSAGE_EXPORT": "Sikeres exportálás",
+        "WARNING_EMPTY_EXPORT": "Nincs exportálható adat"
     }
 }

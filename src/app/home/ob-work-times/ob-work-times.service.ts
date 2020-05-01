@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ResponseObWorkTimeModel } from 'src/app/api/models/response/response-ob-work-time.model';
 import { APIObWorkService } from 'src/app/api/services/api-ob-work.service';
 import { tap, map } from 'rxjs/operators';
-import * as moment from 'moment';
+import moment from 'moment';
 import { RequestObWorkTimeModel } from 'src/app/api/models/request/request-ob-work-time.model';
 import { AuthService } from 'src/app/auth/auth.service';
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import * as moment from 'moment';
+import moment from 'moment';
 import { ParseMinToHM } from 'src/app/home/utils/parse-min-to-hm';
 import { ResponseEventModel } from 'src/app/api/models/response/response-event.model';
 import { NgbDateToMoment } from 'src/app/home/utils/ngb-date-to-moment';

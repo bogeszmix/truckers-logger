@@ -1,5 +1,5 @@
 import { DateNgBootstrapModel } from '../event/models/date-ngbootstrap.model';
-import * as moment from 'moment';
+import moment from 'moment';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 
 export class NgbDateToMoment {
