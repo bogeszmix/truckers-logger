@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ParseMinToHM } from '../../../utils/parse-min-to-hm';
-import * as moment from 'moment';
+import moment from 'moment';
 import { EditObWorkTimesComponent } from '../modals/edit-ob-work-times/edit-ob-work-times.component';
 import { ResponseObWorkTimeModel } from 'src/app/api/models/response/response-ob-work-time.model';
 import { ObWorkTimesService } from '../../ob-work-times.service';

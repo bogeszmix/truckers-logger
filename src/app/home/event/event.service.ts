@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import * as moment from 'moment';
+import moment from 'moment';
 
 import { tap, map } from 'rxjs/operators';
 import { ResponseEventModel } from 'src/app/api/models/response/response-event.model';

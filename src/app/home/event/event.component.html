@@ -2,13 +2,18 @@
     <div class="card mb-3">
         <div class="card-header">
             <div class="row">
-                <button class="btn btn-outline-primary col-12 col-sm-4 mr-sm-2 mt-2 mt-sm-0" type="button" (click)="addNewEvent()">
+                <button class="btn btn-outline-primary col-12 col-sm-3 mr-sm-2 mt-2 mt-sm-0" type="button"
+                    (click)="addNewEvent()">
                     {{ t('EVENTS.CREATE_EVENT') }}
                 </button>
-                <button class="btn btn-outline-primary col-12 col-sm-4 mt-2 mt-sm-0" type="button" data-toggle="collapse"
-                    data-target="#quickFilterStatistics" aria-expanded="false" aria-controls="quickFilterStatistics">
+                <button class="btn btn-outline-primary col-12 col-sm-3 mr-sm-2 mt-2 mt-sm-0" type="button"
+                    data-toggle="collapse" data-target="#quickFilterStatistics" aria-expanded="false"
+                    aria-controls="quickFilterStatistics">
                     {{ t('EVENTS.QUICK_STATISTICS.TITLE') }}
                 </button>
+                <app-pdf-export class="btn btn-outline-info col-12 col-sm-3 mr-sm-2 mt-2 mt-sm-0"
+                    [importData]="exportableData">
+                </app-pdf-export>
             </div>
         </div>
         <div class="collapse" id="quickFilterStatistics">
@@ -18,4 +23,4 @@
         </div>
     </div>
 </div>
-<app-event-list></app-event-list>
+<app-event-list (filteredExportableData)="getExportableList($event)"></app-event-list>

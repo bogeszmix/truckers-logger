@@ -1,9 +1,14 @@
 <div *transloco="let t">
     <div class="card mb-3">
         <div class="card-header">
-            <button class="btn btn-outline-primary" type="button" (click)="addMonth()">
+            <button class="btn btn-outline-primary col-12 col-sm-4 mr-sm-2 mt-2 mt-sm-0" type="button" (click)="addMonth()">
                 {{ t('OBWORK.NEW_OBWORK.TITLE') }}
             </button>
+            <app-pdf-export 
+                class="btn btn-outline-info col-12 col-sm-4 mr-sm-2 mt-2 mt-sm-0"
+                [importData]="exportableData"
+            >
+            </app-pdf-export>
         </div>
     </div>
     <div class="card mb-3">

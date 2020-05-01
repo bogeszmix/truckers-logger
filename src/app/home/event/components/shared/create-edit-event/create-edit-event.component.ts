@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import * as moment from 'moment';
+import moment from 'moment';
 import { EventTypes } from 'src/app/home/enums/event-types.enum';
 import { WorkTimeRegex } from 'src/app/home/enums/work-time-regex.enum';
 import { NgbDateStruct, NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';

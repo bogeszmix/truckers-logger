@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/cor
 import { Subscription } from 'rxjs';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
-import * as moment from 'moment';
+import moment from 'moment';
 import { EventTypes } from 'src/app/home/enums/event-types.enum';
 import { DateNgBootstrapModel } from 'src/app/home/event/models/date-ngbootstrap.model';
 import { NgbDateToMoment } from 'src/app/home/utils/ngb-date-to-moment';

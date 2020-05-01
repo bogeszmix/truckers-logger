@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
-import * as moment from 'moment';
+import moment from 'moment';
 import { EventService } from 'src/app/home/event/event.service';
 import { ParseMinToHM } from '../../../utils/parse-min-to-hm';
 import { ResponseEventModel } from 'src/app/api/models/response/response-event.model';
@@ -13,6 +13,8 @@ import { OrderOptionModel } from 'src/app/home/shared/models/order-option.model'
   styleUrls: ['./event-list.component.scss']
 })
 export class EventListComponent implements OnInit, OnDestroy {
+
+  @Output() filteredExportableData = new EventEmitter<any>();
 
   subs: Subscription;
   eventList: any[];
@@ -86,6 +88,7 @@ export class EventListComponent implements OnInit, OnDestroy {
         if (list) {
           this.eventList = list;
           this.filterableEventList = [...this.eventList];
+          this.filteredExportableData.emit([...this.eventList]);
         }
       }));
   }

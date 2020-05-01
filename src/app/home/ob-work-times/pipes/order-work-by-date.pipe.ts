@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ResponseObWorkTimeModel } from 'src/app/api/models/response/response-ob-work-time.model';
-import * as moment from 'moment';
+import moment from 'moment';
 
 @Pipe({
   name: 'orderWorkByDate'

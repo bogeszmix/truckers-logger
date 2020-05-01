@@ -6,7 +6,7 @@ import {
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ObWorkTimesService } from './ob-work-times.service';
-import * as moment from 'moment';
+import moment from 'moment';
 import { ResponseObWorkTimeModel } from 'src/app/api/models/response/response-ob-work-time.model';
 import { RequestObWorkTimeModel } from 'src/app/api/models/request/request-ob-work-time.model';
 import { ParseMinToHM } from '../utils/parse-min-to-hm';
@@ -17,6 +17,8 @@ import { TranslationService } from 'src/app/translation/translation.service';
 import { OrderOptionModel } from '../shared/models/order-option.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NewObWorkTimesComponent } from './components/modals/new-ob-work-times/new-ob-work-times.component';
+import { PdfExportModel } from '../shared/models/pdf-export.model';
+import { GenerateArrayFromArrayJson } from '../utils/generate-arrays-from-array-json';
 
 @Component({
   selector: 'app-ob-work-times',
@@ -29,6 +31,7 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
   filterYearList: number[] = [];
   workTimesList: ResponseObWorkTimeModel[] = [];
   orderOptionList: OrderOptionModel[];
+  exportableData: PdfExportModel;
   orderOpt: string;
   isLoading = false;
 
@@ -55,6 +58,23 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
     }
   }
 
+  initExportData(workTimes: ResponseObWorkTimeModel[]) {
+    if (workTimes) {
+      const headersTranslate = this.translationService.getTranslateObject('OBWORK.LIST_ITEM');
+
+      this.exportableData = {
+        headers: [[
+          headersTranslate.DATE_LABEL,
+          headersTranslate.OB_TIME
+        ]],
+        data: GenerateArrayFromArrayJson.generateArrays(workTimes, ['date', 'obWorkTime'], 'obWorkTime')
+      };
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   initDatePickerValues() {
     for (let i = moment().add(1, 'year').year(); i >= 2000; i--) {
       this.filterYearList.push(i);
@@ -68,6 +88,7 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
       (monthItems: ResponseObWorkTimeModel[]) => {
         if (monthItems) {
           this.workTimesList = monthItems;
+          this.initExportData(this.workTimesList);
         }
       }
     ));
@@ -86,6 +107,7 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
           this.obWorkTimesSub.add(
             this.obWorkService.initWorkTimeList(moment().year(values.year)).subscribe()
           );
+          this.initExportData(this.workTimesList);
         }
       }));
     }
