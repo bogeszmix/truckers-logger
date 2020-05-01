@@ -17,11 +17,13 @@
       }
     },
     "LIST": {
+        "FILTERED_RANGE": "Időszak:",
         "HEADERS": {
-            "TIME": "Időtartam (óra:perc)",
-            "EVENT_TYPE": "Esemény",
-            "CREATED_DATE": "Rögzítve",
-            "CREATED_TIME": "Időpont"
+            "TIME": "Időtartam (óra:perc):",
+            "EVENT_TYPE": "Esemény:",
+            "CREATED_DATE": "Rögzítve:",
+            "CREATED_TIME": "Időpont:",
+            "BTN_MODIFY_LABEL": "Módosítás"
         },
         "DROPDOWN_MENU": {
             "EDIT": "Módosítás",
@@ -30,7 +32,7 @@
     }
   },
   "QUICK_STATISTICS": {
-    "TITLE": "Szűrt adatok statisztikája:",
+    "TITLE": "Szűrt adatok statisztikája",
     "DRIVE_OTHER_PAIDLEAVE": "Vezetés és egyéb munka és szabadság összesen:",
     "DRIVE_OTHER": "Vezetés és egyéb munka összesen:",
     "DRIVE": "Vezetés összesen:",
@@ -60,7 +62,8 @@
       },
       "CREATE_EDIT": {
           "TITLE": "Esemény szerkesztése",
-          "EVENT_DATE": "Az esemény dátuma: ",
+          "EVENT_DATE_LABEL": "Az esemény dátuma: ",
+          "EVENT_DATE_PLACEHOLDER_LABEL": "Az esemény dátuma: ",
           "EVENT_TYPE_LABEL": "Esemény típus",
           "EVENT_TYPE_PLACEHOLDER_LABEL": "Esemény típus",
           "EVENT_TYPE_DEFAULT_PLACEHOLDER_LABEL": "Kérjük válasszon",

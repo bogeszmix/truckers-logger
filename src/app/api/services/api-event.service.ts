@@ -33,7 +33,8 @@ export class APIEventService {
     updateEvent(event: ResponseEventModel): Promise<any> {
         return this.dbConn.collection(this.BASE_URL).doc(event.id).update({
             timeInMin: event.timeInMin,
-            eventType: event.eventType
+            eventType: event.eventType,
+            createDateTime: event.createDateTime
         });
     }
 

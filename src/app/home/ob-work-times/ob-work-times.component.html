@@ -1,49 +1,9 @@
 <div *transloco="let t">
     <div class="card mb-3">
         <div class="card-header">
-            <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#newMonthObWork"
-                aria-expanded="false" aria-controls="newMonthObWork">
+            <button class="btn btn-outline-primary" type="button" (click)="addMonth()">
                 {{ t('OBWORK.NEW_OBWORK.TITLE') }}
             </button>
-        </div>
-    
-        <div class="collapse" id="newMonthObWork">
-            <div class="container card card-body">
-                <div class="row justify-content-center">
-                    <form [formGroup]="newMonthObWorkForm" (ngSubmit)="submitNewMonth(newMonthObWorkForm.value)" class="col-sm-12 col-md-6">
-                        <div class="form-group">
-                            <label for="yearSelect">{{ t('OBWORK.NEW_OBWORK.FORM.YEAR_LABEL') }}</label>
-                            <select class="form-control" id="yearSelect" formControlName="yearSelector" required>
-                                <option *ngFor="let year of newFormYearList" value="{{ year }}">{{ year }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="monthSelect">{{ t('OBWORK.NEW_OBWORK.FORM.MONTH_LABEL') }}</label>
-                            <select class="form-control" id="monthSelect" formControlName="monthSelector" required>
-                                <option value="null" selected disabled hidden>{{ t('OBWORK.NEW_OBWORK.FORM.DEFAULT_OPTION') }}</option>
-                                <option *ngFor="let month of newFormMonthList" value="{{ month }}">{{ month }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="timeHour">{{ t('OBWORK.NEW_OBWORK.FORM.TIME_LABEL') }}</label>
-                            <input type="text" class="form-control" id="timeHour" placeholder="{{ t('OBWORK.NEW_OBWORK.FORM.TIME_PLACEHOLDER_LABEL') }}" formControlName="obWorkTime">
-                            <div class="text-center" *ngIf="newMonthObWorkForm.controls.obWorkTime.hasError('pattern')">
-                                <span class="text-danger">{{ t('OBWORK.NEW_OBWORK.FORM.TIME_ERROR_MESSAGE_TEXT') }}</span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="text-center" *ngIf="isMonthAlreadyExist">
-                                <span class="text-danger">{{ t('OBWORK.NEW_OBWORK.FORM.TIME_ERROR_MESSAGE_TEXT') }}</span>
-                            </div>
-                            <button type="submit" class="btn btn-primary col-12" [disabled]="!newMonthObWorkForm.valid">
-                                {{ t('OBWORK.NEW_OBWORK.FORM.BTN_SAVE_LABEL') }}
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
         </div>
     </div>
     <div class="card mb-3">

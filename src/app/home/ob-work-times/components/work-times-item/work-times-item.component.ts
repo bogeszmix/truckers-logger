@@ -32,7 +32,8 @@ export class WorkTimesItemComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.monthData) {
       this.timeData = {
-        date: moment(this.monthData.date).format('YYYY MMMM'),
+        dateYear: moment(this.monthData.date).format('YYYY'),
+        dateMonth: moment(this.monthData.date).format('MMMM'),
         obTime: ParseMinToHM.parseMinutesToHourMinFormat(this.monthData.obWorkTime),
       };
     }

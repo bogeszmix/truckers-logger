@@ -49,5 +49,19 @@
         "EDITED_SUCCESSFUL": "A havi óra nyílvántartás sikeresen módosítva",
         "DELETED_SUCCESSFUL": "A havi óra nyílvántartás sikeresen törölve",
         "SOMETHING_WENT_WRONG": "Hiba történt"
+    },
+    "MONTH_LIST": {
+        "January": "Január",
+        "February": "Február",
+        "March": "Március",
+        "April": "Április",
+        "May": "Május",
+        "June": "Június",
+        "July": "Július",
+        "August": "Augusztus",
+        "September": "Szeptember",
+        "October": "Október",
+        "November": "November",
+        "December": "December"
     }
 }

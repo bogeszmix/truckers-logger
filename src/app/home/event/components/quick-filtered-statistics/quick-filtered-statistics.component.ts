@@ -3,7 +3,6 @@ import { EventService } from '../../event.service';
 import { Subscription } from 'rxjs';
 import { EventTypes } from '../../../enums/event-types.enum';
 import { ParseMinToHM } from '../../../utils/parse-min-to-hm';
-import { ExtendedEventModel } from '../../models/event.model';
 import { RequestEventModel } from 'src/app/api/models/request/request-event.model';
 
 @Component({

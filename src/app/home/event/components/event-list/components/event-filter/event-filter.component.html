@@ -1,0 +1,46 @@
+<div class="row justify-content-center" *transloco="let t">
+    <form class="col-sm-12 col-md-6 text-center" [formGroup]="filterForm">
+        <div class="form-group">
+            <select class="form-control" formControlName="eventType" required>
+                <option value="null" selected>{{ t('EVENTS.EVENT_TYPES.EVENT0') }}</option>
+                <option *ngFor="let eventType of eventTypeOptions | keyvalue" value="{{ eventType.key }}">
+                    {{ t('EVENTS.EVENT_TYPES.' + eventType.value) }}</option>
+            </select>
+        </div>
+        <div class="form-group ">
+            <div class="input-group">
+                <input class="form-control"
+                    placeholder="{{ t('EVENTS.LIST_EVENT.FILTER.FORM.DATE_FROM_PLACEHOLDER_LABEL') }}" name="d1"
+                    ngbDatepicker #d1="ngbDatepicker" formControlName="dateFrom" [maxDate]="maxDate" />
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
+                        <i class="far fa-calendar-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <input class="form-control"
+                    placeholder="{{ t('EVENTS.LIST_EVENT.FILTER.FORM.DATE_TO_PLACEHOLDER_LABEL') }}" name="d2"
+                    ngbDatepicker #d2="ngbDatepicker" formControlName="dateTo" [maxDate]="maxDate" />
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button">
+                        <i class="far fa-calendar-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn btn-primary col-12" (click)="resetFilter()">
+                {{ t('EVENTS.LIST_EVENT.FILTER.BTN_DELETE_FILTER_LABEL') }}
+            </button>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary col-12" [disabled]="disabled"
+                (click)="submitFilterForm(filterForm.value)">
+                {{ t('EVENTS.LIST_EVENT.FILTER.BTN_FILTER_SUBMIT_LABEL') }}
+            </button>
+        </div>
+    </form>
+</div>

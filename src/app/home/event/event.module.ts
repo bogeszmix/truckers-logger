@@ -8,7 +8,6 @@ import {
   NgbModalModule
 } from '@ng-bootstrap/ng-bootstrap';
 
-import { CreateEventComponent } from './components/create-event/create-event.component';
 import { EventListComponent } from './components/event-list/event-list.component';
 import { QuickFilteredStatisticsComponent } from './components/quick-filtered-statistics/quick-filtered-statistics.component';
 import { EventRoutingModule } from './event-routing.module';
@@ -19,6 +18,10 @@ import { CreateEditEventComponent } from './components/shared/create-edit-event/
 import { TranslocoModule, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { OrderByDatePipe } from './pipes/order-by-date.pipe';
 import { SharedModule } from '../shared/shared.module';
+import { CreateEventComponent } from './components/modals/create-event/create-event.component';
+import { EventItemComponent } from './components/event-list/components/event-item/event-item.component';
+import { EventFilterComponent } from './components/event-list/components/event-filter/event-filter.component';
+import { DateFormatTimePipe } from './pipes/date-format-time.pipe';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,10 @@ import { SharedModule } from '../shared/shared.module';
     EditEventComponent,
     DeleteEventComponent,
     CreateEditEventComponent,
-    OrderByDatePipe
+    OrderByDatePipe,
+    EventItemComponent,
+    EventFilterComponent,
+    DateFormatTimePipe
   ],
   imports: [
     CommonModule,
@@ -43,7 +49,7 @@ import { SharedModule } from '../shared/shared.module';
     EventRoutingModule,
     SharedModule
   ],
-  entryComponents: [EditEventComponent, DeleteEventComponent],
+  entryComponents: [EditEventComponent, DeleteEventComponent, CreateEventComponent],
   providers: [
     { provide: TRANSLOCO_SCOPE, useValue: {scope: 'home/events', alias: 'EVENTS'} }
   ]

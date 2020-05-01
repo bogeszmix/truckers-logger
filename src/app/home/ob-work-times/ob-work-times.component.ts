@@ -15,6 +15,8 @@ import { WorkTimeRegex } from '../enums/work-time-regex.enum';
 import { ToastService } from '../shared/components/toast/toast.service';
 import { TranslationService } from 'src/app/translation/translation.service';
 import { OrderOptionModel } from '../shared/models/order-option.model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NewObWorkTimesComponent } from './components/modals/new-ob-work-times/new-ob-work-times.component';
 
 @Component({
   selector: 'app-ob-work-times',
@@ -23,39 +25,28 @@ import { OrderOptionModel } from '../shared/models/order-option.model';
 })
 export class ObWorkTimesComponent implements OnInit, OnDestroy {
   obWorkTimesSub: Subscription;
-
-  newMonthObWorkForm: FormGroup;
   yearPickerForm: FormGroup;
   filterYearList: number[] = [];
-  newFormMonthList: string[] = [];
-  newFormYearList: number[] = [];
-
   workTimesList: ResponseObWorkTimeModel[] = [];
-
   orderOptionList: OrderOptionModel[];
-
   orderOpt: string;
-
   isLoading = false;
-  isMonthAlreadyExist = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private obWorkService: ObWorkTimesService,
     private translationService: TranslationService,
     private toastService: ToastService,
-    private authService: AuthService
-  ) {}
+    private modalService: NgbModal
+  ) { }
 
   ngOnInit() {
     this.obWorkTimesSub = new Subscription();
-    this.initDatePickerValues();
     this.initMonthList();
+    this.initDatePickerValues();
     this.initYearPickerForm();
-    this.initNewMonthObWorkForm();
     this.initOrderOptionList();
     this.yearPickerFormChange();
-    this.onNewMonthObWorkFormChange();
   }
 
   ngOnDestroy() {
@@ -65,9 +56,7 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
   }
 
   initDatePickerValues() {
-    this.newFormMonthList = moment.months();
     for (let i = moment().add(1, 'year').year(); i >= 2000; i--) {
-      this.newFormYearList.push(i);
       this.filterYearList.push(i);
     }
   }
@@ -84,27 +73,10 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
     ));
   }
 
-  initNewMonthObWorkForm() {
-    this.newMonthObWorkForm = this.formBuilder.group({
-      monthSelector: [null, Validators.required],
-      yearSelector: [moment().year(), Validators.required],
-      obWorkTime: ['', Validators.pattern(new RegExp(WorkTimeRegex.FORMAT))]
-    });
-  }
-
   initYearPickerForm() {
     this.yearPickerForm = this.formBuilder.group({
       year: [moment().year()]
     });
-  }
-
-  onNewMonthObWorkFormChange() {
-    this.obWorkTimesSub.add(this.newMonthObWorkForm.valueChanges.subscribe(values => {
-      this.isNewMonthExist({
-        yearSelector: values.yearSelector,
-        monthSelector: values.monthSelector
-      }, this.workTimesList);
-    }));
   }
 
   yearPickerFormChange() {
@@ -116,41 +88,6 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
           );
         }
       }));
-    }
-  }
-
-  submitNewMonth(newObWorkMonth: { yearSelector: number, monthSelector: string; obWorkTime?: string }) {
-    if (!this.isNewMonthExist(newObWorkMonth, this.workTimesList)) {
-      const newWorkTimeModel = {
-        date: moment()
-          .year(newObWorkMonth.yearSelector)
-          .month(newObWorkMonth.monthSelector)
-          .format(moment.HTML5_FMT.DATE),
-        obWorkTime: ParseMinToHM.parseHourMinToMinutesFormat(newObWorkMonth.obWorkTime),
-        userId: this.authService.getCurrentLoggedInUser().uid
-      } as RequestObWorkTimeModel;
-      this.obWorkService.addNewMonth(newWorkTimeModel)
-      .then(() => this.toastService.showSuccess(
-        this.translationService.getInstant('OBWORK.TOAST.CREATED_SUCCESSFUL')
-      ))
-      .catch(response => this.toastService.showAlert(
-        this.translationService.getInstant('OBWORK.TOAST.SOMETHING_WENT_WRONG')
-      ));
-    }
-  }
-
-  isNewMonthExist(
-    newObWorkMonth: { yearSelector: number, monthSelector: string; obWorkTime?: string },
-    workTimeList: ResponseObWorkTimeModel[]
-  ): boolean {
-    if (newObWorkMonth.monthSelector && workTimeList) {
-      const index = workTimeList.findIndex((workTimeItem: ResponseObWorkTimeModel) =>
-        moment().year(newObWorkMonth.yearSelector).month(newObWorkMonth.monthSelector)
-          .isSame(workTimeItem.date, 'month')
-      );
-      const isExists = true ? index >= 0 : false;
-      this.isMonthAlreadyExist = isExists;
-      return isExists;
     }
   }
 
@@ -166,6 +103,25 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
         translateKey: 'OBWORK.LIST_OBWORK.ORDER_OPTIONS.ASC'
       }
     ];
+  }
+
+  addMonth() {
+    const monthModalRef = this.modalService.open(NewObWorkTimesComponent);
+
+    monthModalRef.componentInstance.newFormYearList = this.filterYearList;
+    monthModalRef.componentInstance.workTimesList = this.workTimesList;
+
+    monthModalRef.result.then((newWorkTimeModel: RequestObWorkTimeModel) => {
+      if (newWorkTimeModel) {
+        this.obWorkService.addNewMonth(newWorkTimeModel)
+          .then(() => this.toastService.showSuccess(
+            this.translationService.getInstant('OBWORK.TOAST.CREATED_SUCCESSFUL')
+          ))
+          .catch(response => this.toastService.showAlert(
+            this.translationService.getInstant('OBWORK.TOAST.SOMETHING_WENT_WRONG')
+          ));
+      }
+    });
   }
 
   selectedOrder(selectedObj: string) {

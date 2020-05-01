@@ -3,7 +3,9 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-12 col-md-4 align-self-center">
-                    {{ t('OBWORK.LIST_ITEM.DATE_LABEL') }} {{ timeData?.date }}
+                    {{ t('OBWORK.LIST_ITEM.DATE_LABEL') }} 
+                    {{timeData?.dateYear}} 
+                    {{ t('OBWORK.MONTH_LIST.' + timeData?.dateMonth) }}
                 </div>
                 <div class="col-12 col-md-3 align-self-center">
                     {{ t('OBWORK.LIST_ITEM.OB_TIME') }} {{ timeData?.obTime }}
@@ -12,7 +14,7 @@
                     <button class="btn btn-primary mr-2" (click)="editMonth(monthData)">
                         {{ t('OBWORK.LIST_ITEM.BTN_MODIFY_LABEL') }}
                     </button>
-                    <button type="button" class="btn btn-outline-warning" (click)="deleteMonth(monthData)">
+                    <button type="button" class="btn btn-outline-danger" (click)="deleteMonth(monthData)">
                         <i class="fas fa-trash"></i>
                     </button>
                 </div>

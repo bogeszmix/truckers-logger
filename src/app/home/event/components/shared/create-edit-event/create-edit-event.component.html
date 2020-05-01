@@ -2,7 +2,16 @@
 <div *transloco="let t">
     <form [formGroup]="createEventForm" (ngSubmit)="submitNewEvent(createEventForm.value)" >
         <div class="form-group">
-            {{ t('EVENTS.MODALS.CREATE_EDIT.EVENT_DATE') }} {{ currentDate }}
+            <div class="input-group">
+                <input class="form-control"
+                    placeholder="{{ t('EVENTS.MODALS.CREATE_EDIT.EVENT_DATE_PLACEHOLDER_LABEL') }}" name="d1"
+                    ngbDatepicker #d1="ngbDatepicker" formControlName="createdDateTime" [maxDate]="maxDate" />
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
+                        <i class="far fa-calendar-alt"></i>
+                    </button>
+                </div>
+            </div>
         </div>
         <div class="form-group">
             <label for="eventType">{{ t('EVENTS.MODALS.CREATE_EDIT.EVENT_TYPE_LABEL') }}</label>
