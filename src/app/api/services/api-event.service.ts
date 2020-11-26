@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { ResponseEventModel } from '../models/response/response-event.model';
 import { RequestEventModel } from '../models/request/request-event.model';
+import { ResponseEventModel } from '../models/response/response-event.model';
 
 @Injectable({
     providedIn: 'root'
@@ -23,7 +23,7 @@ export class APIEventService {
         return null;
     }
 
-    readEvents(loggedInUser: firebase.User): Observable<any> {
+    readEvents(loggedInUser: firebase.default.User): Observable<any> {
         if (loggedInUser) {
             return this.dbConn.collection(this.BASE_URL, ref => ref.where('userId', '==', loggedInUser.uid))
                 .snapshotChanges();
