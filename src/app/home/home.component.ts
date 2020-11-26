@@ -11,7 +11,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   sidebarStatusSub: Subscription;
   isOpened: boolean;
 
-  @ViewChild('toggableSidebar', { static: false}) toggableSidebar: ElementRef<HTMLElement>;
+  @ViewChild('toggableSidebar') toggableSidebar: ElementRef<HTMLElement>;
 
   constructor(
     private renderer: Renderer2
