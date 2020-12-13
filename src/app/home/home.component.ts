@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2, OnDestroy, AfterViewInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -11,13 +12,15 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   sidebarStatusSub: Subscription;
   isOpened: boolean;
 
-  @ViewChild('toggableSidebar', { static: false}) toggableSidebar: ElementRef<HTMLElement>;
+  @ViewChild('toggableSidebar') toggableSidebar: ElementRef<HTMLElement>;
 
   constructor(
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
+    this.initCurrentLoggedInUser();
   }
 
   ngOnDestroy(): void {
@@ -30,6 +33,10 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.toggableSidebar) {
       this.addToggle();
     }
+  }
+
+  initCurrentLoggedInUser() {
+    this.authService.isAuthenticated();
   }
 
   isSidebarOpened(event: Observable<boolean>) {

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
+import moment from 'moment';
 import { BehaviorSubject } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { RequestObWorkTimeModel } from 'src/app/api/models/request/request-ob-work-time.model';
 import { ResponseObWorkTimeModel } from 'src/app/api/models/response/response-ob-work-time.model';
 import { APIObWorkService } from 'src/app/api/services/api-ob-work.service';
-import { tap, map } from 'rxjs/operators';
-import moment from 'moment';
-import { RequestObWorkTimeModel } from 'src/app/api/models/request/request-ob-work-time.model';
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Injectable({
@@ -24,7 +24,7 @@ export class ObWorkTimesService {
   }
 
   initWorkTimeList(date?: moment.Moment) {
-    return this.apiWorkTimeService.readWorkTimes(this.authService.getCurrentLoggedInUser()).pipe(
+    return this.apiWorkTimeService.readWorkTimes(this.authService._currentLoggedInUser).pipe(
       map((eventMetaArray: any) =>
         eventMetaArray.filter((item: any) => {
           const eventFields = item.payload.doc.data();

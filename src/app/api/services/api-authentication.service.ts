@@ -12,11 +12,11 @@ export class APIAuthenticationService {
     ) {}
 
     login(loginUser: RequestUserModel) {
-        return this.firebaseAuthService.auth.signInWithEmailAndPassword(loginUser.email, loginUser.password);
+        return this.firebaseAuthService.signInWithEmailAndPassword(loginUser.email, loginUser.password);
     }
 
     logout() {
-        return this.firebaseAuthService.auth.signOut();
+        return this.firebaseAuthService.signOut();
     }
 
     isAuthenticated() {
@@ -24,7 +24,7 @@ export class APIAuthenticationService {
     }
 
     getCurrentLoggedInUser() {
-        return this.firebaseAuthService.auth.currentUser;
+        return this.firebaseAuthService.currentUser;
     }
 
 }
