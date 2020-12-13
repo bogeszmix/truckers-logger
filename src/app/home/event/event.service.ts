@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
 import moment from 'moment';
-
-import { tap, map } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { RequestEventModel } from 'src/app/api/models/request/request-event.model';
 import { ResponseEventModel } from 'src/app/api/models/response/response-event.model';
 import { APIEventService } from 'src/app/api/services/api-event.service';
-import { RequestEventModel } from 'src/app/api/models/request/request-event.model';
 import { AuthService } from 'src/app/auth/auth.service';
+
 
 
 @Injectable({
@@ -35,7 +35,7 @@ export class EventService {
   }
 
   initEventList(filter?: { eventType?: string, dateFrom?: string, dateTo?: string }, orderBy?: string): Observable<any> {
-    return this.eventAPI.readEvents(this.authService.getCurrentLoggedInUser()).pipe(
+    return this.eventAPI.readEvents(this.authService._currentLoggedInUser).pipe(
       map((eventMetaArray: any[]) =>
         eventMetaArray.filter((item: any) => {
           const eventFields = item.payload.doc.data();

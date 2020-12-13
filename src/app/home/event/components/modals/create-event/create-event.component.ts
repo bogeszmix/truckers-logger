@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import moment from 'moment';
-import { RequestEventModel } from 'src/app/api/models/request/request-event.model';
-import { ParseMinToHM } from 'src/app/home/utils/parse-min-to-hm';
-import { AuthService } from 'src/app/auth/auth.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import moment from 'moment';
 import { ResponseEventModel } from 'src/app/api/models/response/response-event.model';
+import { AuthService } from 'src/app/auth/auth.service';
 import { NgbDateToMoment } from 'src/app/home/utils/ngb-date-to-moment';
+import { ParseMinToHM } from 'src/app/home/utils/parse-min-to-hm';
 
 
 @Component({
@@ -14,6 +13,7 @@ import { NgbDateToMoment } from 'src/app/home/utils/ngb-date-to-moment';
   styleUrls: ['./create-event.component.scss']
 })
 export class CreateEventComponent implements OnInit {
+  private curr
 
   constructor(
     private activeModal: NgbActiveModal,
@@ -22,6 +22,10 @@ export class CreateEventComponent implements OnInit {
   ) { }
 
   ngOnInit() {}
+
+  getCurrentLoggedInUserObject() {
+
+  }
 
   submitNewEvent(event: any) {
     if (event) {
@@ -33,7 +37,7 @@ export class CreateEventComponent implements OnInit {
           .add(moment().hour(), 'hour')
           .add(moment().minute(), 'minute')
           .format(moment.HTML5_FMT.DATETIME_LOCAL),
-        userId: this.authService.getCurrentLoggedInUser().uid
+        userId: this.authService._currentLoggedInUser.uid
       };
 
       this.activeModal.close(newEvent);

@@ -7,6 +7,7 @@
   "include": [
     "src/**/*.ts"
   ],
+  "files": [],
   "exclude": [
     "src/test.ts",
     "src/**/*.spec.ts"

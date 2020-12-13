@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment';
+import { Subscription } from 'rxjs';
+import { RequestObWorkTimeModel } from 'src/app/api/models/request/request-ob-work-time.model';
 import { ResponseObWorkTimeModel } from 'src/app/api/models/response/response-ob-work-time.model';
+import { AuthService } from 'src/app/auth/auth.service';
 import { WorkTimeRegex } from 'src/app/home/enums/work-time-regex.enum';
 import { ParseMinToHM } from 'src/app/home/utils/parse-min-to-hm';
-import { RequestObWorkTimeModel } from 'src/app/api/models/request/request-ob-work-time.model';
-import { AuthService } from 'src/app/auth/auth.service';
-import { ObWorkTimesService } from '../../../ob-work-times.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-new-ob-work-times',
@@ -67,7 +66,7 @@ export class NewObWorkTimesComponent implements OnInit {
           .month(newObWorkMonth.monthSelector)
           .format(moment.HTML5_FMT.DATE),
         obWorkTime: ParseMinToHM.parseHourMinToMinutesFormat(newObWorkMonth.obWorkTime),
-        userId: this.authService.getCurrentLoggedInUser().uid
+        userId: this.authService._currentLoggedInUser.uid
       } as RequestObWorkTimeModel;
 
       this.activeModal.close(newWorkTimeModel);
