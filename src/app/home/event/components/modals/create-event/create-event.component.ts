@@ -23,10 +23,6 @@ export class CreateEventComponent implements OnInit {
 
   ngOnInit() {}
 
-  getCurrentLoggedInUserObject() {
-
-  }
-
   submitNewEvent(event: any) {
     if (event) {
       const newEvent: ResponseEventModel = {

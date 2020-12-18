@@ -1,0 +1,14 @@
+<!-- New trailer add section -->
+<div *transloco="let t">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Új szerelvény hozzáadása</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeWithOutSave()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+
+    <div class="modal-body">
+        <app-create-edit-trailer (trailerFormResult)="submitNewTrailer($event)"></app-create-edit-trailer>
+    </div>
+</div>

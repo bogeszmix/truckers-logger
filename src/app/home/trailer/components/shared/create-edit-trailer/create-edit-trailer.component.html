@@ -1,0 +1,19 @@
+<div>
+    <form [formGroup]="trailerForm" class="form-group">
+        <div class="form-group">
+            <label for="licencePlace">Rendszám</label>
+            <input type="text" class="form-control" id="licencePlace" placeholder="Rendszám" formControlName="licencePlate" required>
+        </div>
+        <div class="form-group">
+            <label for="licencePlace">Kocsiszám</label>
+            <input type="text" class="form-control" id="licencePlace" placeholder="Kocsiszám" formControlName="tractorNumber" required>
+        </div>
+        <div class="form-group my-2">
+            <button 
+                type="button" 
+                class="btn btn-primary col-12" 
+                [disabled]="!trailerForm.valid"
+                (click)="submitTrailer(trailerForm)">Mentés</button>
+        </div>
+    </form>
+</div>
