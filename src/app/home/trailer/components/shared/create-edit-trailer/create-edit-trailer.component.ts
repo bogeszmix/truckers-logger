@@ -23,7 +23,8 @@ export class CreateEditTrailerComponent implements OnInit {
   initTrailerForm() {
     this.trailerForm = this.formBuilder.group({
       licencePlate: new FormControl('', Validators.required),
-      tractorNumber: new FormControl('', Validators.required) 
+      tractorNumber: new FormControl('', Validators.required),
+      createDateTime: new FormControl('', Validators.required)
     });
   }
 

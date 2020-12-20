@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { RequestTrailerModel } from 'src/app/api/models/request/request-trailer.model';
 import { TrailerModel } from '../../../models/trailer.model';
 
@@ -18,7 +18,7 @@ export class CreateTrailerComponent implements OnInit {
   }
 
   closeWithOutSave() {
-    this.activeModal.dismiss(ModalDismissReasons.ESC);
+    this.activeModal.close();
   }
 
   submitNewTrailer(newTrailer: TrailerModel) {
@@ -26,7 +26,7 @@ export class CreateTrailerComponent implements OnInit {
       const newEvent: RequestTrailerModel = {
         ...newTrailer
       };
-  
+
       this.activeModal.close(newEvent);
     }
   }

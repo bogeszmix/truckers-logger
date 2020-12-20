@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ListTrailerComponent } from './list-trailer.component';
+import { DateTimePickerComponent } from './date-time-picker.component';
 
-describe('ListTrailerComponent', () => {
-  let component: ListTrailerComponent;
-  let fixture: ComponentFixture<ListTrailerComponent>;
+describe('DateTimePickerComponent', () => {
+  let component: DateTimePickerComponent;
+  let fixture: ComponentFixture<DateTimePickerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ListTrailerComponent ]
+      declarations: [ DateTimePickerComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ListTrailerComponent);
+    fixture = TestBed.createComponent(DateTimePickerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

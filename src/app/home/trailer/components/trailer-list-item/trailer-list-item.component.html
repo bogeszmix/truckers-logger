@@ -1,0 +1,30 @@
+<div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-12 col-md-4 align-self-center">
+          <b>Rendszám tábla:</b> {{ trailerObject.licencePlate }}
+        </div>
+        <div class="col-12 col-md-4 align-self-center">
+          <b>Kocsiszám:</b> {{ trailerObject.tractorNumber }}
+        </div>
+        <div class="col-12 col-md-4 align-self-center">
+          <b>Rögzítve:</b> {{ trailerObject.tractorNumber | dateFormatTime }}
+        </div>
+      </div>
+      <div class="row mt-3 justify-content-md-end">
+        <button
+          class="btn btn-danger col-12 col-md-auto mt-2 mt-md-0 mr-0 mr-md-2 order-3 order-md-1"
+        >
+          Szerelvény törlése
+        </button>
+        <button
+          class="btn btn-warning col-12 col-md-auto mt-2 mt-md-0 mr-0 mr-md-2 order-2"
+        >
+          Szerelvény szerkesztése
+        </button>
+        <button class="btn btn-info col-12 col-md-auto order-1 order-md-3">
+          Pótkocsi lista
+        </button>
+      </div>
+    </div>
+  </div>

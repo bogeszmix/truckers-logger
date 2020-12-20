@@ -1,0 +1,50 @@
+<div [formGroup]="dateTimePickerForm" class="input-group mr-2">
+  <input
+    [ngClass]="
+      dateTimePickerForm.controls.createdDateTime?.valid
+        ? 'ng-valid'
+        : 'ng-invalid'
+    "
+    class="form-control"
+    formControlName="createdDateTime"
+    placeholder="Dátum idő"
+  />
+
+  <div class="input-group-append">
+    <button
+      class="btn btn-outline-secondary"
+      [ngbPopover]="calendarContent"
+      [autoClose]="'outside'"
+      [disabled]="disabled"
+      (hidden)="onDatePickerPopoverClose()"
+      type="button"
+      #timePickerPopOver="ngbPopover"
+    >
+      <i class="far fa-calendar-alt"></i>
+    </button>
+  </div>
+</div>
+
+<ng-template #calendarContent>
+  <div>
+    <ngb-datepicker
+      name="datepicker"
+      [ngModel]="selectedDate"
+      (ngModelChange)="onDateChange($event)"
+    >
+    </ngb-datepicker>
+
+    <div class="row justify-content-center mx-0 mt-3">
+      <ngb-timepicker
+        [ngModel]="selectedTime"
+        (ngModelChange)="onTimeChange($event)"
+      >
+      </ngb-timepicker>
+    </div>
+
+    <div class="my-2">
+        <button class="btn btn-primary col-12" (click)="timePickerPopOver.close()">Ok</button>
+    </div>
+  </div>
+
+</ng-template>

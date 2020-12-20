@@ -8,7 +8,11 @@
             <label for="licencePlace">Kocsiszám</label>
             <input type="text" class="form-control" id="licencePlace" placeholder="Kocsiszám" formControlName="tractorNumber" required>
         </div>
-        <div class="form-group my-2">
+        <div class="form group">
+            <label for="createTrailerDateTime">Rögzítés dátuma</label>
+            <app-date-time-picker id="createTrailerDateTime"></app-date-time-picker>
+        </div>
+        <div class="form-group my-3">
             <button 
                 type="button" 
                 class="btn btn-primary col-12" 

@@ -19,8 +19,6 @@ import { QuickFilteredStatisticsComponent } from './components/quick-filtered-st
 import { CreateEditEventComponent } from './components/shared/create-edit-event/create-edit-event.component';
 import { EventRoutingModule } from './event-routing.module';
 import { EventComponent } from './event.component';
-import { DateFormatTimePipe } from './pipes/date-format-time.pipe';
-import { OrderByDatePipe } from './pipes/order-by-date.pipe';
 
 
 @NgModule({
@@ -32,10 +30,8 @@ import { OrderByDatePipe } from './pipes/order-by-date.pipe';
     EditEventComponent,
     DeleteEventComponent,
     CreateEditEventComponent,
-    OrderByDatePipe,
     EventItemComponent,
-    EventFilterComponent,
-    DateFormatTimePipe
+    EventFilterComponent
   ],
   imports: [
     CommonModule,
