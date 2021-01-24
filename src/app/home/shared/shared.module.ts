@@ -8,6 +8,7 @@ import { OrderSelectorComponent } from './components/order-selector/order-select
 import { PdfExportComponent } from './components/pdf-export/pdf-export.component';
 import { ToastComponent } from './components/toast/toast.component';
 import { DateFormatTimePipe } from './pipes/date-format-time/date-format-time.pipe';
+import { DateTimeFormatPipe } from './pipes/date-time-format/date-time-format.pipe';
 import { OrderByDatePipe } from './pipes/order-by-date/order-by-date.pipe';
 
 @NgModule({
@@ -18,6 +19,7 @@ import { OrderByDatePipe } from './pipes/order-by-date/order-by-date.pipe';
     DateFormatTimePipe,
     OrderByDatePipe,
     DateTimePickerComponent,
+    DateTimeFormatPipe,
   ],
   imports: [
     CommonModule,
@@ -35,7 +37,8 @@ import { OrderByDatePipe } from './pipes/order-by-date/order-by-date.pipe';
     PdfExportComponent,
     DateFormatTimePipe,
     OrderByDatePipe,
-    DateTimePickerComponent
+    DateTimePickerComponent,
+    DateTimeFormatPipe
   ],
 })
 export class SharedModule {}

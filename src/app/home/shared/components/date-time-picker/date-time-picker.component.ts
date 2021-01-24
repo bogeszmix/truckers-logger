@@ -1,52 +1,112 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbDateStruct, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
-import { Moment } from 'moment';
+import moment, { Moment } from 'moment';
+import { Subscription } from 'rxjs';
 import { NgbDateTimeToMoment } from 'src/app/home/utils/ngb-date-time-to-moment';
+import { dateTimeRegex } from 'src/app/home/utils/validators.regex';
 
 @Component({
   selector: 'app-date-time-picker',
   templateUrl: './date-time-picker.component.html',
-  styleUrls: ['./date-time-picker.component.scss']
+  styleUrls: ['./date-time-picker.component.scss'],
 })
-export class DateTimePickerComponent implements OnInit {
-  selectedDate: NgbDateStruct;
-  selectedTime: NgbTimeStruct;
-
-  formattedSelectedDate: string;
-
+export class DateTimePickerComponent implements OnInit, OnDestroy {
+  private subs = new Subscription();
   @Output() selectedDateTimeEvent = new EventEmitter<Moment>();
 
-  dateTimePickerForm: FormGroup;
+  startDate: NgbDateStruct;
+  startTime: NgbTimeStruct;
 
-  constructor() { }
+  formattedSelectedDate: string;
+  dateTimeFormat = 'YYYY-MM-DD HH:mm';
+
+  dateTimeOuterPickerForm: FormGroup;
+  dateTimeInnerPickerForm: FormGroup;
+
+  constructor() {}
 
   ngOnInit(): void {
-    this.initDateTimePickerForm();
+    this.initDefaultDateTime();
+    this.initDateTimePickerForms();
+    this.onDatePickerPopoverClose();
   }
 
-  initDateTimePickerForm() {
-    this.dateTimePickerForm = new FormGroup({
-      createdDateTime: new FormControl('', Validators.required)
+  ngOnDestroy() {
+    this.subs.unsubscribe();
+  }
+
+  initDateTimePickerForms() {
+    this.initOuterDateTimePickerForm();
+    this.initInnerDateTimePickerForm();
+  }
+
+  initOuterDateTimePickerForm() {
+    this.dateTimeOuterPickerForm = new FormGroup({
+      createdDateTime: new FormControl(this.formattedSelectedDate, [
+        Validators.required,
+        Validators.pattern(dateTimeRegex),
+      ]),
     });
   }
 
-  onDateChange(date: NgbDateStruct) {
-    this.selectedDate = date;
-    // TODO Impl date changes, and date appearing in input and validate hand written value
+  initInnerDateTimePickerForm() {
+    this.dateTimeInnerPickerForm = new FormGroup({
+      datePicker: new FormControl(this.startDate, Validators.required),
+      timePicker: new FormControl(this.startTime, Validators.required)
+    });
   }
 
-  onTimeChange(time: NgbTimeStruct) {
-    this.selectedTime = time;
+  initDefaultDateTime() {
+    const todayMomentObject = moment();
+
+    this.startDate = {
+      year: todayMomentObject.year(),
+      month: todayMomentObject.month() + 1,
+      day: todayMomentObject.date(),
+    };
+
+    this.startTime = {
+      hour: todayMomentObject.hour(),
+      minute: todayMomentObject.minute(),
+      second: todayMomentObject.second(),
+    };
+
+    this.formattedSelectedDate = todayMomentObject.format(this.dateTimeFormat);
   }
 
-  onDatePickerPopoverClose() {
-    this.selectedDateTimeEvent.emit(
-      NgbDateTimeToMoment.formatDateTimeStructToMoment(
-        this.selectedDate,
-        this.selectedTime
-      )
+  listenOuterPickerForm() {
+    this.subs.add(
+      this.dateTimeOuterPickerForm.valueChanges.subscribe((dateTime: string) => {
+        if (this.dateTimeOuterPickerForm.valid) {
+          this.selectedDateTimeEvent.emit(NgbDateTimeToMoment.formatInputDateTimeStringToMoment(dateTime));
+        }
+      })
     );
   }
 
+  onDatePickerPopoverClose() {
+    if (this.dateTimeOuterPickerForm.valid) {
+
+      const momentDateTime = NgbDateTimeToMoment.formatDateTimeStructToMoment(
+        this._form.datePicker.value,
+        this._form.timePicker.value
+      );
+
+      this.formattedSelectedDate = momentDateTime.format(this.dateTimeFormat);
+      this.dateTimeOuterPickerForm.get('createdDateTime').setValue(this.formattedSelectedDate);
+
+      this.selectedDateTimeEvent.emit(momentDateTime);
+    }
+  }
+
+  get _form() {
+    return this.dateTimeInnerPickerForm.controls;
+  }
 }

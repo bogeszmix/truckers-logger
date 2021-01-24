@@ -1,20 +1,22 @@
 import { NgbDateStruct, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import moment, { Moment } from 'moment';
+import { dateTimeRegex } from './validators.regex';
 
 export class NgbDateTimeToMoment {
   public static parseIsoDatetoDateStruct(isoDate: string): NgbDateStruct {
-    if (moment.isDate(isoDate)) {
+    console.log('parse: ', isoDate);
+    if (moment(isoDate).isValid()) {
       const momentIso = moment(isoDate);
       return {
         year: momentIso.year(),
-        month: momentIso.month() - 1,
-        day: momentIso.day(),
+        month: momentIso.month(),
+        day: momentIso.date(),
       };
     }
   }
 
   public static parseIsoDatetoTimeStruct(isoDate: string): NgbTimeStruct {
-    if (moment.isDate(isoDate)) {
+    if (moment(isoDate).isValid()) {
       const momentIso = moment(isoDate);
       return {
         hour: momentIso.hour(),
@@ -34,7 +36,7 @@ export class NgbDateTimeToMoment {
       const momentObject = moment();
       momentObject.year(date.year);
       momentObject.month(date.month);
-      momentObject.day(date.day);
+      momentObject.date(date.day);
       momentObject.hour(time.hour);
       momentObject.minute(time.minute);
       momentObject.second(time.second);
@@ -51,8 +53,8 @@ export class NgbDateTimeToMoment {
     if (date && time) {
       const momentObject = moment();
       momentObject.year(date.year);
-      momentObject.month(date.month);
-      momentObject.day(date.day);
+      momentObject.month(date.month - 1);
+      momentObject.date(date.day);
       momentObject.hour(time.hour);
       momentObject.minute(time.minute);
       momentObject.second(time.second);
@@ -61,4 +63,13 @@ export class NgbDateTimeToMoment {
       return null;
     }
   }
+
+  public static formatInputDateTimeStringToMoment(unformattedInputDateTimeString: string): Moment {
+    if (dateTimeRegex.test(unformattedInputDateTimeString)) {
+      return moment(new Date(unformattedInputDateTimeString));
+    } else {
+      return null;
+    }
+  }
+
 }

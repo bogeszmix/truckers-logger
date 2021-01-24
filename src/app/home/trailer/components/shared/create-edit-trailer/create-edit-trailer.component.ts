@@ -1,20 +1,24 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators
+} from '@angular/forms';
+import { Moment } from 'moment';
 import { TrailerModel } from '../../../models/trailer.model';
 
 @Component({
   selector: 'app-create-edit-trailer',
   templateUrl: './create-edit-trailer.component.html',
-  styleUrls: ['./create-edit-trailer.component.scss']
+  styleUrls: ['./create-edit-trailer.component.scss'],
 })
 export class CreateEditTrailerComponent implements OnInit {
   @Output() trailerFormResult = new EventEmitter<TrailerModel>();
 
   trailerForm: FormGroup;
 
-  constructor(
-    private formBuilder: FormBuilder
-  ) { }
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.initTrailerForm();
@@ -24,7 +28,7 @@ export class CreateEditTrailerComponent implements OnInit {
     this.trailerForm = this.formBuilder.group({
       licencePlate: new FormControl('', Validators.required),
       tractorNumber: new FormControl('', Validators.required),
-      createDateTime: new FormControl('', Validators.required)
+      createDateTime: new FormControl('', Validators.required),
     });
   }
 
@@ -32,4 +36,9 @@ export class CreateEditTrailerComponent implements OnInit {
     this.trailerFormResult.emit(trailerForm.value);
   }
 
+  selectedDate(newDate: Moment) {
+    if (newDate) {
+      this.trailerForm.get('createDateTime').setValue(newDate.toISOString());
+    }
+  }
 }
