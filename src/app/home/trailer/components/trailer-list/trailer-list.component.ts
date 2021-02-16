@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, take } from 'rxjs/operators';
 import { ResponseTrailerModel } from 'src/app/api/models/response/response-trailer.model';
@@ -10,7 +10,8 @@ import { TrailerService } from '../../trailer.service';
   templateUrl: './trailer-list.component.html',
   styleUrls: ['./trailer-list.component.scss']
 })
-export class TrailerListComponent implements OnInit, OnDestroy {
+export class TrailerListComponent implements OnChanges, OnInit, OnDestroy {
+  @Input() refreshEvent: number;
   private subs = new Subscription();
   trailers: ResponseTrailerModel[];
 
@@ -19,8 +20,15 @@ export class TrailerListComponent implements OnInit, OnDestroy {
     private authService: AuthService
   ) { }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.refreshEvent) {
+      this.initTrailerList();
+    }
+  }
+
   ngOnInit(): void {
     this.initTrailerList();
+    this.listenListChanging();
   }
 
   ngOnDestroy(): void {
@@ -34,7 +42,9 @@ export class TrailerListComponent implements OnInit, OnDestroy {
         take(1)
       ).subscribe()
     );
+  }
 
+  listenListChanging() {
     this.subs.add(
       this.trailerService._trailers.subscribe((trailers: ResponseTrailerModel[]) => this.trailers = trailers)
     );

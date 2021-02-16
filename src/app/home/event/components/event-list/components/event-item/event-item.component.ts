@@ -1,11 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ResponseEventModel } from 'src/app/api/models/response/response-event.model';
-import { EventService } from '../../../../event.service';
-import { TranslationService } from 'src/app/translation/translation.service';
-import { ToastService } from 'src/app/home/shared/components/toast/toast.service';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { EditEventComponent } from '../../../modals/edit-event/edit-event.component';
+import { TranslocoService } from '@ngneat/transloco';
+import { ResponseEventModel } from 'src/app/api/models/response/response-event.model';
+import { ToastService } from 'src/app/home/shared/components/toast/toast.service';
+import { EventService } from '../../../../event.service';
 import { DeleteEventComponent } from '../../../modals/delete-event/delete-event.component';
+import { EditEventComponent } from '../../../modals/edit-event/edit-event.component';
 
 @Component({
   selector: 'app-event-item',
@@ -18,7 +18,7 @@ export class EventItemComponent implements OnInit {
 
   constructor(
     private eventService: EventService,
-    private translationService: TranslationService,
+    private translationService: TranslocoService,
     private toastService: ToastService,
     private modalService: NgbModal
   ) { }
@@ -35,10 +35,10 @@ export class EventItemComponent implements OnInit {
         if (editedItem) {
           this.eventService.modifyEvent(editedItem)
           .then(() => this.toastService.showSuccess(
-            this.translationService.getInstant('EVENTS.TOAST.EDITED_SUCCESSFUL')
+            this.translationService.translate('EVENTS.TOAST.EDITED_SUCCESSFUL')
           ))
           .catch(response => this.toastService.showAlert(
-            this.translationService.getInstant('EVENTS.TOAST.SOMETHING_WENT_WRONG')
+            this.translationService.translate('EVENTS.TOAST.SOMETHING_WENT_WRONG')
           ));
         }
       });
@@ -54,10 +54,10 @@ export class EventItemComponent implements OnInit {
         if (deletedItem) {
           this.eventService.deleteEvent(deletedItem)
           .then(() => this.toastService.showSuccess(
-            this.translationService.getInstant('EVENTS.TOAST.DELETED_SUCCESSFUL')
+            this.translationService.translate('EVENTS.TOAST.DELETED_SUCCESSFUL')
           ))
           .catch(response => this.toastService.showAlert(
-            this.translationService.getInstant('EVENTS.TOAST.SOMETHING_WENT_WRONG')
+            this.translationService.translate('EVENTS.TOAST.SOMETHING_WENT_WRONG')
           ));
         }
       });

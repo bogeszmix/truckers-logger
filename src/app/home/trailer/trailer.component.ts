@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { RequestTrailerModel } from 'src/app/api/models/request/request-trailer.model';
 import { AuthService } from 'src/app/auth/auth.service';
-import { TranslationService } from 'src/app/translation/translation.service';
 import { ToastService } from '../shared/components/toast/toast.service';
 import { CreateTrailerComponent } from './components/modals/create-trailer/create-trailer.component';
 import { TrailerService } from './trailer.service';
@@ -13,8 +12,9 @@ import { TrailerService } from './trailer.service';
   styleUrls: ['./trailer.component.scss'],
 })
 export class TrailerComponent implements OnInit {
+  refreshNeeded: number;
+
   constructor(
-    private translationService: TranslationService,
     private toastService: ToastService,
     private trailerService: TrailerService,
     private modalService: NgbModal,
@@ -34,7 +34,10 @@ export class TrailerComponent implements OnInit {
         newTrailerItem.userId = this.authService._currentLoggedInUser.uid;
         this.trailerService
           .addNewTrailer(newTrailerItem)
-          .then(() => this.toastService.showSuccess('sikeres'))
+          .then(() => {
+            this.refreshNeeded = Math.random() * 1000;
+            this.toastService.showSuccess('sikeres');
+          })
           .catch((response) => this.toastService.showAlert('nem sikeres'));
       }
     });

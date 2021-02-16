@@ -1,9 +1,8 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { TRANSLOCO_SCOPE } from "@ngneat/transloco";
+import { TranslocoService, TRANSLOCO_SCOPE } from "@ngneat/transloco";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import moment from "moment";
-import { TranslationService } from "src/app/translation/translation.service";
 import { PdfExportModel } from "../../models/pdf-export.model";
 import { ToastService } from "../toast/toast.service";
 
@@ -24,7 +23,7 @@ export class PdfExportComponent implements OnInit {
 
   constructor(
     private toastService: ToastService,
-    private translateService: TranslationService
+    private translateService: TranslocoService
   ) {}
 
   ngOnInit() {
@@ -50,12 +49,12 @@ export class PdfExportComponent implements OnInit {
         `Export_${moment().format(moment.HTML5_FMT.DATETIME_LOCAL)}.pdf`
       );
       this.toastService.showSuccess(
-        this.translateService.getInstant("HOME.EXPORT.SUCCESS_MESSAGE_EXPORT")
+        this.translateService.translate('HOME.EXPORT.SUCCESS_MESSAGE_EXPORT')
       );
       this.initJsPdf();
     } else {
       this.toastService.showAlert(
-        this.translateService.getInstant("HOME.EXPORT.WARNING_EMPTY_EXPORT")
+        this.translateService.translate('HOME.EXPORT.WARNING_EMPTY_EXPORT')
       );
     }
   }

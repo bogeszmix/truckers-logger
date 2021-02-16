@@ -1,13 +1,13 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ParseMinToHM } from '../../../utils/parse-min-to-hm';
+import { TranslocoService } from '@ngneat/transloco';
 import moment from 'moment';
-import { EditObWorkTimesComponent } from '../modals/edit-ob-work-times/edit-ob-work-times.component';
 import { ResponseObWorkTimeModel } from 'src/app/api/models/response/response-ob-work-time.model';
+import { ToastService } from 'src/app/home/shared/components/toast/toast.service';
+import { ParseMinToHM } from '../../../utils/parse-min-to-hm';
 import { ObWorkTimesService } from '../../ob-work-times.service';
 import { DeleteObWorkTimesComponent } from '../modals/delete-ob-work-times/delete-ob-work-times.component';
-import { ToastService } from 'src/app/home/shared/components/toast/toast.service';
-import { TranslationService } from 'src/app/translation/translation.service';
+import { EditObWorkTimesComponent } from '../modals/edit-ob-work-times/edit-ob-work-times.component';
 
 @Component({
   selector: 'app-work-times-item',
@@ -23,7 +23,7 @@ export class WorkTimesItemComponent implements OnInit, OnChanges {
   constructor(
     private modalService: NgbModal,
     private workTimeService: ObWorkTimesService,
-    private translationService: TranslationService,
+    private translationService: TranslocoService,
     private toastService: ToastService
   ) { }
 
@@ -49,10 +49,10 @@ export class WorkTimesItemComponent implements OnInit, OnChanges {
       if (resultData) {
         this.workTimeService.modifyObWorkTime(resultData)
         .then(() => this.toastService.showSuccess(
-          this.translationService.getInstant('OBWORK.TOAST.EDITED_SUCCESSFUL')
+          this.translationService.translate('OBWORK.TOAST.EDITED_SUCCESSFUL')
         ))
         .catch(response => this.toastService.showAlert(
-          this.translationService.getInstant('OBWORK.TOAST.SOMETHING_WENT_WRONG')
+          this.translationService.translate('OBWORK.TOAST.SOMETHING_WENT_WRONG')
         ));
       }
     });
@@ -68,10 +68,10 @@ export class WorkTimesItemComponent implements OnInit, OnChanges {
       if (resultData) {
         this.workTimeService.deleteObWorkTime(resultData)
         .then(() => this.toastService.showSuccess(
-          this.translationService.getInstant('OBWORK.TOAST.DELETED_SUCCESSFUL')
+          this.translationService.translate('OBWORK.TOAST.DELETED_SUCCESSFUL')
         ))
         .catch(response => this.toastService.showAlert(
-          this.translationService.getInstant('OBWORK.TOAST.SOMETHING_WENT_WRONG')
+          this.translationService.translate('OBWORK.TOAST.SOMETHING_WENT_WRONG')
         ));
       }
     });

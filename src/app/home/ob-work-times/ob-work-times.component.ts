@@ -1,24 +1,21 @@
 import {
   Component,
-  OnInit,
-  OnDestroy
+
+  OnDestroy, OnInit
 } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { ObWorkTimesService } from './ob-work-times.service';
-import moment from 'moment';
-import { ResponseObWorkTimeModel } from 'src/app/api/models/response/response-ob-work-time.model';
-import { RequestObWorkTimeModel } from 'src/app/api/models/request/request-ob-work-time.model';
-import { ParseMinToHM } from '../utils/parse-min-to-hm';
-import { AuthService } from 'src/app/auth/auth.service';
-import { WorkTimeRegex } from '../enums/work-time-regex.enum';
-import { ToastService } from '../shared/components/toast/toast.service';
-import { TranslationService } from 'src/app/translation/translation.service';
-import { OrderOptionModel } from '../shared/models/order-option.model';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { NewObWorkTimesComponent } from './components/modals/new-ob-work-times/new-ob-work-times.component';
+import { TranslocoService } from '@ngneat/transloco';
+import moment from 'moment';
+import { Subscription } from 'rxjs';
+import { RequestObWorkTimeModel } from 'src/app/api/models/request/request-ob-work-time.model';
+import { ResponseObWorkTimeModel } from 'src/app/api/models/response/response-ob-work-time.model';
+import { ToastService } from '../shared/components/toast/toast.service';
+import { OrderOptionModel } from '../shared/models/order-option.model';
 import { PdfExportModel } from '../shared/models/pdf-export.model';
 import { GenerateArrayFromArrayJson } from '../utils/generate-arrays-from-array-json';
+import { NewObWorkTimesComponent } from './components/modals/new-ob-work-times/new-ob-work-times.component';
+import { ObWorkTimesService } from './ob-work-times.service';
 
 @Component({
   selector: 'app-ob-work-times',
@@ -38,7 +35,7 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private obWorkService: ObWorkTimesService,
-    private translationService: TranslationService,
+    private translationService: TranslocoService,
     private toastService: ToastService,
     private modalService: NgbModal
   ) { }
@@ -60,7 +57,7 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
 
   initExportData(workTimes: ResponseObWorkTimeModel[]) {
     if (workTimes) {
-      const headersTranslate = this.translationService.getTranslateObject('OBWORK.LIST_ITEM');
+      const headersTranslate = this.translationService.translateObject('OBWORK.LIST_ITEM');
 
       this.exportableData = {
         headers: [[
@@ -137,10 +134,10 @@ export class ObWorkTimesComponent implements OnInit, OnDestroy {
       if (newWorkTimeModel) {
         this.obWorkService.addNewMonth(newWorkTimeModel)
           .then(() => this.toastService.showSuccess(
-            this.translationService.getInstant('OBWORK.TOAST.CREATED_SUCCESSFUL')
+            this.translationService.translate('OBWORK.TOAST.CREATED_SUCCESSFUL')
           ))
           .catch(response => this.toastService.showAlert(
-            this.translationService.getInstant('OBWORK.TOAST.SOMETHING_WENT_WRONG')
+            this.translationService.translate('OBWORK.TOAST.SOMETHING_WENT_WRONG')
           ));
       }
     });
